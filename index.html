@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+  <title>MAVILO DOLCE — Sugar Art & Couture Cakes</title>
+
+  <meta name="description" content="MAVILO DOLCE — Atelier artigianale di Sugar Art & Couture Cakes. Fiori di zucchero, torte nuziali su commissione, pezzi unici di pasticceria artistica."/>
+  <meta name="keywords" content="sugar art, couture cakes, torte nuziali, fiori di zucchero, wedding cake, torte su commissione, Napoli"/>
+  <meta name="author" content="MAVILO DOLCE"/>
+  <link rel="canonical" href="https://ardsor74.github.io/Mavilo-Dolce/"/>
+
+  <meta property="og:title" content="MAVILO DOLCE — Sugar Art & Couture Cakes"/>
+  <meta property="og:description" content="Ogni creazione è un'opera d'arte irripetibile. Fiori di zucchero e torte couture realizzate a mano."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://ardsor74.github.io/Mavilo-Dolce/"/>
+  <meta property="og:image" content="https://images.unsplash.com/photo-1558636508-e0969251be4b?w=1200&q=80"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="MAVILO DOLCE — Sugar Art & Couture Cakes"/>
+  <meta name="twitter:description" content="Ogni creazione è un'opera d'arte irripetibile. Fiori di zucchero e torte couture realizzate a mano."/>
+  <meta name="theme-color" content="#FFFFFF"/>
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Bakery",
+    "name": "MAVILO DOLCE",
+    "description": "Atelier artigianale di Sugar Art & Couture Cakes. Fiori di zucchero e torte nuziali su commissione.",
+    "url": "https://ardsor74.github.io/Mavilo-Dolce/",
+    "image": "https://images.unsplash.com/photo-1558636508-e0969251be4b?w=1200&q=80",
+    "telephone": "+393278354278",
+    "sameAs": [
+      "https://www.instagram.com/anjalagomez/",
+      "https://www.facebook.com/anjalagomeznapoli/"
+    ],
+    "servesCuisine": "Pasticceria Artistica",
+    "priceRange": "€€€",
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+      "opens": "09:00",
+      "closes": "19:00"
+    }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        colors: { gold:'#D4AF37','gold-pale':'#F0E3A0', anthracite:'#1A1A1A','warm':'#FAFAF8','offwhite':'#F5F3EE' },
+        fontFamily: { serif:['Playfair Display','serif'], sans:['Lato','sans-serif'] },
+        screens: { xs:'380px' }
+      }}
+    };
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body { font-family:'Lato',sans-serif; background:#FFF; color:#1A1A1A; overflow-x:hidden; }
+
+    /* — Skip link (accessibilità) — */
+    .skip-link { position:absolute; left:-9999px; top:0; background:#D4AF37; color:#1A1A1A; padding:0.5rem 1rem; font-family:'Lato'; font-size:0.8rem; z-index:99999; }
+    .skip-link:focus { left:0; }
+
+    /* — Scrollbar — */
+    .scroll-hint { display: flex; }
+    @media (max-height: 700px), (max-width: 480px) { .scroll-hint { display: none !important; } }
+    ::-webkit-scrollbar { width:5px; }
+    ::-webkit-scrollbar-track { background:transparent; }
+    ::-webkit-scrollbar-thumb { background:#D4AF37; border-radius:2px; }
+
+    /* — Loading Screen — */
+    #loader {
+      position:fixed; inset:0; background:#FFF; z-index:9999;
+      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.5rem;
+      transition: opacity 0.7s ease, visibility 0.7s ease;
+    }
+    #loader.hidden { opacity:0; visibility:hidden; pointer-events:none; }
+    .loader-bar { width:160px; height:1px; background:rgba(212,175,55,0.2); position:relative; overflow:hidden; }
+    .loader-bar::after {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(90deg, transparent, #D4AF37, transparent);
+      animation: loadSlide 1.4s ease infinite;
+    }
+    @keyframes loadSlide { 0%{transform:translateX(-100%)} 100%{transform:translateX(200%)} }
+
+    /* — Nav — */
+    .nav-glass {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
+      background:rgba(255,255,255,0.94);
+      transition: border-color 0.4s, box-shadow 0.4s;
+    }
+    .nav-glass.scrolled { border-bottom:1px solid rgba(212,175,55,0.22); box-shadow:0 2px 30px rgba(0,0,0,0.05); }
+    .nav-inner { max-width:1200px; margin:0 auto; padding:0 1.25rem; display:flex; align-items:center; justify-content:space-between; height:60px; }
+    @media(min-width:768px){ .nav-inner { padding:0 2.5rem; height:68px; } }
+    .nav-logo { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:600; letter-spacing:0.22em; color:#1A1A1A; background:none; border:none; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+    .nav-links { display:none; gap:2rem; }
+    @media(min-width:768px){ .nav-links { display:flex; } }
+    .nav-link { font-family:'Lato'; font-size:0.7rem; letter-spacing:0.18em; text-transform:uppercase; background:none; border:none; cursor:pointer; padding-bottom:2px; border-bottom:1px solid transparent; transition:all 0.3s; -webkit-tap-highlight-color:transparent; }
+    .nav-link.active { color:#D4AF37; border-bottom-color:#D4AF37; }
+    .nav-link:not(.active) { color:#1A1A1A; }
+    .nav-link:hover { color:#D4AF37; }
+    .nav-link:focus-visible { outline:2px solid #D4AF37; outline-offset:4px; border-radius:2px; }
+    .hamburger { display:flex; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:8px; -webkit-tap-highlight-color:transparent; }
+    @media(min-width:768px){ .hamburger { display:none; } }
+    .ham-line { display:block; width:22px; height:1px; background:#1A1A1A; transition:all 0.3s; }
+    .mobile-menu { display:none; background:rgba(255,255,255,0.98); border-top:1px solid rgba(212,175,55,0.15); padding:0.5rem 1.25rem 1.5rem; }
+    .mobile-menu.open { display:block; }
+    .mobile-link { display:block; font-family:'Lato'; font-size:0.82rem; letter-spacing:0.15em; text-transform:uppercase; background:none; border:none; cursor:pointer; padding:0.85rem 0; border-bottom:1px solid rgba(212,175,55,0.1); width:100%; text-align:left; transition:color 0.2s; -webkit-tap-highlight-color:transparent; }
+
+    /* — Section common — */
+    .section-pad { padding:clamp(4.5rem,10vw,9rem) clamp(1.25rem,5vw,2.5rem); }
+    .section-label { font-family:'Lato'; font-size:0.66rem; letter-spacing:0.44em; text-transform:uppercase; color:#D4AF37; margin-bottom:1.1rem; }
+    .section-title { font-family:'Playfair Display',serif; font-size:clamp(1.9rem,4.5vw,3rem); font-weight:400; line-height:1.15; color:#1A1A1A; margin-bottom:1.4rem; }
+    .gold-bar { display:block; width:38px; height:1px; background:#D4AF37; }
+    .gold-bar-center { display:block; width:38px; height:1px; background:#D4AF37; margin:0 auto; }
+
+    /* — Reveal animation — */
+    .reveal { opacity:0; transform:translateY(32px); transition:opacity 0.85s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.85s cubic-bezier(0.25,0.46,0.45,0.94); }
+    .reveal.visible { opacity:1; transform:none; }
+    .reveal-delay-1 { transition-delay:0.12s; }
+    .reveal-delay-2 { transition-delay:0.24s; }
+    .reveal-delay-3 { transition-delay:0.36s; }
+    .reveal-delay-4 { transition-delay:0.48s; }
+
+    /* — Hero — */
+    .hero-title { font-family:'Playfair Display',serif; font-size:clamp(3.8rem,14vw,9.5rem); font-weight:400; letter-spacing:0.03em; line-height:0.9; color:#1A1A1A; }
+    @keyframes heroUp { from{opacity:0;transform:translateY(36px)} to{opacity:1;transform:translateY(0)} }
+    .hero-anim { opacity:0; animation:heroUp 1s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
+    .ha0{animation-delay:0.1s} .ha1{animation-delay:0.28s} .ha2{animation-delay:0.46s} .ha3{animation-delay:0.64s} .ha4{animation-delay:0.82s}
+
+    /* — Numbers — */
+    .stat-num { font-family:'Playfair Display',serif; font-size:clamp(2.2rem,5vw,3.5rem); font-weight:400; color:#D4AF37; line-height:1; }
+
+    /* — Gallery Masonry — */
+    .masonry { columns:2; column-gap:10px; }
+    @media(min-width:640px){ .masonry { columns:2; column-gap:14px; } }
+    @media(min-width:1024px){ .masonry { columns:3; column-gap:16px; } }
+    .mason-item { break-inside:avoid; margin-bottom:10px; cursor:pointer; overflow:hidden; position:relative; display:block; }
+    @media(min-width:640px){ .mason-item { margin-bottom:14px; } }
+    @media(min-width:1024px){ .mason-item { margin-bottom:16px; } }
+    .mason-img { width:100%; display:block; transition:transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94); object-fit:cover; }
+    .mason-item:hover .mason-img { transform:scale(1.04); }
+    .mason-overlay { position:absolute; inset:0; background:rgba(26,26,26,0); transition:background 0.4s; display:flex; align-items:flex-end; padding:1rem; }
+    .mason-item:hover .mason-overlay { background:rgba(26,26,26,0.52); }
+    .mason-label { font-family:'Playfair Display',serif; font-style:italic; color:#fff; font-size:0.82rem; letter-spacing:0.04em; opacity:0; transition:opacity 0.3s; }
+    .mason-item:hover .mason-label { opacity:1; }
+
+    /* — Lightbox — */
+    .lb-overlay { position:fixed; inset:0; background:rgba(8,8,8,0.97); z-index:1000; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+    .lb-img { max-width:92vw; max-height:78vh; object-fit:contain; display:block; animation:fadeInLb 0.3s ease; }
+    @keyframes fadeInLb { from{opacity:0;transform:scale(0.97)} to{opacity:1;transform:scale(1)} }
+    .lb-btn { background:none; border:none; color:rgba(255,255,255,0.45); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:color 0.2s; padding:12px; -webkit-tap-highlight-color:transparent; }
+    .lb-btn:hover { color:#D4AF37; }
+    .lb-nav { position:absolute; top:50%; transform:translateY(-50%); }
+    .lb-prev { left:0.5rem; } .lb-next { right:0.5rem; }
+    @media(min-width:640px){ .lb-prev{left:1.5rem} .lb-next{right:1.5rem} }
+
+    /* — Form inputs — */
+    .f-input { width:100%; padding:0.92rem 1rem; border:1px solid rgba(26,26,26,0.18); font-family:'Lato'; font-size:1rem; background:#FAFAF8; color:#1A1A1A; -webkit-appearance:none; appearance:none; transition:border-color 0.3s, box-shadow 0.3s; border-radius:0; }
+    .f-input:focus { outline:none; border-color:#D4AF37; box-shadow:0 0 0 3px rgba(212,175,55,0.12); }
+    .f-label { font-family:'Lato'; font-size:0.68rem; letter-spacing:0.22em; text-transform:uppercase; color:#777; display:block; margin-bottom:0.55rem; }
+
+    /* — Buttons — */
+    .btn-primary { font-family:'Lato'; font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; background:#1A1A1A; color:#D4AF37; border:none; padding:1rem 2rem; cursor:pointer; transition:all 0.3s; min-height:48px; -webkit-tap-highlight-color:transparent; display:inline-flex; align-items:center; justify-content:center; gap:8px; }
+    .btn-primary:hover { background:#D4AF37; color:#1A1A1A; }
+    .btn-primary:focus-visible { outline:2px solid #D4AF37; outline-offset:3px; }
+    .btn-secondary { font-family:'Lato'; font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; background:transparent; color:#1A1A1A; border:1px solid rgba(26,26,26,0.28); padding:1rem 2rem; cursor:pointer; transition:all 0.3s; min-height:48px; -webkit-tap-highlight-color:transparent; display:inline-flex; align-items:center; justify-content:center; gap:8px; text-decoration:none; }
+    .btn-secondary:hover { border-color:#D4AF37; color:#D4AF37; }
+    .btn-ghost { font-family:'Lato'; font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; background:transparent; color:#888; border:1px solid rgba(26,26,26,0.15); padding:0.85rem 1.2rem; cursor:pointer; transition:all 0.2s; min-height:44px; -webkit-tap-highlight-color:transparent; }
+    .btn-ghost:hover { color:#1A1A1A; border-color:rgba(26,26,26,0.4); }
+    .btn-wa { font-family:'Lato'; font-size:0.72rem; letter-spacing:0.15em; text-transform:uppercase; background:#25D366; color:#fff; border:none; padding:1rem 1.5rem; cursor:pointer; transition:background 0.3s; min-height:48px; -webkit-tap-highlight-color:transparent; display:inline-flex; align-items:center; justify-content:center; gap:8px; }
+    .btn-wa:hover { background:#1ebe5d; }
+
+    /* — Tipologia grid — */
+    .tipo-btn { font-family:'Lato'; font-size:0.82rem; padding:0.88rem 0.5rem; border:1px solid rgba(26,26,26,0.15); background:transparent; color:#666; cursor:pointer; transition:all 0.22s; text-align:center; min-height:52px; -webkit-tap-highlight-color:transparent; line-height:1.3; }
+    .tipo-btn.active { border-color:#D4AF37; background:rgba(212,175,55,0.07); color:#D4AF37; }
+
+    /* — Step dots — */
+    .step-dot { width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Lato'; font-size:0.68rem; font-weight:700; transition:all 0.35s; }
+    .step-dot.done { background:#D4AF37; border:1px solid #D4AF37; color:#1A1A1A; cursor:pointer; }
+    .step-dot.active { background:#1A1A1A; border:1px solid #1A1A1A; color:#fff; }
+    .step-dot.idle { background:transparent; border:1px solid rgba(26,26,26,0.2); color:rgba(26,26,26,0.35); }
+
+    /* — Float WA — */
+    .float-wa { position:fixed; bottom:1.5rem; right:1.5rem; z-index:500; width:56px; height:56px; border-radius:50%; background:#25D366; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 20px rgba(37,211,102,0.4); transition:all 0.3s; -webkit-tap-highlight-color:transparent; }
+    .float-wa:hover { transform:scale(1.08); box-shadow:0 6px 28px rgba(37,211,102,0.5); }
+    @media(min-width:768px){ .float-wa { width:60px; height:60px; bottom:2rem; right:2rem; } }
+
+    /* — Toast — */
+    .toast { position:fixed; bottom:5.5rem; right:1.25rem; z-index:5000; background:#111; color:#D4AF37; padding:0.85rem 1.3rem; border:1px solid rgba(212,175,55,0.45); font-family:'Lato'; font-size:0.8rem; letter-spacing:0.08em; animation:slideInRight 0.35s ease; max-width:calc(100vw - 2.5rem); }
+    @media(min-width:768px){ .toast { right:2rem; bottom:2rem; max-width:360px; } }
+    @keyframes slideInRight { from{opacity:0;transform:translateX(18px)} to{opacity:1;transform:translateX(0)} }
+
+    /* — Testimonials carousel — */
+    .testimonial-bg { background:linear-gradient(135deg, #1A1A1A 0%, #2a2018 100%); }
+    .testi-dots { display:flex; gap:8px; justify-content:center; margin-top:2rem; }
+    .testi-dot { width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,0.2); border:none; cursor:pointer; transition:all 0.3s; padding:0; }
+    .testi-dot.active { background:#D4AF37; width:24px; border-radius:3px; }
+    @keyframes fadeSlide { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+    .testi-anim { animation:fadeSlide 0.5s ease; }
+
+    /* — FAQ accordion — */
+    .faq-item { border-bottom:1px solid rgba(212,175,55,0.15); }
+    .faq-trigger { width:100%; display:flex; align-items:center; justify-content:space-between; padding:1.4rem 0; background:none; border:none; cursor:pointer; text-align:left; gap:1rem; -webkit-tap-highlight-color:transparent; }
+    .faq-q { font-family:'Playfair Display',serif; font-size:clamp(0.95rem,2vw,1.08rem); font-weight:400; color:#1A1A1A; line-height:1.4; }
+    .faq-icon { flex-shrink:0; width:24px; height:24px; border:1px solid rgba(212,175,55,0.4); display:flex; align-items:center; justify-content:center; transition:transform 0.35s, background 0.25s; border-radius:0; }
+    .faq-item.open .faq-icon { background:#D4AF37; transform:rotate(45deg); }
+    .faq-body { overflow:hidden; max-height:0; transition:max-height 0.45s cubic-bezier(0.25,0.46,0.45,0.94), padding 0.35s; padding:0; }
+    .faq-item.open .faq-body { max-height:300px; padding-bottom:1.4rem; }
+    .faq-a { font-family:'Lato'; font-size:0.88rem; color:#666; line-height:2; letter-spacing:0.02em; }
+
+    /* — Contact section — */
+    .contact-card { border:1px solid rgba(212,175,55,0.2); padding:clamp(1.5rem,4vw,2.5rem); background:#FFF; transition:border-color 0.3s, box-shadow 0.3s; }
+    .contact-card:hover { border-color:rgba(212,175,55,0.5); box-shadow:0 8px 32px rgba(0,0,0,0.06); }
+    .contact-icon { width:48px; height:48px; border:1px solid rgba(212,175,55,0.35); display:flex; align-items:center; justify-content:center; color:#D4AF37; flex-shrink:0; }
+
+    /* — Cookie banner — */
+    .cookie-banner { position:fixed; bottom:0; left:0; right:0; z-index:8000; background:#111; border-top:1px solid rgba(212,175,55,0.25); padding:clamp(1rem,3vw,1.5rem) clamp(1.25rem,5vw,2.5rem); display:flex; flex-wrap:wrap; gap:1rem; align-items:center; justify-content:space-between; animation:slideUp 0.5s ease; }
+    @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+    .cookie-text { font-family:'Lato'; font-size:0.78rem; color:rgba(255,255,255,0.65); line-height:1.75; flex:1 1 280px; letter-spacing:0.02em; }
+    .cookie-text a { color:#D4AF37; text-decoration:underline; }
+    .cookie-btns { display:flex; gap:0.6rem; flex-wrap:wrap; flex-shrink:0; }
+    .cookie-accept { font-family:'Lato'; font-size:0.68rem; letter-spacing:0.16em; text-transform:uppercase; background:#D4AF37; color:#1A1A1A; border:none; padding:0.7rem 1.4rem; cursor:pointer; min-height:40px; font-weight:700; transition:background 0.2s; }
+    .cookie-accept:hover { background:#c9a52e; }
+    .cookie-reject { font-family:'Lato'; font-size:0.68rem; letter-spacing:0.16em; text-transform:uppercase; background:transparent; color:rgba(255,255,255,0.35); border:1px solid rgba(255,255,255,0.12); padding:0.7rem 1.2rem; cursor:pointer; min-height:40px; transition:all 0.2s; }
+    .cookie-reject:hover { color:rgba(255,255,255,0.7); border-color:rgba(255,255,255,0.3); }
+
+    /* — Calendar admin — */
+    .cal-day { aspect-ratio:1; display:flex; align-items:center; justify-content:center; font-size:0.76rem; cursor:pointer; border-radius:3px; transition:all 0.18s; font-family:'Lato'; color:#bbb; min-height:34px; -webkit-tap-highlight-color:transparent; }
+    .cal-day:hover:not(.cal-blocked):not(.cal-past) { background:rgba(212,175,55,0.18); color:#D4AF37; }
+    .cal-day.cal-blocked { background:rgba(120,120,120,0.25); color:#888; font-weight:700; border:1px solid rgba(150,150,150,0.4); cursor:pointer; }
+    .cal-day.cal-blocked::after { content:' ✕'; font-size:0.55rem; }
+    .cal-day.cal-today { border:1px solid #D4AF37; color:#D4AF37; }
+    .cal-day.cal-past { opacity:0.22; cursor:default; pointer-events:none; }
+
+    /* — Admin overlay — */
+    .admin-wrap { position:fixed; inset:0; background:rgba(8,8,8,0.99); z-index:2000; overflow-y:auto; -webkit-overflow-scrolling:touch; }
+    .admin-inner { max-width:860px; margin:0 auto; padding:1.5rem 1.25rem 4rem; }
+    @media(min-width:640px){ .admin-inner { padding:2.5rem 2rem 4rem; } }
+
+    /* — Login — */
+    .login-wrap { position:fixed; inset:0; background:rgba(8,8,8,0.99); z-index:2000; display:flex; align-items:center; justify-content:center; padding:1rem; }
+    .login-card { background:#111; border:1px solid rgba(212,175,55,0.28); padding:2.5rem 2rem; width:100%; max-width:400px; animation:scaleIn 0.3s ease; }
+    @keyframes scaleIn { from{opacity:0;transform:scale(0.96)} to{opacity:1;transform:scale(1)} }
+
+    /* — Recap row — */
+    .recap-row { display:flex; justify-content:space-between; align-items:center; padding:0.48rem 0; border-bottom:1px solid rgba(212,175,55,0.1); font-family:'Lato'; font-size:0.82rem; }
+    .recap-key { color:#aaa; } .recap-val { color:#1A1A1A; font-weight:700; }
+  </style>
+</head>
+<body>
+
+<!-- Skip link per accessibilità -->
+<a class="skip-link" href="#main-content">Vai al contenuto principale</a>
+
+<!-- Loading screen -->
+<div id="loader" role="status" aria-label="Caricamento">
+  <div style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:400;letter-spacing:0.25em;color:#1A1A1A">
+    MAVILO<span style="color:#D4AF37">.</span>
+  </div>
+  <div class="loader-bar"></div>
+  <div style="font-family:'Lato';font-size:0.6rem;letter-spacing:0.42em;text-transform:uppercase;color:#D4AF37">
+    Sugar Art & Couture
+  </div>
+</div>
+
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback } = React;
+
+/* ── Constants ── */
+const WA = '393278354278';
+const IG = 'https://www.instagram.com/anjalagomez/';
+const FB = 'https://www.facebook.com/anjalagomeznapoli/photos?locale=it_IT';
+const EMAIL = 'info@mailovdolce.it'; // ← aggiorna con email reale
+const PASS = btoa('mavilo2026'); // leggera offuscazione base64
+
+const GALLERY = Array.from({length:20},(_,i)=>({
+  id: i+1,
+  src: `foto${i+1}.jpg`,
+  tall: [1,3,5,8,11,14,17,20].includes(i+1),
+}));
+
+const TESTIMONIALS = [
+  {
+    quote: "La mia torta nuziale era più di quello che avevo sognato. Ogni fiore sembrava reale, ogni dettaglio raccontava la nostra storia. Non ho parole per descrivere l'emozione.",
+    author: "Sofia & Marco",
+    event: "Matrimonio · Settembre 2024"
+  },
+  {
+    quote: "Ho ordinato una torta di compleanno per mia madre e ci ha commossi. La cura artigianale, i colori perfetti, la delicatezza dei fiori di zucchero. Un'opera d'arte vera.",
+    author: "Chiara R.",
+    event: "Compleanno · Aprile 2024"
+  },
+  {
+    quote: "Per il nostro anniversario volevamo qualcosa di unico. MAVILO DOLCE ha superato ogni aspettativa: eleganza pura, sapore straordinario, e un servizio impeccabile.",
+    author: "Luisa & Giovanni",
+    event: "Anniversario · Giugno 2024"
+  },
+  {
+    quote: "Ho scelto MAVILO per il mio sweet table e i colleghi ancora me ne parlano. Ogni pezzo era una scultura. Professionalità, bellezza e cuore in ogni creazione.",
+    author: "Federica M.",
+    event: "Corporate Event · Febbraio 2025"
+  }
+];
+
+const FAQS = [
+  {
+    q: "Con quanto anticipo devo prenotare?",
+    a: "Per torte nuziali e grandi eventi consigliamo di contattarci almeno 3-6 mesi prima. Per torte di compleanno e occasioni più piccole, 3-4 settimane sono generalmente sufficienti. Non esitare a scriverci: troveremo insieme la soluzione migliore."
+  },
+  {
+    q: "Posso personalizzare completamente il design?",
+    a: "Assolutamente sì. Ogni creazione MAVILO DOLCE nasce da un dialogo profondo con il cliente. Non esistono template o repliche: possiamo lavorare a partire da foto, palette colori, un fiore preferito, o anche solo un'emozione da trasmettere."
+  },
+  {
+    q: "Consegnate anche fuori Napoli?",
+    a: "Sì, effettuiamo consegne in tutta la Campania e, per eventi speciali, in tutta Italia. I costi e le modalità di trasporto vengono concordati in fase di preventivo, garantendo sempre la massima sicurezza per le creazioni."
+  },
+  {
+    q: "Come funziona il preventivo?",
+    a: "Il preventivo è gratuito e personalizzato. Puoi usare il nostro configuratore online oppure contattarci direttamente su WhatsApp. Dopo una consulenza (di persona o videocall), prepareremo una proposta dettagliata con design, gusti e costi."
+  },
+  {
+    q: "Quali gusti e farce sono disponibili?",
+    a: "Lavoriamo con una vasta selezione di basi (pan di spagna classico, al cioccolato, limone, pistacchio) e farce artigianali (crema al mascarpone, ganache, frutti di bosco, Nutella e molte altre). Tutto può essere adattato a esigenze specifiche."
+  },
+  {
+    q: "È possibile avere opzioni senza glutine o vegane?",
+    a: "Sì, realizziamo torte senza glutine e proposte vegetariane. Contattaci specificando le esigenze alimentari e troveremo insieme la soluzione più adatta senza compromettere la qualità estetica e gustativa."
+  }
+];
+
+/* ── Icons ── */
+const WaIcon = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>;
+
+/* ── Utils ── */
+const fmtDate = d => { try{return new Date(d+'T12:00:00').toLocaleDateString('it-IT',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}catch{return d} };
+const sameDay = (a,b) => a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();
+const daysIn = (y,m) => new Date(y,m+1,0).getDate();
+const firstDay = (y,m) => { let d=new Date(y,m,1).getDay(); return (d+6)%7; };
+const MONTHS = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+const DNAMES = ['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
+
+/* ── useReveal hook ── */
+function useReveal() {
+  useEffect(() => {
+    const els = document.querySelectorAll('.reveal:not(.visible)');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.12, rootMargin:'0px 0px -50px 0px' });
+    els.forEach(el => obs.observe(el));
+    return () => obs.disconnect();
+  });
+}
+
+/* ── Animated Counter hook ── */
+function useCountUp(target, duration = 1800, suffix = '') {
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const started = useRef(false);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    const obs = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !started.current) {
+        started.current = true;
+        const isNum = !isNaN(parseInt(target));
+        if (!isNum) { setCount(target); return; }
+        const end = parseInt(target);
+        const step = end / (duration / 16);
+        let cur = 0;
+        const timer = setInterval(() => {
+          cur += step;
+          if (cur >= end) { clearInterval(timer); setCount(end); }
+          else setCount(Math.floor(cur));
+        }, 16);
+      }
+    }, { threshold: 0.3 });
+    obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, [target, duration]);
+
+  return [count, ref];
+}
+
+/* ── Toast ── */
+function Toast({ msg, onClose }) {
+  useEffect(() => { const t = setTimeout(onClose, 3000); return () => clearTimeout(t); }, []);
+  return <div className="toast" role="alert">{msg}</div>;
+}
+
+/* ── Cookie Banner ── */
+function CookieBanner() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const consent = localStorage.getItem('mavilo_cookie');
+    if (!consent) setVisible(true);
+  }, []);
+
+  const accept = () => { localStorage.setItem('mavilo_cookie', 'accepted'); setVisible(false); };
+  const reject = () => { localStorage.setItem('mavilo_cookie', 'rejected'); setVisible(false); };
+
+  if (!visible) return null;
+
+  return (
+    <div className="cookie-banner" role="dialog" aria-label="Informativa cookies">
+      <p className="cookie-text">
+        🍪 Utilizziamo cookie tecnici essenziali per il funzionamento del sito. Nessun cookie di profilazione senza il tuo consenso.{' '}
+        <a href="#" onClick={e => e.preventDefault()}>Privacy Policy</a>
+      </p>
+      <div className="cookie-btns">
+        <button className="cookie-reject" onClick={reject}>Solo essenziali</button>
+        <button className="cookie-accept" onClick={accept}>Accetta tutto</button>
+      </div>
+    </div>
+  );
+}
+
+/* ── Floating WA ── */
+function FloatWA() {
+  return (
+    <a href={`https://wa.me/${WA}`} target="_blank" rel="noopener noreferrer"
+      className="float-wa" title="Scrivici su WhatsApp" aria-label="Contattaci su WhatsApp">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </a>
+  );
+}
+
+/* ── NAV ── */
+function Nav({ active, setActive }) {
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 25);
+    window.addEventListener('scroll', h, { passive: true });
+    return () => window.removeEventListener('scroll', h);
+  }, []);
+  const links = ['Home', "L'Atelier", 'Gallery', 'Preventivo', 'Contatti'];
+  const go = l => {
+    setActive(l); setOpen(false);
+    const id = l.toLowerCase().replace(/'/g,'').replace(/\s/g,'');
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
+  return (
+    <header className={`nav-glass${scrolled?' scrolled':''}`} role="banner">
+      <div className="nav-inner">
+        <button className="nav-logo" onClick={() => go('Home')} aria-label="MAVILO DOLCE - torna alla home">
+          MAVILO<span style={{color:'#D4AF37'}}>.</span>
+        </button>
+        <nav className="nav-links" aria-label="Navigazione principale">
+          {links.map(l => (
+            <button key={l} className={`nav-link${active===l?' active':''}`}
+              onClick={() => go(l)} aria-current={active===l?'page':undefined}>{l}</button>
+          ))}
+        </nav>
+        <button className="hamburger" onClick={() => setOpen(!open)}
+          aria-label={open?"Chiudi menu":"Apri menu"} aria-expanded={open}>
+          <span className="ham-line" style={{transform:open?'rotate(45deg) translate(4px,4px)':'none'}}/>
+          <span className="ham-line" style={{opacity:open?0:1}}/>
+          <span className="ham-line" style={{transform:open?'rotate(-45deg) translate(4px,-4px)':'none'}}/>
+        </button>
+      </div>
+      <div className={`mobile-menu${open?' open':''}`} role="navigation" aria-label="Menu mobile">
+        {links.map(l => (
+          <button key={l} className="mobile-link" style={{color:active===l?'#D4AF37':'#1A1A1A'}}
+            onClick={() => go(l)}>{l}</button>
+        ))}
+      </div>
+    </header>
+  );
+}
+
+/* ── HERO ── */
+function Hero({ onCTA }) {
+  return (
+    <section id="home" aria-label="Introduzione" style={{minHeight:'100svh',display:'flex',alignItems:'center',justifyContent:'center',position:'relative',background:'#FFF',paddingTop:60}}>
+      <div style={{position:'absolute',inset:0,background:'radial-gradient(ellipse 65% 50% at 50% 44%, rgba(212,175,55,0.058) 0%, transparent 70%)',pointerEvents:'none'}}/>
+      <div style={{position:'absolute',top:'10%',left:'4%',width:1,height:'min(150px,15vw)',background:'linear-gradient(to bottom,transparent,rgba(212,175,55,0.38),transparent)'}}/>
+      <div style={{position:'absolute',bottom:'15%',right:'5%',width:1,height:'min(100px,10vw)',background:'linear-gradient(to bottom,transparent,rgba(212,175,55,0.3),transparent)'}}/>
+      <div style={{position:'absolute',top:'8%',right:'7%',width:'min(70px,12vw)',height:'min(70px,12vw)',border:'1px solid rgba(212,175,55,0.22)',borderRadius:'50%'}}/>
+
+      <div id="main-content" style={{textAlign:'center',maxWidth:820,padding:'0 1.25rem',position:'relative',width:'100%'}}>
+        <div className="hero-anim ha0" style={{fontFamily:'Lato',fontSize:'0.65rem',letterSpacing:'0.46em',textTransform:'uppercase',color:'#D4AF37',marginBottom:'2rem'}}>
+          Atelier Artigianale · dal Cuore
+        </div>
+        <h1 className="hero-title hero-anim ha1">
+          MAVILO<br/><span style={{fontStyle:'italic',color:'#D4AF37'}}>DOLCE</span>
+        </h1>
+        <div className="hero-anim ha2" style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'clamp(0.8rem,3vw,1.5rem)',margin:'1.8rem 0 1.4rem'}}>
+          <div style={{height:1,width:'clamp(30px,5vw,55px)',background:'rgba(212,175,55,0.45)'}}/>
+          <span style={{fontFamily:'Playfair Display,serif',fontStyle:'italic',fontSize:'clamp(0.95rem,2.2vw,1.35rem)',color:'#888',letterSpacing:'0.04em',whiteSpace:'nowrap'}}>
+            Sugar Art & Couture Cakes
+          </span>
+          <div style={{height:1,width:'clamp(30px,5vw,55px)',background:'rgba(212,175,55,0.45)'}}/>
+        </div>
+        <p className="hero-anim ha3" style={{fontFamily:'Lato',fontSize:'clamp(0.85rem,1.8vw,0.95rem)',color:'#777',letterSpacing:'0.06em',lineHeight:2,maxWidth:420,margin:'0 auto 2.5rem',padding:'0 0.5rem'}}>
+          Ogni petalo è una promessa.<br/>Ogni creazione, un'emozione irripetibile<br/>plasmata con le mani e il cuore.
+        </p>
+        <div className="hero-anim ha4" style={{display:'flex',gap:'0.75rem',justifyContent:'center',flexWrap:'wrap',padding:'0 0.5rem'}}>
+          <button className="btn-primary" onClick={onCTA} style={{flex:'1 1 auto',maxWidth:240}}>Commissiona un'Opera</button>
+          <a href={`https://wa.me/${WA}`} target="_blank" rel="noopener noreferrer" className="btn-secondary" style={{flex:'1 1 auto',maxWidth:200}}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            Scrivici
+          </a>
+        </div>
+      </div>
+
+      <div className="scroll-hint" style={{position:'absolute',bottom:'2rem',left:'50%',transform:'translateX(-50%)',display:'flex',flexDirection:'column',alignItems:'center',gap:10,opacity:0.7}}>
+        <span style={{fontFamily:'Lato',fontSize:'0.57rem',letterSpacing:'0.32em',color:'#D4AF37',textTransform:'uppercase'}}>Scopri</span>
+        <div style={{width:1,height:48,background:'linear-gradient(to bottom,#D4AF37,transparent)'}}/>
+      </div>
+    </section>
+  );
+}
+
+/* ── STAT COUNTER ── */
+function StatCounter({ n, label, sub }) {
+  const isSymbol = isNaN(parseInt(n));
+  const target = isSymbol ? n : n.replace(/[^0-9]/g,'');
+  const suffix = isSymbol ? '' : n.replace(/[0-9]/g,'');
+  const [count, ref] = useCountUp(isSymbol ? n : target);
+
+  return (
+    <div ref={ref} style={{textAlign:'center',borderTop:'1px solid rgba(212,175,55,0.2)',paddingTop:'clamp(1.2rem,3vw,2rem)'}}>
+      <div className="stat-num">
+        {isSymbol ? n : count + suffix}
+      </div>
+      <div style={{fontFamily:'Playfair Display,serif',fontStyle:'italic',color:'rgba(255,255,255,0.85)',fontSize:'clamp(0.9rem,1.8vw,1.05rem)',margin:'0.4rem 0 0.25rem'}}>{label}</div>
+      <div style={{fontFamily:'Lato',fontSize:'0.72rem',letterSpacing:'0.1em',color:'rgba(255,255,255,0.35)',textTransform:'uppercase'}}>{sub}</div>
+    </div>
+  );
+}
+
+/* ── NUMBERS / PHILOSOPHY ── */
+function Numbers() {
+  useReveal();
+  const stats = [
+    { n:'500+', label:'Torte create', sub:'dal primo petalo' },
+    { n:'8+',   label:'Anni di arte', sub:'in continua crescita' },
+    { n:'100%', label:'Su commissione', sub:'nessuna replica' },
+    { n:'∞',    label:'Ispirazione', sub:'ogni storia è unica' },
+  ];
+  return (
+    <section aria-label="Numeri e filosofia" style={{background:'#1A1A1A',padding:'clamp(3.5rem,8vw,6rem) clamp(1.25rem,5vw,2.5rem)'}}>
+      <div style={{maxWidth:1100,margin:'0 auto'}}>
+        <div style={{textAlign:'center',marginBottom:'clamp(2.5rem,5vw,4rem)'}}>
+          <div className="reveal section-label" style={{color:'rgba(212,175,55,0.8)'}}>La nostra filosofia</div>
+          <h2 className="reveal reveal-delay-1 section-title" style={{color:'#fff'}}>
+            Numeri che<br/><em style={{color:'#D4AF37'}}>parlano d'arte</em>
+          </h2>
+        </div>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:'clamp(1.5rem,4vw,2.5rem)'}}>
+          {stats.map((s,i) => (
+            <div key={i} className={`reveal reveal-delay-${i%4}`}>
+              <StatCounter {...s}/>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── ATELIER ── */
+function Atelier() {
+  useReveal();
+  return (
+    <section id="latelier" className="section-pad" aria-label="L'Atelier" style={{background:'#FAFAF8',overflow:'hidden'}}>
+      <div style={{maxWidth:1100,margin:'0 auto',display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,320px),1fr))',gap:'clamp(3rem,8vw,6rem)',alignItems:'center'}}>
+        <div className="reveal" style={{order:-1}}>
+          <div style={{position:'relative',width:'100%',marginBottom:'clamp(1.5rem,4vw,2rem)'}}>
+            <img src="https://images.unsplash.com/photo-1558636508-e0969251be4b?w=700&q=80"
+              alt="Creazione artigianale MAVILO DOLCE — fiori di zucchero"
+              style={{width:'100%',aspectRatio:'4/3',objectFit:'cover',display:'block',boxShadow:'0 20px 60px rgba(0,0,0,0.09)'}}
+              onError={e=>{e.target.style.display='none';}}/>
+          </div>
+          <div style={{display:'inline-flex',alignItems:'center',gap:'1rem',padding:'0.8rem 1.2rem',border:'1px solid rgba(212,175,55,0.3)',background:'#fff'}}>
+            <div style={{width:32,height:32,borderRadius:'50%',border:'1px solid rgba(212,175,55,0.5)',display:'flex',alignItems:'center',justifyContent:'center'}}>
+              <span style={{color:'#D4AF37',fontSize:'0.9rem'}}>✦</span>
+            </div>
+            <div>
+              <div style={{fontFamily:'Lato',fontSize:'0.62rem',letterSpacing:'0.18em',textTransform:'uppercase',color:'#D4AF37'}}>Artigianalità</div>
+              <div style={{fontFamily:'Playfair Display,serif',fontStyle:'italic',fontSize:'0.88rem',color:'#1A1A1A'}}>100% fatto a mano</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div className="reveal section-label">L'Atelier</div>
+          <h2 className="reveal reveal-delay-1 section-title">L'Arte che<br/><em>prende forma</em></h2>
+          <span className="reveal reveal-delay-2 gold-bar" style={{marginBottom:'1.8rem',display:'block'}}/>
+          <p className="reveal reveal-delay-2" style={{fontFamily:'Lato',fontSize:'clamp(0.88rem,1.6vw,0.94rem)',color:'#555',lineHeight:2.1,marginBottom:'1.4rem',letterSpacing:'0.02em'}}>
+            Nell'atelier MAVILO DOLCE ogni creazione nasce da un dialogo profondo tra chi ordina e chi crea. Non esistono template, non esistono repliche: ogni fiore di zucchero viene plasmato a mano, petalo dopo petalo, sfumatura dopo sfumatura.
+          </p>
+          <p className="reveal reveal-delay-3" style={{fontFamily:'Lato',fontSize:'clamp(0.88rem,1.6vw,0.94rem)',color:'#555',lineHeight:2.1,marginBottom:'2.2rem',letterSpacing:'0.02em'}}>
+            Dalla scelta dei colori alla texture della pasta, dall'architettura delle torte ai dettagli finali — ogni scelta è meditata. Il risultato è un'opera d'arte commestibile che emoziona ancor prima di essere assaggiata.
+          </p>
+          <div className="reveal reveal-delay-3" style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'1rem'}}>
+            {['Sugar Art','Fiori Scultura','Wedding Cake','Sweet Table'].map(s=>(
+              <div key={s} style={{borderLeft:'2px solid #D4AF37',paddingLeft:'0.9rem'}}>
+                <span style={{fontFamily:'Lato',fontSize:'0.7rem',letterSpacing:'0.14em',textTransform:'uppercase',color:'#1A1A1A'}}>{s}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── LIGHTBOX with touch ── */
+function Lightbox({ items, idx, onClose, onPrev, onNext }) {
+  const item = items[idx];
+  const touchX = useRef(null);
+
+  useEffect(() => {
+    const h = e => {
+      if(e.key==='Escape') onClose();
+      if(e.key==='ArrowLeft') onPrev();
+      if(e.key==='ArrowRight') onNext();
+    };
+    window.addEventListener('keydown', h);
+    document.body.style.overflow = 'hidden';
+    return () => { window.removeEventListener('keydown', h); document.body.style.overflow = ''; };
+  }, [idx]);
+
+  const onTouchStart = e => { touchX.current = e.touches[0].clientX; };
+  const onTouchEnd = e => {
+    if(touchX.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchX.current;
+    if(Math.abs(dx) > 50) { dx > 0 ? onPrev() : onNext(); }
+    touchX.current = null;
+  };
+
+  return (
+    <div className="lb-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label="Galleria immagini"
+      onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+      <button className="lb-btn" onClick={onClose} aria-label="Chiudi galleria"
+        style={{position:'absolute',top:'1rem',right:'1rem',border:'1px solid rgba(212,175,55,0.2)',width:44,height:44}}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <button className="lb-btn lb-nav lb-prev" onClick={e=>{e.stopPropagation();onPrev();}} aria-label="Immagine precedente"
+        style={{border:'1px solid rgba(212,175,55,0.2)',width:44,height:44}}>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div onClick={e=>e.stopPropagation()} style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'1rem',padding:'0 3.5rem',maxWidth:'100%'}}>
+        <img key={idx} src={item.src} alt={`MAVILO DOLCE creazione ${item.id}`} className="lb-img"/>
+        <div style={{display:'flex',gap:6,marginTop:'0.8rem'}} role="tablist" aria-label="Navigazione immagini">
+          {items.map((_,i)=>(
+            <div key={i} role="tab" aria-selected={i===idx}
+              style={{width:i===idx?24:6,height:1,background:i===idx?'#D4AF37':'rgba(255,255,255,0.2)',transition:'all 0.3s'}}/>
+          ))}
+        </div>
+      </div>
+      <button className="lb-btn lb-nav lb-next" onClick={e=>{e.stopPropagation();onNext();}} aria-label="Immagine successiva"
+        style={{border:'1px solid rgba(212,175,55,0.2)',width:44,height:44}}>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  );
+}
+
+/* ── GALLERY ── */
+function Gallery() {
+  const [lb, setLb] = useState(null);
+  const [visible, setVisible] = useState(() => Array(20).fill(true));
+  useReveal();
+
+  const hideItem = (i) => setVisible(v => { const n=[...v]; n[i]=false; return n; });
+  const lbItems = GALLERY.filter((_,i) => visible[i]);
+
+  return (
+    <section id="gallery" className="section-pad" aria-label="Galleria creazioni" style={{background:'#FFF'}}>
+      <div style={{maxWidth:1200,margin:'0 auto'}}>
+        <div style={{textAlign:'center',marginBottom:'clamp(2.5rem,6vw,4.5rem)'}}>
+          <div className="reveal section-label">Gallery d'Autore</div>
+          <h2 className="reveal reveal-delay-1 section-title">Le Nostre <em>Creazioni</em></h2>
+          <span className="reveal reveal-delay-2 gold-bar-center" style={{margin:'0 auto'}}/>
+          <p className="reveal reveal-delay-3" style={{fontFamily:'Lato',fontSize:'0.8rem',color:'#bbb',letterSpacing:'0.1em',marginTop:'1.2rem'}}>
+            Tocca per aprire · Scorri per navigare
+          </p>
+        </div>
+        <div className="reveal masonry">
+          {GALLERY.map((item,i) => (
+            <div key={item.id} className="mason-item"
+              style={{display: visible[i] ? 'block' : 'none'}}
+              onClick={() => {
+                const lbIdx = lbItems.findIndex(x=>x.id===item.id);
+                if(lbIdx >= 0) setLb(lbIdx);
+              }}
+              role="button" tabIndex={0} aria-label={`Apri creazione ${item.id}`}
+              onKeyDown={e => e.key==='Enter' && (() => { const lbIdx=lbItems.findIndex(x=>x.id===item.id); if(lbIdx>=0) setLb(lbIdx); })()}>
+              <img src={item.src} alt={`MAVILO DOLCE — creazione ${item.id}`}
+                className="mason-img" style={{aspectRatio:item.tall?'3/4':'4/3'}}
+                loading="lazy" onError={() => hideItem(i)}/>
+              <div className="mason-overlay" aria-hidden="true"/>
+            </div>
+          ))}
+        </div>
+      </div>
+      {lb !== null && lbItems.length > 0 && (
+        <Lightbox items={lbItems} idx={lb} onClose={() => setLb(null)}
+          onPrev={() => setLb(i => (i-1+lbItems.length)%lbItems.length)}
+          onNext={() => setLb(i => (i+1)%lbItems.length)}/>
+      )}
+    </section>
+  );
+}
+
+/* ── VIDEO LIGHTBOX ── */
+function VideoLightbox({ src, onClose }) {
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = ''; };
+  }, []);
+  useEffect(() => {
+    const h = e => { if(e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', h);
+    return () => window.removeEventListener('keydown', h);
+  }, []);
+  return (
+    <div onClick={onClose} style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.97)',zIndex:3000,display:'flex',alignItems:'center',justifyContent:'center',padding:'1rem'}}
+      role="dialog" aria-modal="true" aria-label="Video player">
+      <div onClick={e=>e.stopPropagation()} style={{width:'100%',maxWidth:800,position:'relative'}}>
+        <video src={src} controls autoPlay playsInline
+          style={{width:'100%',maxHeight:'85vh',objectFit:'contain',display:'block',background:'#000'}}/>
+        <button onClick={onClose} aria-label="Chiudi video"
+          style={{position:'absolute',top:'-3rem',right:0,background:'none',border:'1px solid rgba(212,175,55,0.3)',color:'rgba(255,255,255,0.6)',width:44,height:44,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',transition:'color 0.2s'}}
+          onMouseEnter={e=>e.currentTarget.style.color='#D4AF37'}
+          onMouseLeave={e=>e.currentTarget.style.color='rgba(255,255,255,0.6)'}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ── VIDEO SECTION ── */
+function VideoSection() {
+  useReveal();
+  const videos = ['video1.mp4','video2.mp4','video3.mp4','video4.mp4','video5.mp4','video6.mp4'];
+  const [visible, setVisible] = useState(() => Array(6).fill(true));
+  const [playing, setPlaying] = useState(null);
+  const hideVideo = i => setVisible(v => { const n=[...v]; n[i]=false; return n; });
+  const anyVisible = visible.some(Boolean);
+  if(!anyVisible) return null;
+  return (
+    <section id="video" className="section-pad" aria-label="Video dell'atelier" style={{background:'#1A1A1A'}}>
+      <div style={{maxWidth:1200,margin:'0 auto'}}>
+        <div style={{textAlign:'center',marginBottom:'clamp(2.5rem,6vw,4rem)'}}>
+          <div className="reveal section-label" style={{color:'rgba(212,175,55,0.8)'}}>L'Arte in Movimento</div>
+          <h2 className="reveal reveal-delay-1 section-title" style={{color:'#fff'}}>Guardaci <em style={{color:'#D4AF37'}}>al lavoro</em></h2>
+          <span className="reveal reveal-delay-2" style={{display:'block',width:38,height:1,background:'rgba(212,175,55,0.4)',margin:'0 auto'}}/>
+          <p className="reveal reveal-delay-3" style={{fontFamily:'Lato',fontSize:'0.78rem',color:'rgba(255,255,255,0.3)',letterSpacing:'0.1em',marginTop:'1.2rem'}}>
+            Tocca un video per riprodurlo
+          </p>
+        </div>
+        <div className="reveal" style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(min(100%,260px),1fr))',gap:'clamp(0.8rem,2vw,1.5rem)'}}>
+          {videos.map((v,i) => (
+            <div key={i} style={{display: visible[i] ? 'block' : 'none', position:'relative',overflow:'hidden',background:'#111',aspectRatio:'9/16',cursor:'pointer'}}
+              onClick={() => setPlaying(v)} role="button" tabIndex={0} aria-label={`Riproduci video ${i+1}`}
+              onKeyDown={e => e.key==='Enter' && setPlaying(v)}>
+              <video src={v} autoPlay muted loop playsInline
+                style={{width:'100%',height:'100%',objectFit:'cover',display:'block',pointerEvents:'none'}}
+                onError={() => hideVideo(i)}/>
+              <div style={{position:'absolute',inset:0,background:'rgba(0,0,0,0)',transition:'background 0.3s',display:'flex',alignItems:'center',justifyContent:'center'}}
+                onMouseEnter={e=>e.currentTarget.style.background='rgba(0,0,0,0.35)'}
+                onMouseLeave={e=>e.currentTarget.style.background='rgba(0,0,0,0)'}>
+                <div style={{width:56,height:56,borderRadius:'50%',background:'rgba(212,175,55,0.85)',display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 4px 20px rgba(0,0,0,0.4)'}}>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="#1A1A1A"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </div>
+              </div>
+              <div style={{position:'absolute',inset:0,border:'1px solid rgba(212,175,55,0.15)',pointerEvents:'none'}} aria-hidden="true"/>
+            </div>
+          ))}
+        </div>
+      </div>
+      {playing && <VideoLightbox src={playing} onClose={() => setPlaying(null)}/>}
+    </section>
+  );
+}
+
+/* ── TESTIMONIALS CAROUSEL ── */
+function Testimonial() {
+  const [idx, setIdx] = useState(0);
+  const [key, setKey] = useState(0);
+  const timer = useRef(null);
+  useReveal();
+
+  const go = useCallback(n => {
+    setIdx(n);
+    setKey(k => k+1);
+    clearInterval(timer.current);
+    timer.current = setInterval(advance, 6000);
+  }, []);
+
+  const advance = useCallback(() => {
+    setIdx(i => {
+      const next = (i+1) % TESTIMONIALS.length;
+      setKey(k => k+1);
+      return next;
+    });
+  }, []);
+
+  useEffect(() => {
+    timer.current = setInterval(advance, 6000);
+    return () => clearInterval(timer.current);
+  }, []);
+
+  const t = TESTIMONIALS[idx];
+
+  return (
+    <section className="testimonial-bg section-pad" aria-label="Recensioni clienti">
+      <div style={{maxWidth:780,margin:'0 auto',textAlign:'center',padding:'0 1.25rem'}}>
+        <div className="reveal" style={{color:'#D4AF37',fontSize:'2.5rem',fontFamily:'Georgia,serif',lineHeight:1,marginBottom:'1.5rem',opacity:0.6}} aria-hidden="true">"</div>
+
+        <blockquote key={key} className="testi-anim" style={{fontFamily:'Playfair Display,serif',fontStyle:'italic',fontSize:'clamp(1.1rem,2.8vw,1.65rem)',fontWeight:400,color:'rgba(255,255,255,0.88)',lineHeight:1.65,letterSpacing:'0.02em',marginBottom:'2rem',minHeight:'clamp(90px,15vw,130px)',display:'flex',alignItems:'center',justifyContent:'center'}}>
+          {t.quote}
+        </blockquote>
+
+        <div key={key+'a'} className="testi-anim">
+          <div style={{width:38,height:1,background:'rgba(212,175,55,0.4)',margin:'0 auto 1.2rem'}}/>
+          <div style={{fontFamily:'Lato',fontSize:'0.72rem',letterSpacing:'0.22em',textTransform:'uppercase',color:'#D4AF37'}}>{t.author}</div>
+          <div style={{fontFamily:'Lato',fontSize:'0.7rem',letterSpacing:'0.12em',color:'rgba(255,255,255,0.3)',marginTop:'0.25rem'}}>{t.event}</div>
+        </div>
+
+        <div className="testi-dots" role="tablist" aria-label="Seleziona recensione">
+          {TESTIMONIALS.map((_,i) => (
+            <button key={i} className={`testi-dot${i===idx?' active':''}`}
+              onClick={() => go(i)}
+              role="tab" aria-selected={i===idx} aria-label={`Recensione ${i+1}`}/>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── FAQ ── */
+function FAQ() {
+  const [open, setOpen] = useState(null);
+  useReveal();
+
+  return (
+    <section id="faq" className="section-pad" aria-label="Domande frequenti" style={{background:'#FAFAF8'}}>
+      <div style={{maxWidth:800,margin:'0 auto'}}>
+        <div style={{textAlign:'center',marginBottom:'clamp(2.5rem,6vw,4rem)'}}>
+          <div className="reveal section-label">Hai dubbi?</div>
+          <h2 className="reveal reveal-delay-1 section-title">Domande<br/><em>Frequenti</em></h2>
+          <span className="reveal reveal-delay-2 gold-bar-center" style={{margin:'0 auto'}}/>
+        </div>
+        <div className="reveal reveal-delay-2">
+          {FAQS.map((faq, i) => (
+            <div key={i} className={`faq-item${open===i?' open':''}`}>
+              <button className="faq-trigger" onClick={() => setOpen(open===i?null:i)}
+                aria-expanded={open===i} aria-controls={`faq-body-${i}`}>
+                <span className="faq-q">{faq.q}</span>
+                <span className="faq-icon" aria-hidden="true">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <line x1="6" y1="1" x2="6" y2="11"/>
+                    <line x1="1" y1="6" x2="11" y2="6"/>
+                  </svg>
+                </span>
+              </button>
+              <div className="faq-body" id={`faq-body-${i}`} role="region">
+                <p className="faq-a">{faq.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="reveal reveal-delay-3" style={{textAlign:'center',marginTop:'3rem',padding:'2rem',border:'1px solid rgba(212,175,55,0.18)',background:'#FFF'}}>
+          <div style={{fontFamily:'Playfair Display,serif',fontStyle:'italic',fontSize:'1.05rem',color:'#1A1A1A',marginBottom:'0.6rem'}}>
+            Non trovi la risposta che cerchi?
+          </div>
+          <div style={{fontFamily:'Lato',fontSize:'0.8rem',color:'#999',marginBottom:'1.4rem',letterSpacing:'0.04em'}}>
+            Scrivici direttamente, risponderemo entro 24 ore.
+          </div>
+          <a href={`https://wa.me/${WA}`} target="_blank" rel="noopener noreferrer" className="btn-wa">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            Scrivici su WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── PREVENTIVO ── */
+function Preventivo({ blocked }) {
+  const [step, setStep] = useState(1);
+  const [form, setForm] = useState({ data:'', invitati:'', tipologia:'', note:'', foto:null, prev:null });
+  const [toast, setToast] = useState(null);
+  const fileRef = useRef();
+  const topRef = useRef();
+  useReveal();
+
+  const today = new Date().toISOString().split('T')[0];
+  const isBlocked = d => {
+    if(!d) return false;
+    const dt = new Date(d+'T12:00:00');
+    return (blocked||[]).some(b => sameDay(new Date(b+'T12:00:00'), dt));
+  };
+
+  const goStep = n => {
+    setStep(n);
+    setTimeout(() => topRef.current?.scrollIntoView({ behavior:'smooth', block:'start' }), 80);
+  };
+
+  const handleFile = e => {
+    const f = e.target.files[0]; if(!f) return;
+    if(f.size > 10*1024*1024) { setToast('File troppo grande (max 10MB) ✦'); return; }
+    const r = new FileReader();
+    r.onload = ev => setForm(fm => ({...fm, foto:f, prev:ev.target.result}));
+    r.readAsDataURL(f);
+  };
+
+  const buildMsg = () => {
+    const lines = [
+      `✨ *Richiesta di Commissione — MAVILO DOLCE*`, ``,
+      `Gentile Atelier,`,
+      `mi permetto di contattarvi per commissionare una creazione:`, ``,
+      `📅 *Data:* ${form.data ? fmtDate(form.data) : '—'}`,
+      `👥 *Invitati:* ${form.invitati || '—'}`,
+      `🎂 *Tipologia:* ${form.tipologia || '—'}`,
+      form.note ? `📝 *Note:* ${form.note}` : null,
+      ``, `Resto a disposizione per un incontro.`, `Con stima,`
+    ].filter(x => x !== null).join('\n');
+    return encodeURIComponent(lines);
+  };
+
+  const send = () => {
+    try {
+      const reqs = JSON.parse(localStorage.getItem('mavilo_req') || '[]');
+      reqs.unshift({ ...form, prev:null, ts: new Date().toISOString() });
+      localStorage.setItem('mavilo_req', JSON.stringify(reqs.slice(0,20)));
+    } catch(e) {}
+    window.open(`https://wa.me/${WA}?text=${buildMsg()}`, '_blank');
+    setToast('Richiesta inviata con eleganza ✦');
+  };
+
+  const tipologie = ['Torta Nuziale','Torta Compleanno','Fiori di Zucchero','Sweet Table','Torta Corporate','Altro'];
+  const stepLabels = ['Evento','Creazione','Dettagli'];
+
+  return (
+    <section id="preventivo" className="section-pad" aria-label="Richiedi un preventivo" style={{background:'#FAFAF8'}}>
+      <div style={{maxWidth:660,margin:'0 auto'}} ref={topRef}>
+        <div style={{textAlign:'center',marginBottom:'clamp(2.5rem,6vw,4rem)'}}>
+          <div className="reveal section-label">Il Configuratore</div>
+          <h2 className="reveal reveal-delay-1 section-title">Commissiona<br/><em>la Tua Opera</em></h2>
+          <span className="reveal reveal-delay-2 gold-bar-center" style={{margin:'0 auto 1.5rem',display:'block'}}/>
+          <p className="reveal reveal-delay-3" style={{fontFamily:'Lato',fontSize:'clamp(0.83rem,1.6vw,0.9rem)',color:'#999',lineHeight:1.95,maxWidth:440,margin:'0 auto',padding:'0 1rem'}}>
+            Non esistono prezzi fissi, perché non esistono creazioni uguali. Ogni opera nasce da un dialogo.
+          </p>
+        </div>
+
+        {/* Step indicator */}
+        <div className="reveal" style={{display:'flex',alignItems:'center',justifyContent:'center',marginBottom:'2.5rem',padding:'0 1rem'}} role="progressbar" aria-valuenow={step} aria-valuemin={1} aria-valuemax={3}>
+          {stepLabels.map((l,i) => (
+            <React.Fragment key={i}>
+              <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'0.5rem'}}>
+                <div className={`step-dot ${step>i+1?'done':step===i+1?'active':'idle'}`}
+                  onClick={() => step > i+1 && goStep(i+1)}
+                  role={step>i+1?'button':undefined} tabIndex={step>i+1?0:undefined}
+                  aria-label={`Passo ${i+1}: ${l}`}>
+                  {step > i+1 ? '✓' : i+1}
+                </div>
+                <span style={{fontFamily:'Lato',fontSize:'0.58rem',letterSpacing:'0.14em',textTransform:'uppercase',color:step===i+1?'#1A1A1A':'#ccc'}}>{l}</span>
+              </div>
+              {i < 2 && <div style={{flex:1,height:1,background:step>i+1?'#D4AF37':'rgba(26,26,26,0.12)',margin:'0 0.6rem',marginBottom:'1.5rem',transition:'background 0.4s'}} aria-hidden="true"/>}
+            </React.Fragment>
+          ))}
+        </div>
+
+        {/* Form card */}
+        <div className="reveal" style={{background:'#FFF',border:'1px solid rgba(212,175,55,0.18)',padding:'clamp(1.5rem,6vw,3rem)'}}>
+          {/* STEP 1 */}
+          {step === 1 && (
+            <div>
+              <h3 style={{fontFamily:'Playfair Display,serif',fontStyle:'italic',fontSize:'clamp(1.2rem,2.5vw,1.45rem)',fontWeight:400,color:'#1A1A1A',marginBottom:'1.8rem'}}>Il Vostro Evento</h3>
+              <div style={{display:'flex',flexDirection:'column',gap:'1.4rem'}}>
+                <div>
+                  <label className="f-label" htmlFor="event-date">Data dell'Evento *</label>
+                  <input id="event-date" type="date" className="f-input" value={form.data} min={today}
+                    onChange={e => setForm(f=>({...f,data:e.target.value}))}/>
+                  {form.data && isBlocked(form.data) && (
+                    <div style={{marginTop:'0.6rem',padding:'0.75rem 1rem',background:'rgba(192,57,43,0.07)',border:'1px solid rgba(192,57,43,0.25)',display:'flex',alignItems:'center',gap:'0.6rem'}} role="alert">
+                      <span style={{fontSize:'1rem'}} aria-hidden="true">🔒</span>
+                      <p style={{color:'#C0392B',fontFamily:'Lato',fontSize:'0.8rem',lineHeight:1.5,margin:0}}>
+                        <strong>Spiacenti</strong>, per questa data l'Atelier è al completo.<br/>
+                        <span style={{color:'#999',fontSize:'0.74rem'}}>Scegli un'altra data per la tua commissione.</span>
+                      </p>
+                    </div>
+                  )}
+                  {form.data && !isBlocked(form.data) && new Date(form.data+'T12:00:00') > new Date() && (
+                    <p style={{color:'#2ecc71',fontFamily:'Lato',fontSize:'0.74rem',marginTop:'0.5rem',letterSpacing:'0.04em'}} role="status">✓ Data disponibile</p>
+                  )}
+                </div>
+                <div>
+                  <label className="f-label" htmlFor="event-guests">Numero di Invitati *</label>
+                  <input id="event-guests" type="number" min="1" max="5000" className="f-input" placeholder="es. 80"
+                    value={form.invitati} onChange={e=>setForm(f=>({...f,invitati:e.target.value}))}/>
+                </div>
+              </div>
+              <button className="btn-primary" style={{width:'100%',marginTop:'2rem'}}
+                onClick={() => {
+                  if(!form.data || !form.invitati) { setToast('Compila tutti i campi ✦'); return; }
+                  if(isBlocked(form.data)) { setToast('Data non disponibile ✦'); return; }
+                  goStep(2);
+                }}>Continua →</button>
+            </div>
+          )}
+
+          {/* STEP 2 */}
+          {step === 2 && (
+            <div>
+              <h3 style={{fontFamily:'Playfair Display,serif',fontStyle:'italic',fontSize:'clamp(1.2rem,2.5vw,1.45rem)',fontWeight:400,color:'#1A1A1A',marginBottom:'1.8rem'}}>La Vostra Creazione</h3>
+              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.6rem',marginBottom:'0.5rem'}} role="group" aria-label="Tipologia torta">
+                {tipologie.map(t => (
+                  <button key={t} className={`tipo-btn${form.tipologia===t?' active':''}`}
+                    onClick={() => setForm(f=>({...f,tipologia:t}))}
+                    aria-pressed={form.tipologia===t}>{t}</button>
+                ))}
+              </div>
+              <div style={{display:'flex',gap:'0.6rem',marginTop:'1.5rem'}}>
+                <button className="btn-ghost" style={{flex:1}} onClick={() => goStep(1)}>← Indietro</button>
+                <button className="btn-primary" style={{flex:2}}
+                  onClick={() => { if(!form.tipologia){setToast('Scegli la tipologia ✦');return;} goStep(3); }}>
+                  Continua →
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* STEP 3 */}
+          {step === 3 && (
+            <div>
+              <h3 style={{fontFamily:'Playfair Display,serif',fontStyle:'italic',fontSize:'clamp(1.2rem,2.5vw,1.45rem)',fontWeight:400,color:'#1A1A1A',marginBottom:'1.8rem'}}>Dettagli & Ispirazione</h3>
+              <div style={{display:'flex',flexDirection:'column',gap:'1.4rem'}}>
+                <div>
+                  <label className="f-label" htmlFor="form-note">Note e Visione (opzionale)</label>
+                  <textarea id="form-note" className="f-input" rows={4} style={{resize:'vertical',lineHeight:1.75}}
+                    placeholder="Descrivi colori, atmosfera, sogno..."
+                    value={form.note} onChange={e=>setForm(f=>({...f,note:e.target.value}))}/>
+                </div>
+                <div>
+                  <label className="f-label">Foto di Ispirazione (opzionale)</label>
+                  <div onClick={() => fileRef.current.click()}
+                    style={{border:'1px dashed rgba(212,175,55,0.4)',padding:'1.5rem 1rem',textAlign:'center',cursor:'pointer',background:'rgba(212,175,55,0.025)',minHeight:90,display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column',gap:6}}
+                    onMouseEnter={e=>e.currentTarget.style.background='rgba(212,175,55,0.07)'}
+                    onMouseLeave={e=>e.currentTarget.style.background='rgba(212,175,55,0.025)'}
+                    role="button" tabIndex={0} aria-label="Carica foto di ispirazione"
+                    onKeyDown={e => e.key==='Enter' && fileRef.current.click()}>
+                    {form.prev ? (
+                      <img src={form.prev} alt="Anteprima foto ispirazione" style={{maxHeight:160,maxWidth:'100%',objectFit:'contain'}}/>
+                    ) : (
+                      <>
+                        <div style={{fontSize:'1.3rem',color:'#D4AF37'}} aria-hidden="true">✦</div>
+                        <span style={{fontFamily:'Lato',fontSize:'0.78rem',color:'#D4AF37',letterSpacing:'0.1em'}}>Carica immagine</span>
+                        <span style={{fontFamily:'Lato',fontSize:'0.68rem',color:'#ccc'}}>JPG, PNG — max 10MB</span>
+                      </>
+                    )}
+                    <input ref={fileRef} type="file" accept="image/*" onChange={handleFile} style={{display:'none'}} aria-hidden="true"/>
+                  </div>
+                  {form.prev && (
+                    <button onClick={() => setForm(f=>({...f,foto:null,prev:null}))}
+                      style={{fontFamily:'Lato',fontSize:'0.7rem',color:'#bbb',background:'none',border:'none',cursor:'pointer',marginTop:'0.4rem',letterSpacing:'0.08em'}}>
+                      × Rimuovi
+                    </button>
+                  )}
+                </div>
+              </div>
+              {/* Riepilogo */}
+              <div style={{margin:'1.8rem 0',padding:'1.3rem',background:'#FAFAF8',border:'1px solid rgba(212,175,55,0.16)'}} aria-label="Riepilogo richiesta">
+                <div style={{fontFamily:'Lato',fontSize:'0.6rem',letterSpacing:'0.28em',textTransform:'uppercase',color:'#D4AF37',marginBottom:'0.9rem'}}>Riepilogo</div>
+                {[['Data',form.data?fmtDate(form.data):'—'],['Invitati',form.invitati?`${form.invitati} persone`:'—'],['Tipologia',form.tipologia||'—']].map(([k,v]) => (
+                  <div key={k} className="recap-row"><span className="recap-key">{k}</span><span className="recap-val">{v}</span></div>
+                ))}
+              </div>
+              <div style={{display:'flex',gap:'0.6rem',flexWrap:'wrap'}}>
+                <button className="btn-ghost" style={{flex:'1 1 auto'}} onClick={() => goStep(2)}>← Indietro</button>
+                <button className="btn-wa" style={{flex:'2 1 auto'}} onClick={send}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                  Invia su WhatsApp
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      {toast && <Toast msg={toast} onClose={() => setToast(null)}/>}
+    </section>
+  );
+}
+
+/* ── CONTATTI ── */
+function Contatti() {
+  useReveal();
+  const cards = [
+    {
+      icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>,
+      label: 'WhatsApp',
+      value: '+39 327 835 4278',
+      href: `https://wa.me/${WA}`,
+      sub: 'Risposta entro 24h'
+    },
+    {
+      icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>,
+      label: 'Email',
+      value: EMAIL,
+      href: `mailto:${EMAIL}`,
+      sub: 'Per richieste formali'
+    },
+    {
+      icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>,
+      label: 'Instagram',
+      value: '@anjalagomez',
+      href: IG,
+      sub: 'Gallery e ispirazione'
+    },
+    {
+      icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>,
+      label: 'Dove siamo',
+      value: 'Napoli, Campania',
+      href: null,
+      sub: 'Consegne in tutta Italia'
+    },
+  ];
+
+  return (
+    <section id="contatti" className="section-pad" aria-label="Contatti" style={{background:'#FFF'}}>
+      <div style={{maxWidth:1000,margin:'0 auto'}}>
+        <div style={{textAlign:'center',marginBottom:'clamp(2.5rem,6vw,4rem)'}}>
+          <div className="reveal section-label">Dove Trovarci</div>
+          <h2 className="reveal reveal-delay-1 section-title">Inizia il tuo<br/><em>dialogo con noi</em></h2>
+          <span className="reveal reveal-delay-2 gold-bar-center" style={{margin:'0 auto'}}/>
+          <p className="reveal reveal-delay-3" style={{fontFamily:'Lato',fontSize:'clamp(0.83rem,1.6vw,0.9rem)',color:'#999',lineHeight:1.95,maxWidth:460,margin:'1.5rem auto 0',padding:'0 1rem'}}>
+            Ogni grande creazione nasce da una conversazione. Scrivici, chiamaci, o seguici sui social: siamo qui per ascoltare la tua storia.
+          </p>
+        </div>
+
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,220px),1fr))',gap:'1.2rem',marginBottom:'3rem'}}>
+          {cards.map((c, i) => (
+            <div key={i} className={`reveal reveal-delay-${i+1} contact-card`}>
+              {c.href ? (
+                <a href={c.href} target={c.href.startsWith('http')?'_blank':undefined}
+                  rel={c.href.startsWith('http')?'noopener noreferrer':undefined}
+                  style={{textDecoration:'none',color:'inherit',display:'flex',flexDirection:'column',gap:'1rem',height:'100%'}}>
+                  <div className="contact-icon" aria-hidden="true">{c.icon}</div>
+                  <div>
+                    <div style={{fontFamily:'Lato',fontSize:'0.62rem',letterSpacing:'0.2em',textTransform:'uppercase',color:'#D4AF37',marginBottom:'0.35rem'}}>{c.label}</div>
+                    <div style={{fontFamily:'Playfair Display,serif',fontSize:'0.98rem',color:'#1A1A1A',marginBottom:'0.25rem'}}>{c.value}</div>
+                    <div style={{fontFamily:'Lato',fontSize:'0.72rem',color:'#aaa',letterSpacing:'0.04em'}}>{c.sub}</div>
+                  </div>
+                </a>
+              ) : (
+                <div style={{display:'flex',flexDirection:'column',gap:'1rem',height:'100%'}}>
+                  <div className="contact-icon" aria-hidden="true">{c.icon}</div>
+                  <div>
+                    <div style={{fontFamily:'Lato',fontSize:'0.62rem',letterSpacing:'0.2em',textTransform:'uppercase',color:'#D4AF37',marginBottom:'0.35rem'}}>{c.label}</div>
+                    <div style={{fontFamily:'Playfair Display,serif',fontSize:'0.98rem',color:'#1A1A1A',marginBottom:'0.25rem'}}>{c.value}</div>
+                    <div style={{fontFamily:'Lato',fontSize:'0.72rem',color:'#aaa',letterSpacing:'0.04em'}}>{c.sub}</div>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Orari */}
+        <div className="reveal" style={{border:'1px solid rgba(212,175,55,0.18)',padding:'clamp(1.5rem,4vw,2.5rem)',display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,240px),1fr))',gap:'2rem',alignItems:'center'}}>
+          <div>
+            <div style={{fontFamily:'Lato',fontSize:'0.62rem',letterSpacing:'0.22em',textTransform:'uppercase',color:'#D4AF37',marginBottom:'0.7rem'}}>Orari Atelier</div>
+            <div style={{fontFamily:'Playfair Display,serif',fontStyle:'italic',fontSize:'1.1rem',color:'#1A1A1A',marginBottom:'1rem'}}>Quando siamo disponibili</div>
+            {[
+              ['Lunedì — Venerdì','09:00 – 19:00'],
+              ['Sabato','10:00 – 17:00'],
+              ['Domenica','Solo appuntamento'],
+            ].map(([g,o]) => (
+              <div key={g} style={{display:'flex',justifyContent:'space-between',padding:'0.4rem 0',borderBottom:'1px solid rgba(212,175,55,0.08)'}}>
+                <span style={{fontFamily:'Lato',fontSize:'0.8rem',color:'#888'}}>{g}</span>
+                <span style={{fontFamily:'Lato',fontSize:'0.8rem',color:'#1A1A1A',fontWeight:700}}>{o}</span>
+              </div>
+            ))}
+          </div>
+          <div style={{textAlign:'center'}}>
+            <div style={{fontFamily:'Lato',fontSize:'0.62rem',letterSpacing:'0.22em',textTransform:'uppercase',color:'#D4AF37',marginBottom:'1rem'}}>Prenota una Consulenza</div>
+            <p style={{fontFamily:'Lato',fontSize:'0.82rem',color:'#888',lineHeight:1.85,marginBottom:'1.4rem'}}>
+              La consulenza iniziale è gratuita e senza impegno. Parliamo della tua visione e costruiamo insieme qualcosa di unico.
+            </p>
+            <a href={`https://wa.me/${WA}?text=${encodeURIComponent('Ciao! Vorrei prenotare una consulenza gratuita. 🌸')}`}
+              target="_blank" rel="noopener noreferrer" className="btn-primary" style={{display:'inline-flex'}}>
+              Prenota Ora
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── ADMIN CALENDAR ── */
+function AdminCalendar({ blocked, setBlocked }) {
+  const now = new Date();
+  const [yr, setYr] = useState(now.getFullYear());
+  const [mo, setMo] = useState(now.getMonth());
+  const days = daysIn(yr, mo);
+  const first = firstDay(yr, mo);
+  const prevM = () => mo === 0 ? (setYr(y=>y-1), setMo(11)) : setMo(m=>m-1);
+  const nextM = () => mo === 11 ? (setYr(y=>y+1), setMo(0)) : setMo(m=>m+1);
+  const toggle = ds => {
+    const u = blocked.includes(ds) ? blocked.filter(d=>d!==ds) : [...blocked, ds];
+    setBlocked(u);
+    try { localStorage.setItem('mavilo_blocked', JSON.stringify(u)); } catch(e) {}
+  };
+  return (
+    <div>
+      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'1.2rem'}}>
+        <button onClick={prevM} className="lb-btn" aria-label="Mese precedente" style={{border:'1px solid rgba(212,175,55,0.25)',width:36,height:36}}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <span style={{fontFamily:'Playfair Display',fontStyle:'italic',color:'#fff',fontSize:'1rem'}}>{MONTHS[mo]} {yr}</span>
+        <button onClick={nextM} className="lb-btn" aria-label="Mese successivo" style={{border:'1px solid rgba(212,175,55,0.25)',width:36,height:36}}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polyline points="9 18 15 12 9 6"/></svg></button>
+      </div>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(7,1fr)',gap:3,marginBottom:'0.4rem'}} aria-hidden="true">
+        {DNAMES.map(d=><div key={d} style={{textAlign:'center',fontFamily:'Lato',fontSize:'0.6rem',letterSpacing:'0.08em',color:'#555',padding:'0.3rem 0'}}>{d}</div>)}
+      </div>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(7,1fr)',gap:3}} role="grid" aria-label={`Calendario ${MONTHS[mo]} ${yr}`}>
+        {Array.from({length:first}).map((_,i) => <div key={`e${i}`} aria-hidden="true"/>)}
+        {Array.from({length:days}).map((_,i) => {
+          const day = i+1;
+          const ds = `${yr}-${String(mo+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+          const d = new Date(yr, mo, day);
+          const past = d < new Date(now.getFullYear(), now.getMonth(), now.getDate());
+          const isT = sameDay(d, now);
+          const isBlk = blocked.includes(ds);
+          return <div key={day} className={`cal-day${isBlk?' cal-blocked':''}${isT?' cal-today':''}${past?' cal-past':''}`}
+            onClick={() => !past && toggle(ds)}
+            role="gridcell" aria-label={`${day} ${MONTHS[mo]} ${yr}${isBlk?' - Occupata':''}`}
+            aria-pressed={isBlk}>{day}</div>;
+        })}
+      </div>
+      <div style={{marginTop:'1rem',display:'flex',gap:'1.2rem',flexWrap:'wrap',fontFamily:'Lato',fontSize:'0.67rem',letterSpacing:'0.06em',color:'#555'}}>
+        <span><span style={{display:'inline-block',width:11,height:11,border:'1px solid rgba(150,150,150,0.4)',background:'rgba(120,120,120,0.25)',marginRight:5,verticalAlign:'middle'}} aria-hidden="true"/>Occupata (Sold Out)</span>
+        <span><span style={{display:'inline-block',width:11,height:11,border:'1px solid #D4AF37',marginRight:5,verticalAlign:'middle'}} aria-hidden="true"/>Oggi</span>
+        <span style={{color:'rgba(255,255,255,0.25)'}}>Tocca per occupare/liberare</span>
+      </div>
+    </div>
+  );
+}
+
+/* ── ADMIN DASH ── */
+function AdminDash({ onClose, blocked, setBlocked }) {
+  const [tab, setTab] = useState('cal');
+  const reqs = (() => { try { return JSON.parse(localStorage.getItem('mavilo_req') || '[]'); } catch { return []; } })();
+  const gcal = r => {
+    const t = encodeURIComponent('MAVILO DOLCE — ' + (r.tipologia||'Commissione'));
+    const d = (r.data||'').replace(/-/g,'');
+    window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${t}&dates=${d}/${d}&details=${encodeURIComponent('Commissione MAVILO DOLCE\nTipologia: '+(r.tipologia||'')+'  Invitati: '+(r.invitati||''))}`, '_blank');
+  };
+  const tabs = [['cal','📅 Calendario'],['req','📋 Richieste']];
+  useEffect(() => { document.body.style.overflow = 'hidden'; return () => { document.body.style.overflow = ''; }; }, []);
+  return (
+    <div className="admin-wrap" role="dialog" aria-modal="true" aria-label="Gestione Atelier">
+      <div className="admin-inner">
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'2rem',borderBottom:'1px solid rgba(212,175,55,0.15)',paddingBottom:'1.5rem'}}>
+          <div>
+            <div style={{fontFamily:'Lato',fontSize:'0.6rem',letterSpacing:'0.42em',textTransform:'uppercase',color:'#D4AF37',marginBottom:'0.4rem'}}>Area Riservata</div>
+            <h2 style={{fontFamily:'Playfair Display',fontStyle:'italic',color:'#fff',fontSize:'1.6rem',fontWeight:400}}>Gestione Atelier</h2>
+          </div>
+          <button className="lb-btn" onClick={onClose} aria-label="Chiudi pannello admin" style={{border:'1px solid rgba(212,175,55,0.25)',width:44,height:44}}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div style={{display:'flex',gap:'0.4rem',marginBottom:'2rem',flexWrap:'wrap'}} role="tablist">
+          {tabs.map(([id,label]) => (
+            <button key={id} onClick={() => setTab(id)} role="tab" aria-selected={tab===id}
+              style={{fontFamily:'Lato',fontSize:'0.68rem',letterSpacing:'0.14em',textTransform:'uppercase',background:tab===id?'#D4AF37':'transparent',color:tab===id?'#1A1A1A':'#666',border:`1px solid ${tab===id?'#D4AF37':'rgba(255,255,255,0.1)'}`,padding:'0.65rem 1.2rem',cursor:'pointer',transition:'all 0.2s',minHeight:44}}>
+              {label}
+            </button>
+          ))}
+        </div>
+        {tab === 'cal' && (
+          <div style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(212,175,55,0.15)',padding:'clamp(1.2rem,4vw,2rem)'}}>
+            <div style={{fontFamily:'Lato',fontSize:'0.66rem',letterSpacing:'0.22em',textTransform:'uppercase',color:'#D4AF37',marginBottom:'0.8rem'}}>Disponibilità Calendario</div>
+            <p style={{fontFamily:'Lato',fontSize:'0.79rem',color:'#555',lineHeight:1.8,marginBottom:'1.4rem'}}>
+              Tocca una data per segnarla come <strong style={{color:'#aaa'}}>Occupata / Sold Out</strong>. Tocca di nuovo per liberarla.
+            </p>
+            <AdminCalendar blocked={blocked} setBlocked={setBlocked}/>
+            {blocked.length > 0 && (
+              <div style={{marginTop:'1.5rem'}}>
+                <div style={{fontFamily:'Lato',fontSize:'0.6rem',letterSpacing:'0.2em',textTransform:'uppercase',color:'#888',marginBottom:'0.7rem'}}>Date occupate ({blocked.length})</div>
+                <div style={{display:'flex',flexWrap:'wrap',gap:'0.45rem'}}>
+                  {[...blocked].sort().map(d => (
+                    <span key={d} style={{fontFamily:'Lato',fontSize:'0.7rem',color:'#D4AF37',border:'1px solid rgba(212,175,55,0.25)',padding:'0.28rem 0.7rem',display:'inline-flex',alignItems:'center',gap:8}}>
+                      {d}
+                      <button onClick={() => { const u=blocked.filter(x=>x!==d); setBlocked(u); try{localStorage.setItem('mavilo_blocked',JSON.stringify(u));}catch(e){} }}
+                        aria-label={`Rimuovi data ${d}`}
+                        style={{background:'none',border:'none',color:'#555',cursor:'pointer',display:'flex',alignItems:'center',padding:2}}>
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6M9 6V4h6v2"/></svg>
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+        {tab === 'req' && (
+          <div>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'1.2rem',flexWrap:'wrap',gap:'0.5rem'}}>
+              <div style={{fontFamily:'Lato',fontSize:'0.66rem',letterSpacing:'0.22em',textTransform:'uppercase',color:'#D4AF37'}}>Storico Richieste ({reqs.length})</div>
+              {reqs.length > 0 && (
+                <button onClick={()=>{try{localStorage.removeItem('mavilo_req');}catch(e){}window.location.reload();}}
+                  style={{fontFamily:'Lato',fontSize:'0.62rem',letterSpacing:'0.1em',color:'#555',background:'none',border:'1px solid rgba(255,255,255,0.08)',padding:'0.35rem 0.7rem',cursor:'pointer',minHeight:36}}>
+                  Cancella tutto
+                </button>
+              )}
+            </div>
+            {reqs.length === 0 ? (
+              <div style={{textAlign:'center',padding:'4rem 2rem'}}>
+                <div style={{fontFamily:'Playfair Display',fontStyle:'italic',color:'#555',fontSize:'1rem',marginBottom:'0.5rem'}}>Nessuna richiesta ancora</div>
+                <div style={{fontFamily:'Lato',fontSize:'0.76rem',color:'#444'}}>Le commissioni appariranno qui dopo l'invio</div>
+              </div>
+            ) : reqs.map((r,i) => (
+              <div key={i} style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(212,175,55,0.1)',padding:'1.2rem',marginBottom:'0.7rem'}}>
+                <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',flexWrap:'wrap',gap:'0.8rem'}}>
+                  <div style={{flex:1,minWidth:0}}>
+                    <div style={{fontFamily:'Playfair Display',fontStyle:'italic',color:'#D4AF37',fontSize:'0.95rem',marginBottom:'0.4rem'}}>{r.tipologia||'—'}</div>
+                    <div style={{fontFamily:'Lato',fontSize:'0.74rem',color:'#666',lineHeight:1.8}}>
+                      <div>📅 {r.data||'—'} &nbsp;·&nbsp; 👥 {r.invitati||'—'}</div>
+                      {r.note && <div style={{overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',maxWidth:280}}>📝 {r.note}</div>}
+                      <div style={{color:'#3a3a3a',fontSize:'0.66rem',marginTop:'0.25rem'}}>{new Date(r.ts).toLocaleDateString('it-IT',{day:'2-digit',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'})}</div>
+                    </div>
+                  </div>
+                  <button onClick={() => gcal(r)}
+                    style={{fontFamily:'Lato',fontSize:'0.6rem',letterSpacing:'0.14em',textTransform:'uppercase',background:'transparent',color:'#D4AF37',border:'1px solid rgba(212,175,55,0.3)',padding:'0.45rem 0.8rem',cursor:'pointer',display:'flex',alignItems:'center',gap:5,whiteSpace:'nowrap',minHeight:36}}>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    Google Cal
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ── ADMIN LOGIN ── */
+function AdminLogin({ onOk, onClose }) {
+  const [pw, setPw] = useState('');
+  const [err, setErr] = useState('');
+  const [shake, setShake] = useState(false);
+  useEffect(() => { document.body.style.overflow = 'hidden'; return () => { document.body.style.overflow = ''; }; }, []);
+  const go = () => {
+    if(btoa(pw) === PASS) { onOk(); }
+    else { setErr('Codice non valido.'); setPw(''); setShake(true); setTimeout(()=>setShake(false),500); }
+  };
+  return (
+    <div className="login-wrap" role="dialog" aria-modal="true" aria-label="Accesso area riservata">
+      <div className="login-card" style={{transform:shake?'translateX(-6px)':'none',transition:'transform 0.1s'}}>
+        <div style={{textAlign:'center',marginBottom:'2.2rem'}}>
+          <div style={{fontFamily:'Lato',fontSize:'0.6rem',letterSpacing:'0.42em',textTransform:'uppercase',color:'#D4AF37',marginBottom:'0.8rem'}}>Accesso Riservato</div>
+          <div style={{fontFamily:'Playfair Display',fontStyle:'italic',color:'#fff',fontSize:'1.4rem',fontWeight:400}}>Gestione Atelier</div>
+        </div>
+        <label htmlFor="admin-pw" style={{display:'none'}}>Codice di accesso</label>
+        <input id="admin-pw" type="password" placeholder="Codice di accesso" value={pw}
+          onChange={e=>setPw(e.target.value)} onKeyDown={e=>e.key==='Enter'&&go()}
+          className="f-input" style={{marginBottom:'0.5rem',background:'rgba(255,255,255,0.05)',border:'1px solid rgba(212,175,55,0.28)',color:'#fff',letterSpacing:'0.15em'}}
+          autoComplete="current-password"/>
+        {err && <p role="alert" style={{color:'#E74C3C',fontFamily:'Lato',fontSize:'0.74rem',marginBottom:'0.8rem',letterSpacing:'0.04em'}}>{err}</p>}
+        <div style={{display:'flex',gap:'0.6rem',marginTop:'1rem'}}>
+          <button onClick={onClose} className="btn-ghost" style={{flex:1,color:'#555',borderColor:'rgba(255,255,255,0.08)'}}>Annulla</button>
+          <button onClick={go} className="btn-primary" style={{flex:2,background:'#D4AF37',color:'#1A1A1A'}}>Accedi</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── FOOTER ── */
+function Footer({ onAdmin }) {
+  const yr = new Date().getFullYear();
+  const clickCount = useRef(0);
+  const clickTimer = useRef(null);
+
+  const handleLogoClick = () => {
+    clickCount.current += 1;
+    if(clickTimer.current) clearTimeout(clickTimer.current);
+    if(clickCount.current >= 3) {
+      clickCount.current = 0;
+      onAdmin();
+    } else {
+      clickTimer.current = setTimeout(() => { clickCount.current = 0; }, 800);
+    }
+  };
+
+  const socials = [
+    [IG,'Instagram',<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>],
+    [FB,'Facebook',<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>],
+    [`https://wa.me/${WA}`,'WhatsApp',<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>]
+  ];
+
+  const footerLinks = [
+    { label: "L'Atelier", id: 'latelier' },
+    { label: 'Gallery', id: 'gallery' },
+    { label: 'Preventivo', id: 'preventivo' },
+    { label: 'FAQ', id: 'faq' },
+    { label: 'Contatti', id: 'contatti' },
+  ];
+
+  return (
+    <footer style={{background:'#111',color:'#fff',padding:'clamp(4rem,10vw,7rem) clamp(1.25rem,5vw,2.5rem) clamp(2rem,5vw,3rem)'}} role="contentinfo">
+      <div style={{maxWidth:1200,margin:'0 auto'}}>
+        {/* Top row */}
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,200px),1fr))',gap:'3rem',marginBottom:'clamp(3rem,7vw,5rem)',paddingBottom:'clamp(2rem,5vw,3rem)',borderBottom:'1px solid rgba(212,175,55,0.1)'}}>
+          {/* Brand */}
+          <div>
+            <div onClick={handleLogoClick}
+              style={{fontFamily:'Playfair Display,serif',fontSize:'clamp(1.6rem,5vw,2.8rem)',fontWeight:400,letterSpacing:'0.1em',color:'#fff',marginBottom:'0.3rem',cursor:'default',userSelect:'none',WebkitUserSelect:'none'}}>
+              MAVILO<span style={{color:'#D4AF37'}}>.</span>
+            </div>
+            <div style={{fontFamily:'Playfair Display',fontStyle:'italic',color:'rgba(255,255,255,0.28)',fontSize:'0.88rem',marginBottom:'1.5rem',letterSpacing:'0.05em'}}>
+              Sugar Art & Couture Cakes
+            </div>
+            <div style={{fontFamily:'Lato',fontSize:'0.78rem',color:'rgba(255,255,255,0.35)',lineHeight:1.9,letterSpacing:'0.02em'}}>
+              Napoli, Campania<br/>
+              <a href={`mailto:${EMAIL}`} style={{color:'rgba(255,255,255,0.35)',textDecoration:'none',transition:'color 0.2s'}}
+                onMouseEnter={e=>e.currentTarget.style.color='#D4AF37'}
+                onMouseLeave={e=>e.currentTarget.style.color='rgba(255,255,255,0.35)'}>{EMAIL}</a><br/>
+              <a href={`https://wa.me/${WA}`} target="_blank" rel="noopener noreferrer"
+                style={{color:'rgba(255,255,255,0.35)',textDecoration:'none',transition:'color 0.2s'}}
+                onMouseEnter={e=>e.currentTarget.style.color='#D4AF37'}
+                onMouseLeave={e=>e.currentTarget.style.color='rgba(255,255,255,0.35)'}>+39 327 835 4278</a>
+            </div>
+          </div>
+
+          {/* Links */}
+          <div>
+            <div style={{fontFamily:'Lato',fontSize:'0.6rem',letterSpacing:'0.28em',textTransform:'uppercase',color:'#D4AF37',marginBottom:'1.2rem'}}>Navigazione</div>
+            <nav aria-label="Link utili footer">
+              {footerLinks.map(l => (
+                <button key={l.id} onClick={() => document.getElementById(l.id)?.scrollIntoView({behavior:'smooth'})}
+                  style={{display:'block',fontFamily:'Lato',fontSize:'0.8rem',color:'rgba(255,255,255,0.35)',background:'none',border:'none',cursor:'pointer',padding:'0.3rem 0',letterSpacing:'0.06em',transition:'color 0.2s',textAlign:'left'}}
+                  onMouseEnter={e=>e.currentTarget.style.color='#D4AF37'}
+                  onMouseLeave={e=>e.currentTarget.style.color='rgba(255,255,255,0.35)'}>
+                  {l.label}
+                </button>
+              ))}
+            </nav>
+          </div>
+
+          {/* Social */}
+          <div>
+            <div style={{fontFamily:'Lato',fontSize:'0.6rem',letterSpacing:'0.28em',textTransform:'uppercase',color:'#D4AF37',marginBottom:'1.2rem'}}>Seguici</div>
+            <div style={{display:'flex',gap:'0.6rem',marginBottom:'1.5rem'}}>
+              {socials.map(([href,label,icon]) => (
+                <a key={label} href={href} target="_blank" rel="noopener noreferrer" title={label} aria-label={label}
+                  style={{width:44,height:44,border:'1px solid rgba(212,175,55,0.22)',display:'flex',alignItems:'center',justifyContent:'center',color:'rgba(255,255,255,0.32)',textDecoration:'none',transition:'all 0.3s'}}
+                  onMouseEnter={e=>{e.currentTarget.style.borderColor='#D4AF37';e.currentTarget.style.color='#D4AF37';}}
+                  onMouseLeave={e=>{e.currentTarget.style.borderColor='rgba(212,175,55,0.22)';e.currentTarget.style.color='rgba(255,255,255,0.32)';}}>
+                  {icon}
+                </a>
+              ))}
+            </div>
+            <div style={{fontFamily:'Lato',fontSize:'0.72rem',color:'rgba(255,255,255,0.2)',lineHeight:1.8,letterSpacing:'0.02em'}}>
+              Lun – Ven: 09:00 – 19:00<br/>
+              Sab: 10:00 – 17:00<br/>
+              Dom: solo appuntamento
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom row */}
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:'1rem'}}>
+          <p style={{fontFamily:'Lato',fontSize:'0.66rem',color:'rgba(255,255,255,0.15)',letterSpacing:'0.1em'}}>
+            © {yr} MAVILO DOLCE — Tutti i diritti riservati
+          </p>
+          <p style={{fontFamily:'Lato',fontSize:'0.66rem',color:'rgba(255,255,255,0.15)',letterSpacing:'0.06em'}}>
+            P.IVA: xxxxxxxx · <button onClick={() => {}} style={{background:'none',border:'none',color:'rgba(255,255,255,0.15)',cursor:'pointer',fontFamily:'Lato',fontSize:'0.66rem',letterSpacing:'0.06em',padding:0}}>Privacy Policy</button>
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+/* ── ROOT APP ── */
+function App() {
+  const [nav, setNav] = useState('Home');
+  const [admin, setAdmin] = useState(null);
+  const [blocked, setBlocked] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('mavilo_blocked') || '[]'); } catch { return []; }
+  });
+
+  /* Loading screen */
+  useEffect(() => {
+    const loader = document.getElementById('loader');
+    const t = setTimeout(() => loader?.classList.add('hidden'), 1200);
+    return () => clearTimeout(t);
+  }, []);
+
+  /* Active nav via IntersectionObserver */
+  useEffect(() => {
+    const secs = [
+      {id:'home',label:'Home'},
+      {id:'latelier',label:"L'Atelier"},
+      {id:'gallery',label:'Gallery'},
+      {id:'preventivo',label:'Preventivo'},
+      {id:'contatti',label:'Contatti'},
+    ];
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting) { const s=secs.find(s=>s.id===e.target.id); if(s) setNav(s.label); } });
+    }, { threshold:0.3 });
+    secs.forEach(s => { const el=document.getElementById(s.id); if(el) obs.observe(el); });
+    return () => obs.disconnect();
+  }, []);
+
+  const scrollTo = id => setTimeout(() => document.getElementById(id)?.scrollIntoView({behavior:'smooth'}), 50);
+
+  return (
+    <>
+      <Nav active={nav} setActive={setNav}/>
+      <Hero onCTA={() => scrollTo('preventivo')}/>
+      <Numbers/>
+      <Atelier/>
+      <Gallery/>
+      <VideoSection/>
+      <Testimonial/>
+      <FAQ/>
+      <Preventivo blocked={blocked}/>
+      <Contatti/>
+      <Footer onAdmin={() => setAdmin('login')}/>
+      <FloatWA/>
+      <CookieBanner/>
+      {admin === 'login' && <AdminLogin onOk={() => setAdmin('dash')} onClose={() => setAdmin(null)}/>}
+      {admin === 'dash' && <AdminDash onClose={() => setAdmin(null)} blocked={blocked} setBlocked={setBlocked}/>}
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
