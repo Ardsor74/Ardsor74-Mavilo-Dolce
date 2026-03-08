@@ -149,7 +149,7 @@
     .stat-num { font-family:'Playfair Display',serif; font-size:clamp(2.2rem,5vw,3.5rem); font-weight:400; color:#D4AF37; line-height:1; }
 
     /* — Gallery Masonry — */
-    .masonry { columns:2; column-gap:10px; }
+    .masonry { columns:2; column-gap:10px; min-height:10px; }
     @media(min-width:640px){ .masonry { columns:2; column-gap:14px; } }
     @media(min-width:1024px){ .masonry { columns:3; column-gap:16px; } }
     .mason-item { break-inside:avoid; margin-bottom:10px; cursor:pointer; overflow:hidden; position:relative; display:block; }
@@ -434,26 +434,32 @@ function useReveal() {
 }
 
 /* ── Animated Counter hook ── */
-function useCountUp(target, duration = 1800, suffix = '') {
+function useCountUp(target, duration = 1600) {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
   const started = useRef(false);
 
   useEffect(() => {
     if (!ref.current) return;
+    const isNum = !isNaN(parseInt(target));
+    if (!isNum) { setCount(target); return; }
+
     const obs = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting && !started.current) {
         started.current = true;
-        const isNum = !isNaN(parseInt(target));
-        if (!isNum) { setCount(target); return; }
+        obs.disconnect();
         const end = parseInt(target);
-        const step = end / (duration / 16);
-        let cur = 0;
-        const timer = setInterval(() => {
-          cur += step;
-          if (cur >= end) { clearInterval(timer); setCount(end); }
-          else setCount(Math.floor(cur));
-        }, 16);
+        const startTime = performance.now();
+        const tick = (now) => {
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          // easeOutQuart
+          const ease = 1 - Math.pow(1 - progress, 4);
+          setCount(Math.floor(ease * end));
+          if (progress < 1) requestAnimationFrame(tick);
+          else setCount(end);
+        };
+        requestAnimationFrame(tick);
       }
     }, { threshold: 0.3 });
     obs.observe(ref.current);
@@ -850,10 +856,22 @@ function Lightbox({ items, idx, onClose, onPrev, onNext }) {
 function Gallery() {
   const [lb, setLb] = useState(null);
   const [visible, setVisible] = useState(() => Array(20).fill(true));
+  const [allChecked, setAllChecked] = useState(false);
+  const loadCount = useRef(0);
   useReveal();
 
-  const hideItem = (i) => setVisible(v => { const n=[...v]; n[i]=false; return n; });
+  const handleResult = (i, ok) => {
+    if (!ok) setVisible(v => { const n=[...v]; n[i]=false; return n; });
+    loadCount.current += 1;
+    if (loadCount.current >= 20) setAllChecked(true);
+  };
+
   const lbItems = GALLERY.filter((_,i) => visible[i]);
+  const anyVisible = visible.some(Boolean);
+
+  // Nascondi l'intera sezione finché non sappiamo se ci sono foto
+  // e nascondila del tutto se non ce ne sono
+  if (allChecked && !anyVisible) return null;
 
   return (
     <section id="gallery" className="section-pad" aria-label="Galleria creazioni" style={{background:'#FFF'}}>
@@ -866,19 +884,19 @@ function Gallery() {
             Tocca per aprire · Scorri per navigare
           </p>
         </div>
-        <div className="reveal masonry">
+        <div className="masonry">
           {GALLERY.map((item,i) => (
             <div key={item.id} className="mason-item"
               style={{display: visible[i] ? 'block' : 'none'}}
-              onClick={() => {
-                const lbIdx = lbItems.findIndex(x=>x.id===item.id);
-                if(lbIdx >= 0) setLb(lbIdx);
-              }}
-              role="button" tabIndex={0} aria-label={`Apri creazione ${item.id}`}
-              onKeyDown={e => e.key==='Enter' && (() => { const lbIdx=lbItems.findIndex(x=>x.id===item.id); if(lbIdx>=0) setLb(lbIdx); })()}>
+              onClick={() => { const lbIdx=lbItems.findIndex(x=>x.id===item.id); if(lbIdx>=0) setLb(lbIdx); }}
+              role="button" tabIndex={visible[i]?0:-1}
+              aria-label={`Apri creazione ${item.id}`}
+              onKeyDown={e=>e.key==='Enter'&&(()=>{const lbIdx=lbItems.findIndex(x=>x.id===item.id);if(lbIdx>=0)setLb(lbIdx);})()}>
               <img src={item.src} alt={`MAVILO DOLCE — creazione ${item.id}`}
                 className="mason-img" style={{aspectRatio:item.tall?'3/4':'4/3'}}
-                loading="lazy" onError={() => hideItem(i)}/>
+                loading="lazy"
+                onLoad={() => handleResult(i, true)}
+                onError={() => handleResult(i, false)}/>
               <div className="mason-overlay" aria-hidden="true"/>
             </div>
           ))}
@@ -886,8 +904,8 @@ function Gallery() {
       </div>
       {lb !== null && lbItems.length > 0 && (
         <Lightbox items={lbItems} idx={lb} onClose={() => setLb(null)}
-          onPrev={() => setLb(i => (i-1+lbItems.length)%lbItems.length)}
-          onNext={() => setLb(i => (i+1)%lbItems.length)}/>
+          onPrev={() => setLb(i=>(i-1+lbItems.length)%lbItems.length)}
+          onNext={() => setLb(i=>(i+1)%lbItems.length)}/>
       )}
     </section>
   );
@@ -926,10 +944,22 @@ function VideoSection() {
   useReveal();
   const videos = ['video1.mp4','video2.mp4','video3.mp4','video4.mp4','video5.mp4','video6.mp4'];
   const [visible, setVisible] = useState(() => Array(6).fill(true));
+  const [allChecked, setAllChecked] = useState(false);
+  const loadCount = useRef(0);
+
+  const handleResult = (i, ok) => {
+    if (!ok) setVisible(v => { const n=[...v]; n[i]=false; return n; });
+    loadCount.current += 1;
+    if (loadCount.current >= 6) setAllChecked(true);
+  };
+
   const [playing, setPlaying] = useState(null);
-  const hideVideo = i => setVisible(v => { const n=[...v]; n[i]=false; return n; });
   const anyVisible = visible.some(Boolean);
-  if(!anyVisible) return null;
+
+  // Non mostrare nulla finché non sappiamo se ci sono video
+  if (allChecked && !anyVisible) return null;
+  if (!allChecked && !anyVisible) return null;
+
   return (
     <section id="video" className="section-pad" aria-label="Video dell'atelier" style={{background:'#1A1A1A'}}>
       <div style={{maxWidth:1200,margin:'0 auto'}}>
@@ -948,7 +978,8 @@ function VideoSection() {
               onKeyDown={e => e.key==='Enter' && setPlaying(v)}>
               <video src={v} autoPlay muted loop playsInline
                 style={{width:'100%',height:'100%',objectFit:'cover',display:'block',pointerEvents:'none'}}
-                onError={() => hideVideo(i)}/>
+                onLoadedData={() => handleResult(i, true)}
+                onError={() => handleResult(i, false)}/>
               <div style={{position:'absolute',inset:0,background:'rgba(0,0,0,0)',transition:'background 0.3s',display:'flex',alignItems:'center',justifyContent:'center'}}
                 onMouseEnter={e=>e.currentTarget.style.background='rgba(0,0,0,0.35)'}
                 onMouseLeave={e=>e.currentTarget.style.background='rgba(0,0,0,0)'}>
@@ -973,24 +1004,26 @@ function Testimonial() {
   const timer = useRef(null);
   useReveal();
 
+  const scheduleNext = useCallback(() => {
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      if (!document.hidden) {
+        setIdx(i => (i+1) % TESTIMONIALS.length);
+        setKey(k => k+1);
+      }
+      scheduleNext();
+    }, 6000);
+  }, []);
+
   const go = useCallback(n => {
     setIdx(n);
     setKey(k => k+1);
-    clearInterval(timer.current);
-    timer.current = setInterval(advance, 6000);
-  }, []);
-
-  const advance = useCallback(() => {
-    setIdx(i => {
-      const next = (i+1) % TESTIMONIALS.length;
-      setKey(k => k+1);
-      return next;
-    });
-  }, []);
+    scheduleNext();
+  }, [scheduleNext]);
 
   useEffect(() => {
-    timer.current = setInterval(advance, 6000);
-    return () => clearInterval(timer.current);
+    scheduleNext();
+    return () => clearTimeout(timer.current);
   }, []);
 
   const t = TESTIMONIALS[idx];
