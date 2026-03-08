@@ -127,7 +127,8 @@
     .gold-bar-center { display:block; width:38px; height:1px; background:#D4AF37; margin:0 auto; }
 
     /* — Reveal animation — */
-    .reveal { opacity:0; transform:translateY(32px); transition:opacity 0.85s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.85s cubic-bezier(0.25,0.46,0.45,0.94); }
+    .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.75s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.75s cubic-bezier(0.25,0.46,0.45,0.94); will-change:opacity,transform; }
+    .reveal.visible { opacity:1; transform:translateY(0); will-change:auto; }
     .reveal.visible { opacity:1; transform:none; }
     .reveal-delay-1 { transition-delay:0.12s; }
     .reveal-delay-2 { transition-delay:0.24s; }
@@ -150,7 +151,7 @@
     .mason-item { break-inside:avoid; margin-bottom:10px; cursor:pointer; overflow:hidden; position:relative; display:block; }
     @media(min-width:640px){ .mason-item { margin-bottom:14px; } }
     @media(min-width:1024px){ .mason-item { margin-bottom:16px; } }
-    .mason-img { width:100%; display:block; transition:transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94); object-fit:cover; }
+    .mason-img { width:100%; display:block; transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); object-fit:cover; will-change:transform; backface-visibility:hidden; }
     .mason-item:hover .mason-img { transform:scale(1.04); }
     .mason-overlay { position:absolute; inset:0; background:rgba(26,26,26,0); transition:background 0.4s; display:flex; align-items:flex-end; padding:1rem; }
     .mason-item:hover .mason-overlay { background:rgba(26,26,26,0.52); }
@@ -274,7 +275,7 @@
     .recap-row { display:flex; justify-content:space-between; align-items:center; padding:0.48rem 0; border-bottom:1px solid rgba(212,175,55,0.1); font-family:'Lato'; font-size:0.82rem; }
     .recap-key { color:#aaa; } .recap-val { color:#1A1A1A; font-weight:700; }
     /* — Petali cadenti — */
-    .petal { position:absolute; pointer-events:none; opacity:0; animation: petalFall linear infinite; }
+    .petal { position:absolute; pointer-events:none; opacity:0; animation: petalFall linear infinite; will-change:transform,opacity; backface-visibility:hidden; }
     @keyframes petalFall {
       0%   { opacity:0; transform: translateY(-20px) rotate(0deg) scale(0.8); }
       10%  { opacity:0.7; }
@@ -399,15 +400,29 @@ const MONTHS = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio'
 const DNAMES = ['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
 
 /* ── useReveal hook ── */
+// Observer globale — creato una volta sola
+let _revealObs = null;
+function getRevealObserver() {
+  if (!_revealObs) {
+    _revealObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          _revealObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  }
+  return _revealObs;
+}
+
 function useReveal() {
   useEffect(() => {
+    const obs = getRevealObserver();
     const els = document.querySelectorAll('.reveal:not(.visible)');
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.12, rootMargin:'0px 0px -50px 0px' });
     els.forEach(el => obs.observe(el));
-    return () => obs.disconnect();
-  });
+    // no cleanup — observer è globale e persistente
+  }, []);
 }
 
 /* ── Animated Counter hook ── */
@@ -624,7 +639,7 @@ function Hero({ onCTA }) {
   }));
 
   return (
-    <section id="home" aria-label="Introduzione" style={{minHeight:'100svh',display:'flex',alignItems:'center',justifyContent:'center',position:'relative',background:'#FFF',paddingTop:60}}>
+    <section id="home" aria-label="Introduzione" style={{minHeight:'100svh',display:'flex',alignItems:'center',justifyContent:'center',position:'relative',background:'#FFF',paddingTop:60,isolation:'isolate',transform:'translateZ(0)'}}>
       <div style={{position:'absolute',inset:0,background:'radial-gradient(ellipse 65% 50% at 50% 44%, rgba(212,175,55,0.058) 0%, transparent 70%)',pointerEvents:'none'}}/>
       {/* Petali cadenti */}
       {petals.map(p => (
@@ -1429,7 +1444,7 @@ function Contatti() {
     {
       icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>,
       label: 'Dove siamo',
-      value: 'Napoli, Campania',
+      value: 'Fuorigrotta, Napoli',
       href: null,
       sub: 'Consegne solo a Napoli'
     },
@@ -1510,18 +1525,26 @@ function Contatti() {
           </div>
         </div>
 
-        {/* Mappa Napoli */}
+        {/* Mappa Fuorigrotta */}
         <div className="reveal" style={{marginTop:'3rem',overflow:'hidden',border:'1px solid rgba(212,175,55,0.18)',position:'relative'}}>
           <div style={{position:'absolute',top:'1rem',left:'1rem',zIndex:10,background:'#1A1A1A',padding:'0.6rem 1rem',display:'flex',alignItems:'center',gap:'0.6rem'}}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" strokeWidth="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            <span style={{fontFamily:'Lato',fontSize:'0.62rem',letterSpacing:'0.18em',textTransform:'uppercase',color:'#D4AF37'}}>Napoli, Campania</span>
+            <span style={{fontFamily:'Lato',fontSize:'0.62rem',letterSpacing:'0.18em',textTransform:'uppercase',color:'#D4AF37'}}>Fuorigrotta, Napoli</span>
           </div>
+          {/* Bottone apri in Google Maps */}
+          <a href="https://www.google.com/maps/search/Fuorigrotta+Napoli" target="_blank" rel="noopener noreferrer"
+            style={{position:'absolute',bottom:'1rem',right:'1rem',zIndex:10,background:'#1A1A1A',padding:'0.5rem 0.9rem',display:'flex',alignItems:'center',gap:'0.5rem',textDecoration:'none',border:'1px solid rgba(212,175,55,0.3)',transition:'border-color 0.2s'}}
+            onMouseEnter={e=>e.currentTarget.style.borderColor='#D4AF37'}
+            onMouseLeave={e=>e.currentTarget.style.borderColor='rgba(212,175,55,0.3)'}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" strokeWidth="1.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            <span style={{fontFamily:'Lato',fontSize:'0.6rem',letterSpacing:'0.14em',textTransform:'uppercase',color:'#D4AF37'}}>Apri in Maps</span>
+          </a>
           <iframe
-            title="MAVILO DOLCE — Napoli"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d48095.44805824762!2d14.220308!3d40.8517746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x133b084f6f6d3b3b%3A0x5b4b1e3e3e3e3e3e!2sNapoli%2C%20Campania!5e0!3m2!1sit!2sit!4v1699999999999!5m2!1sit!2sit"
-            width="100%" height="320" style={{border:0,display:'block',filter:'grayscale(30%) contrast(1.05)',opacity:0.9}}
+            title="MAVILO DOLCE — Fuorigrotta, Napoli"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6020.5!2d14.1789!3d40.8285!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x133b08f26b0d1111%3A0x1111111111111111!2sFuorigrotta%2C%20Napoli%2C%20NA!5e0!3m2!1sit!2sit!4v1700000000000!5m2!1sit!2sit"
+            width="100%" height="320" style={{border:0,display:'block',filter:'grayscale(25%) contrast(1.05)',opacity:0.9}}
             allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"
-            aria-label="Mappa di Napoli"/>
+            aria-label="Mappa di Fuorigrotta, Napoli"/>
         </div>
       </div>
     </section>
@@ -1814,7 +1837,7 @@ function Footer({ onAdmin, onPrivacy }) {
               Sugar Art & Couture Cakes
             </div>
             <div style={{fontFamily:'Lato',fontSize:'0.78rem',color:'rgba(255,255,255,0.35)',lineHeight:1.9,letterSpacing:'0.02em'}}>
-              Napoli, Campania<br/>
+              Fuorigrotta, Napoli<br/>
               <a href={`mailto:${EMAIL}`} style={{color:'rgba(255,255,255,0.35)',textDecoration:'none',transition:'color 0.2s'}}
                 onMouseEnter={e=>e.currentTarget.style.color='#D4AF37'}
                 onMouseLeave={e=>e.currentTarget.style.color='rgba(255,255,255,0.35)'}>{EMAIL}</a><br/>
