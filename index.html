@@ -38,9 +38,7 @@
     "priceRange": "€€€",
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
-      "opens": "09:00",
-      "closes": "19:00"
+      "description": "Solo su appuntamento"
     }
   }
   </script>
@@ -286,7 +284,7 @@ const { useState, useEffect, useRef, useCallback } = React;
 const WA = '393278354278';
 const IG = 'https://www.instagram.com/anjalagomez/';
 const FB = 'https://www.facebook.com/anjalagomeznapoli/photos?locale=it_IT';
-const EMAIL = 'info@mailovdolce.it'; // ← aggiorna con email reale
+const EMAIL = 'anjalagomez@gmail.com';
 const PASS = btoa('mavilo2026'); // leggera offuscazione base64
 
 const GALLERY = Array.from({length:20},(_,i)=>({
@@ -329,7 +327,7 @@ const FAQS = [
   },
   {
     q: "Consegnate anche fuori Napoli?",
-    a: "Sì, effettuiamo consegne in tutta la Campania e, per eventi speciali, in tutta Italia. I costi e le modalità di trasporto vengono concordati in fase di preventivo, garantendo sempre la massima sicurezza per le creazioni."
+    a: "Effettuiamo consegne a Napoli e dintorni. Per eventi fuori zona è possibile concordare un ritiro presso l'atelier su appuntamento. I dettagli vengono definiti in fase di preventivo, garantendo sempre la massima sicurezza per le creazioni."
   },
   {
     q: "Come funziona il preventivo?",
@@ -1137,7 +1135,7 @@ function Contatti() {
       label: 'Dove siamo',
       value: 'Napoli, Campania',
       href: null,
-      sub: 'Consegne in tutta Italia'
+      sub: 'Consegne solo a Napoli'
     },
   ];
 
@@ -1183,19 +1181,14 @@ function Contatti() {
 
         {/* Orari */}
         <div className="reveal" style={{border:'1px solid rgba(212,175,55,0.18)',padding:'clamp(1.5rem,4vw,2.5rem)',display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,240px),1fr))',gap:'2rem',alignItems:'center'}}>
-          <div>
-            <div style={{fontFamily:'Lato',fontSize:'0.62rem',letterSpacing:'0.22em',textTransform:'uppercase',color:'#D4AF37',marginBottom:'0.7rem'}}>Orari Atelier</div>
-            <div style={{fontFamily:'Playfair Display,serif',fontStyle:'italic',fontSize:'1.1rem',color:'#1A1A1A',marginBottom:'1rem'}}>Quando siamo disponibili</div>
-            {[
-              ['Lunedì — Venerdì','09:00 – 19:00'],
-              ['Sabato','10:00 – 17:00'],
-              ['Domenica','Solo appuntamento'],
-            ].map(([g,o]) => (
-              <div key={g} style={{display:'flex',justifyContent:'space-between',padding:'0.4rem 0',borderBottom:'1px solid rgba(212,175,55,0.08)'}}>
-                <span style={{fontFamily:'Lato',fontSize:'0.8rem',color:'#888'}}>{g}</span>
-                <span style={{fontFamily:'Lato',fontSize:'0.8rem',color:'#1A1A1A',fontWeight:700}}>{o}</span>
-              </div>
-            ))}
+          <div style={{textAlign:'center'}}>
+            <div style={{width:56,height:56,border:'1px solid rgba(212,175,55,0.35)',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 1.2rem',color:'#D4AF37'}}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div style={{fontFamily:'Playfair Display,serif',fontStyle:'italic',fontSize:'1.2rem',color:'#1A1A1A',marginBottom:'0.6rem'}}>Solo su Appuntamento</div>
+            <p style={{fontFamily:'Lato',fontSize:'0.82rem',color:'#888',lineHeight:1.9,marginBottom:'0'}}>
+              L'atelier riceve <strong style={{color:'#1A1A1A'}}>esclusivamente su appuntamento</strong>.<br/>Contattaci per concordare data e orario.
+            </p>
           </div>
           <div style={{textAlign:'center'}}>
             <div style={{fontFamily:'Lato',fontSize:'0.62rem',letterSpacing:'0.22em',textTransform:'uppercase',color:'#D4AF37',marginBottom:'1rem'}}>Prenota una Consulenza</div>
@@ -1270,7 +1263,7 @@ function AdminDash({ onClose, blocked, setBlocked }) {
     const d = (r.data||'').replace(/-/g,'');
     window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${t}&dates=${d}/${d}&details=${encodeURIComponent('Commissione MAVILO DOLCE\nTipologia: '+(r.tipologia||'')+'  Invitati: '+(r.invitati||''))}`, '_blank');
   };
-  const tabs = [['cal','📅 Calendario'],['req','📋 Richieste']];
+  const tabs = [['cal','📅 Calendario'],['media','🖼️ Foto & Video'],['req','📋 Richieste']];
   useEffect(() => { document.body.style.overflow = 'hidden'; return () => { document.body.style.overflow = ''; }; }, []);
   return (
     <div className="admin-wrap" role="dialog" aria-modal="true" aria-label="Gestione Atelier">
@@ -1316,6 +1309,65 @@ function AdminDash({ onClose, blocked, setBlocked }) {
                 </div>
               </div>
             )}
+          </div>
+        )}
+        {tab === 'media' && (
+          <div style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(212,175,55,0.15)',padding:'clamp(1.2rem,4vw,2rem)'}}>
+            <div style={{fontFamily:'Lato',fontSize:'0.66rem',letterSpacing:'0.22em',textTransform:'uppercase',color:'#D4AF37',marginBottom:'0.5rem'}}>Gestione Foto & Video</div>
+            <p style={{fontFamily:'Lato',fontSize:'0.79rem',color:'#555',lineHeight:1.8,marginBottom:'1.8rem'}}>
+              Carica le foto e i video nel tuo repository GitHub con i nomi esatti indicati. Vengono visualizzati automaticamente nella gallery e nella sezione video del sito.
+            </p>
+
+            {/* FOTO */}
+            <div style={{marginBottom:'2rem'}}>
+              <div style={{fontFamily:'Playfair Display',fontStyle:'italic',color:'#fff',fontSize:'1rem',marginBottom:'1rem',borderBottom:'1px solid rgba(212,175,55,0.1)',paddingBottom:'0.6rem'}}>📸 Foto Gallery</div>
+              <p style={{fontFamily:'Lato',fontSize:'0.76rem',color:'#666',lineHeight:1.85,marginBottom:'1rem'}}>
+                Carica le foto nel repository con questi nomi esatti.<br/>
+                <span style={{color:'rgba(255,255,255,0.25)'}}>Formato: JPG o PNG · Max consigliato: 1MB per foto</span>
+              </p>
+              <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(130px,1fr))',gap:'0.5rem'}}>
+                {Array.from({length:20},(_,i)=>(
+                  <div key={i} style={{border:'1px solid rgba(212,175,55,0.15)',padding:'0.6rem 0.8rem',display:'flex',alignItems:'center',gap:'0.5rem',background:'rgba(255,255,255,0.02)'}}>
+                    <span style={{color:'#D4AF37',fontSize:'0.75rem'}}>📷</span>
+                    <span style={{fontFamily:'Lato',fontSize:'0.72rem',color:'#aaa',letterSpacing:'0.04em'}}>{`foto${i+1}.jpg`}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* VIDEO */}
+            <div>
+              <div style={{fontFamily:'Playfair Display',fontStyle:'italic',color:'#fff',fontSize:'1rem',marginBottom:'1rem',borderBottom:'1px solid rgba(212,175,55,0.1)',paddingBottom:'0.6rem'}}>🎬 Video</div>
+              <p style={{fontFamily:'Lato',fontSize:'0.76rem',color:'#666',lineHeight:1.85,marginBottom:'1rem'}}>
+                Carica i video nel repository con questi nomi esatti.<br/>
+                <span style={{color:'rgba(255,255,255,0.25)'}}>Formato: MP4 · Max consigliato: 30MB per video</span>
+              </p>
+              <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(130px,1fr))',gap:'0.5rem'}}>
+                {['video1.mp4','video2.mp4','video3.mp4','video4.mp4','video5.mp4','video6.mp4'].map(v=>(
+                  <div key={v} style={{border:'1px solid rgba(212,175,55,0.15)',padding:'0.6rem 0.8rem',display:'flex',alignItems:'center',gap:'0.5rem',background:'rgba(255,255,255,0.02)'}}>
+                    <span style={{color:'#D4AF37',fontSize:'0.75rem'}}>🎬</span>
+                    <span style={{fontFamily:'Lato',fontSize:'0.72rem',color:'#aaa',letterSpacing:'0.04em'}}>{v}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Istruzioni */}
+            <div style={{marginTop:'2rem',padding:'1.2rem',background:'rgba(212,175,55,0.05)',border:'1px solid rgba(212,175,55,0.18)'}}>
+              <div style={{fontFamily:'Lato',fontSize:'0.6rem',letterSpacing:'0.22em',textTransform:'uppercase',color:'#D4AF37',marginBottom:'0.8rem'}}>Come caricare su GitHub</div>
+              {[
+                'Vai su github.com nel tuo repository Mavilo-Dolce',
+                'Clicca "Add file" → "Upload files"',
+                'Trascina le foto/video con i nomi esatti indicati sopra',
+                'Clicca "Commit changes" e attendi 2-3 minuti',
+                'Il sito si aggiornerà automaticamente',
+              ].map((s,i)=>(
+                <div key={i} style={{display:'flex',gap:'0.8rem',marginBottom:'0.5rem',alignItems:'flex-start'}}>
+                  <span style={{width:20,height:20,borderRadius:'50%',background:'rgba(212,175,55,0.2)',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'Lato',fontSize:'0.6rem',color:'#D4AF37',flexShrink:0,marginTop:1}}>{i+1}</span>
+                  <span style={{fontFamily:'Lato',fontSize:'0.78rem',color:'#777',lineHeight:1.7}}>{s}</span>
+                </div>
+              ))}
+            </div>
           </div>
         )}
         {tab === 'req' && (
@@ -1478,9 +1530,7 @@ function Footer({ onAdmin }) {
               ))}
             </div>
             <div style={{fontFamily:'Lato',fontSize:'0.72rem',color:'rgba(255,255,255,0.2)',lineHeight:1.8,letterSpacing:'0.02em'}}>
-              Lun – Ven: 09:00 – 19:00<br/>
-              Sab: 10:00 – 17:00<br/>
-              Dom: solo appuntamento
+              Solo su appuntamento
             </div>
           </div>
         </div>
