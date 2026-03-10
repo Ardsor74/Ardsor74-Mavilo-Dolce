@@ -1035,30 +1035,70 @@ function Gallery() {
 
 /* ── VIDEO LIGHTBOX ── */
 function VideoLightbox({ src, onClose }) {
+  const scrollY = useRef(0);
+
   useEffect(() => {
+    scrollY.current = window.scrollY;
     document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = ''; };
-  }, []);
-  useEffect(() => {
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY.current}px`;
+    document.body.style.width = '100%';
     const h = e => { if(e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', h);
-    return () => window.removeEventListener('keydown', h);
+    return () => {
+      window.removeEventListener('keydown', h);
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      window.scrollTo(0, scrollY.current);
+    };
   }, []);
-  return (
-    <div onClick={onClose} style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.97)',zIndex:3000,display:'flex',alignItems:'center',justifyContent:'center',padding:'1rem'}}
+
+  const content = (
+    <div
+      onClick={onClose}
+      style={{
+        position:'fixed', inset:0,
+        zIndex:2147483646,
+        background:'rgba(0,0,0,0.97)',
+        display:'flex', alignItems:'center', justifyContent:'center',
+        padding:'1rem', boxSizing:'border-box',
+      }}
       role="dialog" aria-modal="true" aria-label="Video player">
-      <div onClick={e=>e.stopPropagation()} style={{width:'100%',maxWidth:800,position:'relative'}}>
-        <video src={src} controls autoPlay playsInline
-          style={{width:'100%',maxHeight:'85vh',objectFit:'contain',display:'block',background:'#000'}}/>
-        <button onClick={onClose} aria-label="Chiudi video"
-          style={{position:'absolute',top:'-3rem',right:0,background:'none',border:'1px solid rgba(212,175,55,0.3)',color:'rgba(255,255,255,0.6)',width:44,height:44,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',transition:'color 0.2s'}}
-          onMouseEnter={e=>e.currentTarget.style.color='#D4AF37'}
-          onMouseLeave={e=>e.currentTarget.style.color='rgba(255,255,255,0.6)'}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
+
+      {/* X in alto a destra */}
+      <button
+        onClick={e => { e.stopPropagation(); onClose(); }}
+        aria-label="Chiudi video"
+        style={{
+          position:'fixed', top:12, right:12, zIndex:2147483647,
+          background:'rgba(10,10,10,0.85)',
+          border:'1px solid rgba(212,175,55,0.4)',
+          color:'rgba(255,255,255,0.75)',
+          width:52, height:52,
+          cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center',
+          padding:0, WebkitTapHighlightColor:'transparent',
+        }}>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+
+      {/* Video centrato */}
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{width:'100%', maxWidth:860, maxHeight:'90dvh', display:'flex', alignItems:'center', justifyContent:'center'}}>
+        <video
+          src={src} controls autoPlay playsInline
+          style={{width:'100%', maxHeight:'88dvh', objectFit:'contain', display:'block', background:'#000'}}
+        />
       </div>
     </div>
   );
+
+  return createPortal(content, document.body);
 }
 
 /* ── VIDEO SECTION ── */
