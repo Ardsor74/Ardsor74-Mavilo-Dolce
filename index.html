@@ -2232,16 +2232,18 @@ function App() {
   /* Active nav via IntersectionObserver */
   useEffect(() => {
     const secs = [
-      {id:'home',label:'Home'},
-      {id:'latelier',label:"L'Atelier"},
-      {id:'gallery',label:'Gallery'},
-
-      {id:'preventivo',label:'Preventivo'},
-      {id:'contatti',label:'Contatti'},
+      {id:'home',         label:'Home'},
+      {id:'latelier',     label:"L'Atelier"},
+      {id:'gallery',      label:'Gallery'},
+      {id:'stampe',       label:'Stampe'},
+      {id:'comefunziona', label:'Stampe'},
+      {id:'faq',          label:'Preventivo'},
+      {id:'preventivo',   label:'Preventivo'},
+      {id:'contatti',     label:'Contatti'},
     ];
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => { if(e.isIntersecting) { const s=secs.find(s=>s.id===e.target.id); if(s) setNav(s.label); } });
-    }, { threshold:0.3 });
+    }, { rootMargin:'-20% 0px -60% 0px', threshold:0 });
     secs.forEach(s => { const el=document.getElementById(s.id); if(el) obs.observe(el); });
     return () => obs.disconnect();
   }, []);
