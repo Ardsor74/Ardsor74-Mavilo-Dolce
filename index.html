@@ -669,10 +669,6 @@ function Hero({ onCTA }) {
           </svg>
         </div>
       ))}
-      <div style={{position:'absolute',top:'10%',left:'4%',width:1,height:'min(150px,15vw)',background:'linear-gradient(to bottom,transparent,rgba(212,175,55,0.38),transparent)'}}/>
-      <div style={{position:'absolute',bottom:'15%',right:'5%',width:1,height:'min(100px,10vw)',background:'linear-gradient(to bottom,transparent,rgba(212,175,55,0.3),transparent)'}}/>
-      <div style={{position:'absolute',top:'8%',right:'7%',width:'min(70px,12vw)',height:'min(70px,12vw)',border:'1px solid rgba(212,175,55,0.22)',borderRadius:'50%'}}/>
-
       <div id="main-content" style={{textAlign:'center',maxWidth:820,padding:'0 1.25rem',position:'relative',width:'100%'}}>
         <div className="hero-anim ha0" style={{fontFamily:'Lato',fontSize:'0.65rem',letterSpacing:'0.46em',textTransform:'uppercase',color:'#D4AF37',marginBottom:'2rem'}}>
           Atelier Artigianale · dal Cuore
@@ -699,10 +695,6 @@ function Hero({ onCTA }) {
         </div>
       </div>
 
-      <div className="scroll-hint" style={{position:'absolute',bottom:'2rem',left:'50%',transform:'translateX(-50%)',display:'flex',flexDirection:'column',alignItems:'center',gap:10,opacity:0.7}}>
-        <span style={{fontFamily:'Lato',fontSize:'0.57rem',letterSpacing:'0.32em',color:'#D4AF37',textTransform:'uppercase'}}>Scopri</span>
-        <div style={{width:1,height:48,background:'linear-gradient(to bottom,#D4AF37,transparent)'}}/>
-      </div>
     </section>
   );
 }
@@ -1658,25 +1650,27 @@ function Contatti() {
         </div>
 
         {/* Mappa Fuorigrotta */}
-        <div className="reveal" style={{marginTop:'3rem',overflow:'hidden',border:'1px solid rgba(212,175,55,0.18)',position:'relative'}}>
-          <div style={{position:'absolute',top:'1rem',left:'1rem',zIndex:10,background:'#1A1A1A',padding:'0.6rem 1rem',display:'flex',alignItems:'center',gap:'0.6rem'}}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" strokeWidth="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            <span style={{fontFamily:'Lato',fontSize:'0.62rem',letterSpacing:'0.18em',textTransform:'uppercase',color:'#D4AF37'}}>Fuorigrotta, Napoli</span>
+        <div className="reveal" style={{marginTop:'3rem',border:'1px solid rgba(212,175,55,0.18)'}}>
+          <div style={{overflow:'hidden',position:'relative'}}>
+            <iframe
+              title="MAVILO DOLCE — Fuorigrotta, Napoli"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6020.5!2d14.1789!3d40.8285!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x133b08f26b0d1111%3A0x1111111111111111!2sFuorigrotta%2C%20Napoli%2C%20NA!5e0!3m2!1sit!2sit!4v1700000000000!5m2!1sit!2sit"
+              width="100%" height="320" style={{border:0,display:'block',filter:'grayscale(25%) contrast(1.05)',opacity:0.9}}
+              allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"
+              aria-label="Mappa di Fuorigrotta, Napoli"/>
           </div>
-          {/* Bottone apri in Google Maps */}
-          <a href="https://www.google.com/maps/search/Fuorigrotta+Napoli" target="_blank" rel="noopener noreferrer"
-            style={{position:'absolute',bottom:'1rem',right:'1rem',zIndex:10,background:'#1A1A1A',padding:'0.5rem 0.9rem',display:'flex',alignItems:'center',gap:'0.5rem',textDecoration:'none',border:'1px solid rgba(212,175,55,0.3)',transition:'border-color 0.2s'}}
-            onMouseEnter={e=>e.currentTarget.style.borderColor='#D4AF37'}
-            onMouseLeave={e=>e.currentTarget.style.borderColor='rgba(212,175,55,0.3)'}>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" strokeWidth="1.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            <span style={{fontFamily:'Lato',fontSize:'0.6rem',letterSpacing:'0.14em',textTransform:'uppercase',color:'#D4AF37'}}>Apri in Maps</span>
-          </a>
-          <iframe
-            title="MAVILO DOLCE — Fuorigrotta, Napoli"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6020.5!2d14.1789!3d40.8285!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x133b08f26b0d1111%3A0x1111111111111111!2sFuorigrotta%2C%20Napoli%2C%20NA!5e0!3m2!1sit!2sit!4v1700000000000!5m2!1sit!2sit"
-            width="100%" height="320" style={{border:0,display:'block',filter:'grayscale(25%) contrast(1.05)',opacity:0.9}}
-            allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"
-            aria-label="Mappa di Fuorigrotta, Napoli"/>
+          {/* Didascalia sotto la mappa */}
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0.75rem 1rem',background:'#FAFAF8',borderTop:'1px solid rgba(212,175,55,0.12)'}}>
+            <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" strokeWidth="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span style={{fontFamily:'Lato',fontSize:'0.62rem',letterSpacing:'0.16em',textTransform:'uppercase',color:'#888'}}>Fuorigrotta, Napoli</span>
+            </div>
+            <a href="https://www.google.com/maps/search/Fuorigrotta+Napoli" target="_blank" rel="noopener noreferrer"
+              style={{display:'flex',alignItems:'center',gap:'0.4rem',textDecoration:'none'}}>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" strokeWidth="1.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              <span style={{fontFamily:'Lato',fontSize:'0.6rem',letterSpacing:'0.14em',textTransform:'uppercase',color:'#D4AF37'}}>Apri in Maps</span>
+            </a>
+          </div>
         </div>
       </div>
     </section>
