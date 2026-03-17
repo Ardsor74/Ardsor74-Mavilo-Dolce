@@ -3,22 +3,38 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-  <title>MAVILO DOLCE — Sugar Art & Couture Cakes</title>
+  <title>MAVILO DOLCE — Sugar Artist & Pasticceria Artigianale</title>
 
-  <meta name="description" content="MAVILO DOLCE — Atelier artigianale di Sugar Art & Couture Cakes. Fiori di zucchero, torte nuziali su commissione, pezzi unici di pasticceria artistica."/>
-  <meta name="keywords" content="sugar art, couture cakes, torte nuziali, fiori di zucchero, wedding cake, torte su commissione, Napoli"/>
+  <meta name="description" content="MAVILO DOLCE — Atelier artigianale di Sugar Artist & Pasticceria Artigianale a Fuorigrotta, Napoli. Fiori di zucchero, torte nuziali su commissione e stampe alimentari personalizzate."/>
+  <meta name="keywords" content="sugar art, couture cakes, torte nuziali, fiori di zucchero, wedding cake, torte su commissione, stampe alimentari, ostia, pasta di zucchero, Napoli, Fuorigrotta"/>
   <meta name="author" content="MAVILO DOLCE"/>
+  <meta name="robots" content="index, follow"/>
   <link rel="canonical" href="https://mavilodolce.netlify.app/"/>
 
-  <meta property="og:title" content="MAVILO DOLCE — Sugar Art & Couture Cakes"/>
-  <meta property="og:description" content="Ogni creazione è un'opera d'arte irripetibile. Fiori di zucchero e torte couture realizzate a mano."/>
-  <meta property="og:type" content="website"/>
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="business.business"/>
   <meta property="og:url" content="https://mavilodolce.netlify.app/"/>
-  <meta property="og:image" content="https://images.unsplash.com/photo-1558636508-e0969251be4b?w=1200&q=80"/>
+  <meta property="og:title" content="MAVILO DOLCE — Sugar Artist & Pasticceria Artigianale · Napoli"/>
+  <meta property="og:description" content="Torte artigianali su commissione e stampe alimentari personalizzate a Fuorigrotta, Napoli. Ogni creazione è un'opera d'arte irripetibile, plasmata con le mani e il cuore."/>
+  <meta property="og:image" content="https://mavilodolce.netlify.app/atelier.jpg"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="MAVILO DOLCE — Atelier di Sugar Art a Napoli"/>
+  <meta property="og:locale" content="it_IT"/>
+  <meta property="og:site_name" content="MAVILO DOLCE"/>
+  <meta property="business:contact_data:street_address" content="Fuorigrotta"/>
+  <meta property="business:contact_data:locality" content="Napoli"/>
+  <meta property="business:contact_data:country_name" content="Italia"/>
+  <meta property="business:contact_data:phone_number" content="+39 327 835 4278"/>
+  <meta property="business:contact_data:website" content="https://mavilodolce.netlify.app/"/>
+
+  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="MAVILO DOLCE — Sugar Art & Couture Cakes"/>
-  <meta name="twitter:description" content="Ogni creazione è un'opera d'arte irripetibile. Fiori di zucchero e torte couture realizzate a mano."/>
-  <meta name="theme-color" content="#FFFFFF"/>
+  <meta name="twitter:title" content="MAVILO DOLCE — Sugar Artist & Pasticceria Artigianale · Napoli"/>
+  <meta name="twitter:description" content="Torte artigianali su commissione e stampe alimentari personalizzate a Fuorigrotta, Napoli."/>
+  <meta name="twitter:image" content="https://mavilodolce.netlify.app/atelier.jpg"/>
+
+  <meta name="theme-color" content="#1A1A1A"/>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%231A1A1A'/><text y='.9em' font-size='72' font-family='Georgia,serif' fill='%23D4AF37' x='50%' text-anchor='middle' dominant-baseline='auto' dy='0.15em'>M</text></svg>"/>
 
   <!-- JSON-LD Structured Data -->
@@ -27,7 +43,7 @@
     "@context": "https://schema.org",
     "@type": "Bakery",
     "name": "MAVILO DOLCE",
-    "description": "Atelier artigianale di Sugar Art & Couture Cakes. Fiori di zucchero e torte nuziali su commissione.",
+    "description": "Atelier artigianale di Sugar Artist & Pasticceria Artigianale. Fiori di zucchero e torte nuziali su commissione.",
     "url": "https://mavilodolce.netlify.app/",
     "image": "https://images.unsplash.com/photo-1558636508-e0969251be4b?w=1200&q=80",
     "telephone": "+393278354278",
@@ -80,12 +96,45 @@
     ::-webkit-scrollbar-thumb { background:#D4AF37; border-radius:2px; }
 
     /* — Loading Screen — */
+    /* ══ SPLASH SCREEN ══ */
     #loader {
-      position:fixed; inset:0; background:#FFF; z-index:9999;
+      position:fixed; top:0; left:0; width:100%; height:100%;
+      background:#ffffff;
+      z-index:10000;
       display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.5rem;
-      transition: opacity 0.7s ease, visibility 0.7s ease;
+      text-align:center;
     }
-    #loader.hidden { opacity:0; visibility:hidden; pointer-events:none; }
+    /* Contenuto: fade-in 1.5s */
+    @keyframes splashContentIn {
+      0%   { opacity:0; transform:translateY(20px); }
+      100% { opacity:1; transform:translateY(0); }
+    }
+    #loader-logo {
+      animation: splashContentIn 1.5s cubic-bezier(0.25,0.46,0.45,0.94) 0s forwards;
+      opacity:0;
+    }
+    #loader-name {
+      animation: splashContentIn 1.5s cubic-bezier(0.25,0.46,0.45,0.94) 0.2s forwards;
+      opacity:0;
+    }
+    #loader-line {
+      animation: splashContentIn 1.5s cubic-bezier(0.25,0.46,0.45,0.94) 0.4s forwards;
+      opacity:0;
+    }
+    #loader-sub {
+      animation: splashContentIn 1.5s cubic-bezier(0.25,0.46,0.45,0.94) 0.55s forwards;
+      opacity:0;
+    }
+    /* Uscita: sollevamento coperchio */
+    @keyframes splashExit {
+      0%   { opacity:1; transform:translateY(0px); }
+      100% { opacity:0; transform:translateY(-50px); }
+    }
+    #loader.exit {
+      animation: splashExit 1.5s cubic-bezier(0.4,0,0.2,1) forwards;
+      pointer-events:none;
+    }
+    /* Barra dorata */
     .loader-bar { width:160px; height:1px; background:rgba(212,175,55,0.2); position:relative; overflow:hidden; }
     .loader-bar::after {
       content:''; position:absolute; inset:0;
@@ -315,12 +364,13 @@
 
 <!-- Loading screen -->
 <div id="loader" role="status" aria-label="Caricamento">
-  <div style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:400;letter-spacing:0.25em;color:#1A1A1A">
+  <img id="loader-logo" src="data:image/jpeg;base64,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" alt="MAVILO DOLCE" style="width:90px;height:90px;object-fit:contain;border-radius:50%;display:block;"/>
+  <div id="loader-name" style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:400;letter-spacing:0.25em;color:#1A1A1A">
     MAVILO<span style="color:#D4AF37">.</span>
   </div>
-  <div class="loader-bar"></div>
-  <div style="font-family:'Lato';font-size:0.6rem;letter-spacing:0.42em;text-transform:uppercase;color:#D4AF37">
-    Sugar Art & Couture
+  <div id="loader-line" class="loader-bar"></div>
+  <div id="loader-sub" style="font-family:'Lato';font-size:0.6rem;letter-spacing:0.42em;text-transform:uppercase;color:#D4AF37;text-align:center">
+    Sugar Artist & Pasticceria Artigianale
   </div>
 </div>
 
@@ -331,6 +381,7 @@ const { useState, useEffect, useRef, useCallback } = React;
 const { createPortal } = ReactDOM;
 
 /* ── Constants ── */
+const LOGO_SRC = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAQDAwMDAgQDAwMEBAQFBgoGBgUFBgwICQcKDgwPDg4MDQ0PERYTDxAVEQ0NExoTFRcYGRkZDxIbHRsYHRYYGRj/2wBDAQQEBAYFBgsGBgsYEA0QGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBj/wAARCACMAIsDASIAAhEBAxEB/8QAHQAAAAcBAQEAAAAAAAAAAAAAAAMEBQYHCAkCAf/EAEMQAAIBAgQEAwUEBggGAwAAAAECAwQRAAUSIQYHMUETUWEIInGBkRQyUqEVI0JysdFDU2KCkrLB8BYkNJOU4TNUc//EABoBAQEAAwEBAAAAAAAAAAAAAAABAgMEBQb/xAAqEQACAgEDAwIFBQAAAAAAAAAAAQIDEQQFIRIxQRMiUWGhsdEGIyQykf/aAAwDAQACEQMRAD8AnZOPmBgYAGIjxbxzRcPQywQSQvVopMjSNaOAebHufT64I4641jyGlahopbVrAa5FGowgmwAAuS5uAAN9x1JAxbXIj2dTStScfczqDxM11Coy7I6izJQdxLONw9RvexuI+12uQBBuW/IHjPmbURcS8aVlbw/kc1pEV005hWp20qwtTxnsWBcjoq9cay4M4A4P5f5Mcs4SyOmy2FjqldBqlnb8UkjXZ29WJxIZJI6eMXb4dyThqrsyaMmPQ7yW1CGL71rX3Pa9jgRsdZKiKJgHaxPYC5x4NUtjaKQerAL/ABw00clf9vE8iR0uXtFYpIAJC/n52+P0wmqqajndhPmFZIuq4VCBpF72Bt52+mBHJJrLHla9GVmDQkKNTESrsPM+WDlqSVDGJypFwyWYflhgkiyaRJIzSzhJVCPpe2oDp39MKHakejp6ekqZqMQAKh06rAC1jgYepHHfkeUqoZJNCsdXkRY4T5nlOWZ1QSUOa0UNXTyDS0UyBlI+eGZo83SGSWOogrVDDREFv7uw3vvcbnY7nCqhzVaiuqKWl8XXAFMizKQNx+yTvt5HDBsWWUHzL9m1GpKnMOCo1mhZT4uT1B1hl8oyev7p+Rxibi/l1m/C2aSZ3wk1bQ1FI58WjjZkmpiOujvYd1O49RjrbFMkq7GxGxB2IxVXNvk5QcbUL5tk6R0ufRLdZOi1X9h/Xybt8MCmCOAvaFqI5Iss47Tx4j7q5rTp76//AKoPvD+0u/ocaCo62jzHL4a6gqoaqlmUPFNCwZHU9wRjMHNbltU5XXVmbUeXvTVEDsMxoSmlkYdXA/zD5jEZ5cc0M44AzXShesyeZr1NAW2/fjJ+6/5Hv5gDZZ7Y+Yb8jzzK+JMgp86yaqWpo6hdSOBYg91YdmB2IPTDhgA7DHxXxDFw7kLVI0tVS3SnQ92/EfQdfoO+HskKpZiABuSegxXnCvDM3PXn7Bw6fE/4epEFTmTqbaaNWsI79mncFfMLrPbAFl+zJyhfiPMYeb/GEHjwCQzZBTVAv4jX3r3B7ncRDsLv3W2t551gj6FmOyqO5x5ihpsuy6OnpoY4KeFBHHFEoCooFgqgdAAAAMMddLJWZl+jlnaGVo/FeRRfSoOw8rXFj3+mBGxTTVkWZGsFHUhaqmfwnkdPdU+Qv1Gx/wB2wkQU1FMZqdRLVkaWqXG5F72A7DfH2WVFQ09Pfw73Zz96Q+ZPfBGBzWW8+zg9O7ytqkdmPqcecDAwOcGBgYGAPSuyNqRip8xhZHXl4XhnYqziwmUbj1OEOBgZRk49g/7ZV01UlPUo8gCXSsjX3dN7WPme5/L0faWpWeMbi9gQQbgi2xHmMMUMyGJ6WqXxKeUFHU9gcG0MOZwVUsZWEUsSKKeYdX89Qv3xTrrakuPBVvPvlXHn+TScW5JSg5pSR/8AMwqtzVRDr8WUXt5i48sc1eY/CX/DXEQqqOO2WVhLw26Rt1aP/Uenwx2WidKmDVY/A9RjD/tK8pIKDN6uhpoRFlmbqaqhdV2p5wblB5AMQf3WI7YhtMrcp+ZNRwHxQIquR3yOsYCrh3PhHoJlH4h38xt2GNgwzwVFPHUQTJLFIodJEN1dSLgg9wRjn7PFNTVUlNUIY5onKOh6qwNiPriZ5Jzd4/4eyCmybKs9aKjplKxRtGr6Rcm1z2328hgDVPMjPUyXguWPxhE9VeMv+CMC8jfTb540F7LPL5+DeScGeZjTeDnfEhGaVasPeijZQKeE/uRWJH4nfGYa7JzzL9pDhzgEXejlq0iqwD0p4x49Tf4qoT+9joS3h0tLaNAqAWVR09AMAETSLLVCHxUW26Ake81uw7264a5UNHG8BkEk8rF5pFFr37Adhgvw46rNhVS072oAxSckhZGJsbdjuDgpmZ5GdzdibnFOa5pYx3Pm/kMDf0wMDEOYG/pgb+mBgYAG/pgb9gDhLmNfDluWy1k1yqDZR1YnoBimeLuP66lzCnSfMqiAzLI6xUYQlQq+6LMw2LkKTudyexGB6Wj22eorlc30wj5/BeG/kMDf0xW/CvGsz0lLNWVBqaOdFYSMfejv377De47fLFkdr4GG4bdZopqM+U+U12YN/TCqN5anL5KFZNLmzRm+xIN9J9DhLj6rMjh1NiDcYHDF4Y5ZVmMVWoljYe8SsigEWe9u+/Yj4jEX5ycHDjDlZX08EPiV9KPtdJbrrQElf7y6h8xh/mkjizeKbxoqeCpiCjVtqlvsL+fTy74fopBNCH02v2OB6C+hxv5vZIuX8Xx5vClocyTW1hb9auzfUaT9cV5q9cay9qTghcozLiTL4YtKUFUMxpfSF9yB8nI/u4yVf1wKdB/ZCyc8Qc8eLuNatA/6OoUpI2be0tVIZHt6hIkHwbGyat/urpva7fQfztjO/sXZUtNyTznOtI15nn9Swcd0hWOBR8jG/wBcX7mlZQU8qpmGkxykQhWFwSf9jAjTfCGqBZIcihjeYyGZmlBKBSFJ90WHe1secKsw0/bTGihUjUIAO22EtvjgcNksyBgYFvjgW+OBgDAwLfHAt8cARXjp2XJ6Vb2RpjqPbZTa/wCeKjpavI6molzCXiOeBpX6U0kAQKAqAAmrQtsxJJUbq1tgMXnnuVjN8klpBbxPvRlulx2Podxipc1zTOsljhyqnzrO6WWNlUUsNVOTHGLjZVJso2A7dLYh9To/5O3KiEkuhtvPnPYQ5XXZfJmVRQ0uZfawVWoAlMfii+zX0SyAgWG5a9yb9ibryKRpeGcvkc3ZqeMk+fujFYUFNV8S5nEIMwrMxZ0stVPUvOIYmNywLEhb2HTckDy2tuGGOnpo4IgQkahFHkALDBGvfZ9FVOllJOUc5x9EGYGBb44Z65s1qM1+x0dQKeEKCXRLvv1JY3A+Qviny85qCyyRQrQy0JbMIldKVxMrMD7vr/6w80kmrUACATrFxY2O/wDPEeyulEVPJQq8kviRMC0rks5t3Jw5ZFO89LGZV0yhNLqX12Ittfv1wO+qTcVnsZt9rLhyKozrK64xjw8yoJqCXbqV3F/lIfpjme0ckUjROvvoxRviDY/wx1q9p+gE3K7LsxC+/S5kgv5B0ZT+YXHKfjKMUHMHOqVR7qVkpHzYn/XA3HWD2UKZYPZG4TdWDGoFVUlrWuZKqVt/qMWXmbmXNKaBYIpFaYOzva6abdL99z07HFceyqCPY94GBFiKOQH/AL8mLGzCE/pGjm1yppqre6QAQQNjfext2xURvA1ZzX/Yq5ZJAPCeYpI5P3PI/C/X/wBYP69MN3Eg1ELbUWmYaT3v2wRklcTGcumb34lvGzdXTy+K9PhY4xPI9b951sdpJEiiaSRwiKLsx6AYT5fVNWUzTlNALsFXvpHS/rhszaqNVVCghuURh4lv2m6hfl1PrbyOF+UjTlKnoCzG5+OKSN3Vb6aCMwzmKizygy5gL1LEMx/YHRfq22EWZVWdQZlIkOYRxRHdFNMrED4k74ZqukfPYc2zyNmHguFpvVU6n6b4epqj9JcPUebxAMwA1oehI6j6gj54h6e66N0URnU/cuJfJ9/s/oJP0hnnfNY//ET+eEnF6AZPQSV9HltdUPqDSVVEjmwFwAD064fGipKrNKeGliRYgglcr3B3APy/jhs49/6Ki/ff/KMQx/TtLu10YXvqjz9si5Waggy+ny1KajheJGaKGnUKSbXsB0xIO+I9Md8sNukEX+mJD3OKjgjJu6yPhMaOIc6GTZcHjQSVEp0xK3T1J9B+eIpQ8ZZpDXB8waKenZgHCRBGQea26232P1wo4zZZOJaOCVikXhqC3kC5ucGcW5TllDltNLRwpC4fw7Kfvi3U+Z6b+uDPtNv0Gi9Gqu+Lc7c4fw+BPstYNXwsjBlbcEbggjCjIpYpHm8KsNQ4lcS3JOg7bAntt22wz8I62ynK9dw3hD6WNvytiRZe1E8hkoIFSORnZ2VNOptrn1+OKfPxgq3KDfKeP8K69oyJJOQuYOw3jqaZ1PkfFA/gTjk9zLpZW5rZywIs0qsPminHWL2i5ETkFmQZgC1RTBRfqfGU2/I45N8zK2Rea2cpb7sqr9EUYGZ1K9keuFV7KOQ0xdneiqa2kbULW01UpA+FmGLbzGqy+iqI5a4DeVViJXVZiO3l064zf7EmdLNwDxbw0WGugzgVir5R1EKH/PFJjRmfBvschSOJ20ggydFIP3gexF+uBOPJHOK1ZagKkjRv4hZXW11OxuL4joEoKyLUOJ1bUsxA1A+fS3cjpid5jHHO0M7rHIHQb21C/phF9np//rxf4BiYPD1GknK1yjLBEl8SNg0M8kTC/vKRc363uDhZmmYfo/gfUr6ZJbwob23JNz9L4kP2en/qIv8AAMBoIHQI8MbKDcKyggfLDBt2+pae+NlvuS8FVQ5vmlNSilps0mhgF7RppAF+vbEj4LqxNT1mTyNfUvix3+Qb89JxMRS0w6U0P/bH8selhiQ6khjU+aoBhg+p3Dd9LqqZ1Qp6XLnPzG3JaP7NBI7KQzMVAPYA/wA8MvHv/QUX77/5RiX4+MqvbUoa3mL4NHi7XetBdC1LPT+COV6lYqNbspFMguNiNsICKknfNMz/APKbEzIHcD6Y+WH4R9MMHlW6acrJTjLGSGcQZTPV8P0ddD4tQ8MZWTWS7st73v1NjfEdoqXMc5rIqRJKifRZQZHZliX4noPTFrdOm2AABsABfywwfVaDfp6XTqlwUpR/q33Qfk8S0wVIVusENlB26Cwwr4ecyZbCWQI4RrqG1AHVvY+VxhFLNHR5FPUzVBgEjLEsgvcb7kW38z8sPOWU/gUwQuX0+5qPVrdSfmTjI86GWlKXnyU97UNcsHKKjoQRrqsziUfBUdz+YGOUHGshr+YmdVSt7rVcgHfYNp/0x0l9rniKOmzDI8sLgJRUs+Yzb9L+6v5I+OYsk8k8zzufekYyNfzJuf44htN3+yvxEOGPacqsglbRT5/l8tKik7GeA+NF8zGZhjdVciPTEuAQOoI6jocc0+JkzLgfjXJuMspiY1OXVUdZCo/akhbUU/vpqX5nHSLh7PMu4p4Ry/iHKplnoMxpkqqeQdGjdQy/kcAxtpqYRZdPl41FqSTUCXLkhve62HmcE4camvqKGaCBaLxoy5WaRf6NLfePy/gfTCSqg8CpIG6MNSEdxis5boPiT8hOPjMqIWdgqgXJJsBj7gqanhqFRZ01qrBwp6Ejpcd/gfTEOcJ+2tMt6Knadf6xjoT5E7n5A4bYYsyzLP2qpK1YKai1QpHAtxJIba2OrqFFlG3Ut5YVZrmj0cfhUcXj1jlURL2CsxspY9t97dSAe2+PFPBBlFNBDNUzVVQotHElwXPchL9ySSzE2v1GIYsNqZKuklptFWZzLOsXhSIo1A9SCoBBABbuNseszzSny7KqiqYiV4gFEKN7zyHZU9CSQPqe2PsFHJJM1XWt+vZSiIh2gU9Qp7k2F272FrAYbaThughzaQrR/wDLJHp/WsX8Z2BDMR02UlenVm+OKA3LcxjpqGnpqmpmq6uT9ZJIsbFfeNy4JtaIE2B6WGHlHSSNZI2DKwuCDcEYTjLMvB1fY4Wb8TqGJ+JNycKsCoGAAWYKvUm2BhXSiKCN6+pZY4o9tTmwv8cDOEep4FOunKHL3p/GWFFdyygrr6gb9774c4EMcAUm58/XDLksMrBnqX8SV5DK0mnSWF/dBF+29vS2GnmtxgnBHKnNc8WQLVLH4NICfvTP7qfQ+98FOB3RTXkwf7WfHC5rxLxTV08waOSZcnpSGvdE91yPQ2kPzxjzV6jFjc4c9+28S0+TRyl1ok1yn8Ur7m/qBb6nFbXGBkdBeLuHU4g4ZqaSMAVNvEgbykXdfr0+eJt7HPMcNk+Ycqc4lKVOWF6zKlc7tTM/62IesUjHb8Mg7DDPfFS8WpnHAfMvLuYXCriCsp6gVCE7J4trMj2/o5VurfE97YA6KZlSrPSv7zi6lToNjb09R1w0UshlQZTUQNGYkHgTliwkPlc7k23/AJWwm5b8wck5m8u6DivJGKxVKETU7kF6WZdpIX/tKdvUWI2Iw71+XwM4aVSI9QIdfvIbg/IHAwmnh4Q2OjRyFHGlh1Bx528xhfPWZdXZnNl2t0qYbAMw2YkXAHn/ALthJNBLA+mRSPI9jgctlTgxtOWx+NI61Uyh5jPYabq5FiQSLjbp5YUQU1PTajCoDPuzklmb4sdzg7AwNWAXHmMC48xgYGABceYwLjzGBhRBSSSgyOfDhG5c4FSb4R5p6dqmSw2Vd2bywfX0tRLmUEBp4ZMtERupJ1GTt/v44Jkl+11X6Ppgi0SorvKjXMhO+nbsR374e6WlESqzCxA0qt76V8sDrrh0PAZTwiGALtcdbDGK/av5sUtRnk+Vwzh8s4eDGXSdp6si2keem4T4l8aD56c0o+XnBRpsvmRs+zFTHRRjcwjo05Hkvbza3kccqeavGAzrOv0PS1DS01LIWlk1X8abuSe9txfuSTgbiC11bPmGZT11U5eedzJI3mxNzggBiLhT9MO3CnDOacY8XUfD2Txl6mpa2tvuxKPvO3kqjc/Tqcbo4d4K4b4b4WocjpcqpJ46WIJ408Cs8jdWdie5JJ+eAJRhi4my6HMMqlp549cbrYj/AF+OH3CesUNTNcdsAVlyr5l5zyN5myTlJ63h+udUzShjFzIg2WeIf1yDt+2vu9dJHQnh/iDJeK+GKPiDh/MYMwyyuiEtPUwtdZFP8D2IO4IIIBGOcnGdNCzsSm4uQfI4kfs18wuKOFed2R8JZZXask4grHhrKCYFolcRlvGjFxok90AkbMOoJAIA3rmGVmelNPGzLESGshsRby/l9MIVnzOn8Q1cUNZTDqsa2ZABcnf8h1xJFJKAnBM1NE5MhBD/AIgbHFyYyTxwxsmoqU+GVmELS/cRyN++CnyuqViAEb4NbHpqKmzDNlkq4xI9ID4ZPrtuOhwxnxEr4qFKidIllDAq5U/ftbbtba2GDB1QbS+I7jLqw/0Q/wAQwYuVz6dUjIij1vj3lfi+FKHqJpNUEbjW19JIN7YZeH6YZlkdHVVU87TeNIC+u5IBIA3v2v8AU4YMaqYzh1ocY6vKo300/iV0qsVYRrqCkWv6bXwdX0s9Xm8N5g9GsZD04FiW7Ne2317dDg7LqWFXlgRSiKxvpO7Hpcnr2H0w6xRpEmmNQo8hgZwS5x2ElBl8NJCqqijT90L0H+/PEZ5lcyci5acJNm2aSCWpkulHQowElVIP2R5KO7dAPWwMnzirly/IK2uhCmSCB5VDi4JVSRf02xzB5u8xOKs/ocz4wzWvE+ZaQkV1/V06F7BY06AC9x133NziGwYOePOPNs64grqqqrfFzyv/APkMZOmhi/ZjQfs7bAdRuTucZ+yzLcwzrOIMryullqqyocJFDGLsxP8Avr274SzTzVNU81RK0kjsWZ2NyxPUk+eNVci+F8myrgOjz+mpr5jmERM1RIdTBdRGhfwrt8+98ATHlJy1oOXnDh1lKnOatQayqAvbv4SH8AP+I7+WLJH3RhvpidIN8LwdsAf/2Q==';
 const WA = '393278354278';
 const IG = 'https://www.instagram.com/anjalagomez/';
 const FB = 'https://www.facebook.com/anjalagomeznapoli/photos?locale=it_IT';
@@ -381,7 +432,7 @@ const FAQS = [
   },
   {
     q: "Consegnate anche fuori Napoli?",
-    a: "Effettuiamo consegne a Napoli e dintorni. Per eventi fuori zona è possibile concordare un ritiro presso l'atelier su appuntamento. I dettagli vengono definiti in fase di preventivo, garantendo sempre la massima sicurezza per le creazioni."
+    a: "Effettuiamo consegne a Napoli e dintorni. Per eventi fuori zona è possibile concordare un ritiro presso il laboratorio su appuntamento. I dettagli vengono definiti in fase di preventivo, garantendo sempre la massima sicurezza per le creazioni."
   },
   {
     q: "Come funziona il preventivo?",
@@ -509,7 +560,7 @@ function PrivacyModal({ onClose }) {
 
           <h3>2. Tipologia di Dati Raccolti</h3>
           <p>
-            Questo sito raccoglie esclusivamente i dati che l'utente fornisce volontariamente tramite il modulo di preventivo o contattando direttamente l'atelier:
+            Questo sito raccoglie esclusivamente i dati che l'utente fornisce volontariamente tramite il modulo di preventivo o contattando direttamente il laboratorio:
           </p>
           <p>
             <strong>Dati di contatto:</strong> numero WhatsApp e/o indirizzo email forniti spontaneamente dall'utente.<br/>
@@ -607,7 +658,7 @@ function Nav({ active, setActive }) {
     window.addEventListener('scroll', h, { passive: true });
     return () => window.removeEventListener('scroll', h);
   }, []);
-  const links = ['Home', "L'Atelier", 'Gallery', 'Stampe', 'Preventivo', 'Contatti'];
+  const links = ['Home', "Il Laboratorio", 'Gallery', 'Stampe', 'Preventivo', 'Contatti'];
   const go = l => {
     setActive(l); setOpen(false);
     const id = l.toLowerCase().replace(/'/g,'').replace(/\s/g,'');
@@ -616,8 +667,8 @@ function Nav({ active, setActive }) {
   return (
     <header className={`nav-glass${scrolled?' scrolled':''}`} role="banner">
       <div className="nav-inner">
-        <button className="nav-logo" onClick={() => go('Home')} aria-label="MAVILO DOLCE - torna alla home">
-          MAVILO<span style={{color:'#D4AF37'}}>.</span>
+        <button className="nav-logo" onClick={() => go('Home')} aria-label="MAVILO DOLCE - torna alla home" style={{padding:'2px',background:'none',border:'none',cursor:'pointer'}}>
+          <img src={LOGO_SRC} alt="MAVILO DOLCE" style={{height:'52px',width:'52px',objectFit:'contain',borderRadius:'50%',display:'block'}}/>
         </button>
         <nav className="nav-links" aria-label="Navigazione principale">
           {links.map(l => (
@@ -671,7 +722,7 @@ function Hero({ onCTA }) {
       ))}
       <div id="main-content" style={{textAlign:'center',maxWidth:820,padding:'0 1.25rem',position:'relative',width:'100%'}}>
         <div className="hero-anim ha0" style={{fontFamily:'Lato',fontSize:'0.65rem',letterSpacing:'0.46em',textTransform:'uppercase',color:'#D4AF37',marginBottom:'2rem'}}>
-          Atelier Artigianale · dal Cuore
+          Laboratorio Artigianale
         </div>
         <h1 className="hero-title hero-anim ha1">
           MAVILO<br/><span style={{fontStyle:'italic',color:'#D4AF37'}}>DOLCE</span>
@@ -679,15 +730,15 @@ function Hero({ onCTA }) {
         <div className="hero-anim ha2" style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'clamp(0.8rem,3vw,1.5rem)',margin:'1.8rem 0 1.4rem'}}>
           <div style={{height:1,width:'clamp(30px,5vw,55px)',background:'rgba(212,175,55,0.45)'}}/>
           <span style={{fontFamily:'Playfair Display,serif',fontStyle:'italic',fontSize:'clamp(0.95rem,2.2vw,1.35rem)',color:'#888',letterSpacing:'0.04em',whiteSpace:'nowrap'}}>
-            Sugar Art & Couture Cakes
+            Sugar Artist & Pasticceria Artigianale
           </span>
           <div style={{height:1,width:'clamp(30px,5vw,55px)',background:'rgba(212,175,55,0.45)'}}/>
         </div>
         <p className="hero-anim ha3" style={{fontFamily:'Lato',fontSize:'clamp(0.85rem,1.8vw,0.95rem)',color:'#777',letterSpacing:'0.06em',lineHeight:2,maxWidth:420,margin:'0 auto 2.5rem',padding:'0 0.5rem'}}>
-          Ogni petalo è una promessa.<br/>Ogni creazione, un'emozione irripetibile<br/>plasmata con le mani e il cuore.
+          Creiamo con passione il dolce perfetto<br/>per i tuoi momenti speciali.
         </p>
         <div className="hero-anim ha4" style={{display:'flex',gap:'0.75rem',justifyContent:'center',flexWrap:'wrap',padding:'0 0.5rem'}}>
-          <button className="btn-primary" onClick={onCTA} style={{flex:'1 1 auto',maxWidth:240}}>Commissiona un'Opera</button>
+          <button className="btn-primary" onClick={onCTA} style={{flex:'1 1 auto',maxWidth:240}}>Ordina la tua creazione</button>
           <a href={`https://wa.me/${WA}`} target="_blank" rel="noopener noreferrer" className="btn-secondary" style={{flex:'1 1 auto',maxWidth:200}}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
             Scrivici
@@ -752,14 +803,14 @@ function Atelier() {
   const [imgOk, setImgOk] = useState(true);
   useReveal();
   return (
-    <section id="latelier" className="section-pad" aria-label="L'Atelier" style={{background:'#FAFAF8',overflow:'hidden'}}>
+    <section id="latelier" className="section-pad" aria-label="Il Laboratorio" style={{background:'#FAFAF8',overflow:'hidden'}}>
       <div style={{maxWidth:1100,margin:'0 auto',display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,320px),1fr))',gap:'clamp(3rem,8vw,6rem)',alignItems:'center'}}>
         <div className="reveal" style={{order:-1}}>
           <div style={{position:'relative',width:'100%',marginBottom:'clamp(1.5rem,4vw,2rem)'}}>
             {imgOk ? (
               <img
                 src="atelier.jpg"
-                alt="MAVILO DOLCE — il nostro atelier a Fuorigrotta, Napoli"
+                alt="MAVILO DOLCE — il nostro laboratorio a Fuorigrotta, Napoli"
                 style={{width:'100%',aspectRatio:'3/4',objectFit:'cover',objectPosition:'center top',display:'block',boxShadow:'0 20px 60px rgba(0,0,0,0.09)',filter:'contrast(1.1) saturate(1.15) brightness(1.03)',WebkitFilter:'contrast(1.1) saturate(1.15) brightness(1.03)'}}
                 onError={() => setImgOk(false)}
               />
@@ -787,11 +838,11 @@ function Atelier() {
           </div>
         </div>
         <div>
-          <div className="reveal section-label">L'Atelier</div>
+          <div className="reveal section-label">Il Laboratorio</div>
           <h2 className="reveal reveal-delay-1 section-title">L'Arte che<br/><em>prende forma</em></h2>
           <span className="reveal reveal-delay-2 gold-bar" style={{marginBottom:'1.8rem',display:'block'}}/>
           <p className="reveal reveal-delay-2" style={{fontFamily:'Lato',fontSize:'clamp(0.88rem,1.6vw,0.94rem)',color:'#555',lineHeight:2.1,marginBottom:'1.4rem',letterSpacing:'0.02em'}}>
-            Nell'atelier MAVILO DOLCE ogni creazione nasce da un dialogo profondo tra chi ordina e chi crea. Non esistono template, non esistono repliche: ogni fiore di zucchero viene plasmato a mano, petalo dopo petalo, sfumatura dopo sfumatura.
+            Nelil laboratorio MAVILO DOLCE ogni creazione nasce da un dialogo profondo tra chi ordina e chi crea. Non esistono template, non esistono repliche: ogni fiore di zucchero viene plasmato a mano, petalo dopo petalo, sfumatura dopo sfumatura.
           </p>
           <p className="reveal reveal-delay-3" style={{fontFamily:'Lato',fontSize:'clamp(0.88rem,1.6vw,0.94rem)',color:'#555',lineHeight:2.1,marginBottom:'2.2rem',letterSpacing:'0.02em'}}>
             Dalla scelta dei colori alla texture della pasta, dall'architettura delle torte ai dettagli finali — ogni scelta è meditata. Il risultato è un'opera d'arte commestibile che emoziona ancor prima di essere assaggiata.
@@ -1115,7 +1166,7 @@ function VideoSection() {
   if (!allChecked && !anyVisible) return null;
 
   return (
-    <section id="video" className="section-pad" aria-label="Video dell'atelier" style={{background:'#1A1A1A'}}>
+    <section id="video" className="section-pad" aria-label="Video delil laboratorio" style={{background:'#1A1A1A'}}>
       <div style={{maxWidth:1200,margin:'0 auto'}}>
         <div style={{textAlign:'center',marginBottom:'clamp(2.5rem,6vw,4rem)'}}>
           <div className="reveal section-label" style={{color:'rgba(212,175,55,0.8)'}}>L'Arte in Movimento</div>
@@ -1234,7 +1285,7 @@ function ComeFunziona() {
     {
       n: '03',
       title: 'Creazione artigianale',
-      desc: 'Lavoriamo sulla tua creazione con cura e passione. Ogni fiore, ogni dettaglio viene plasmato a mano nel nostro atelier a Napoli.',
+      desc: 'Lavoriamo sulla tua creazione con cura e passione. Ogni fiore, ogni dettaglio viene plasmato a mano nel nostro laboratorio a Napoli.',
       icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" strokeWidth="1.2"><path d="M12 2a10 10 0 0 1 10 10"/><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="1"/><path d="M2 12a10 10 0 0 0 10 10"/></svg>
     },
     {
@@ -1576,7 +1627,7 @@ function Preventivo({ blocked }) {
       <div style={{maxWidth:660,margin:'0 auto'}} ref={topRef}>
         <div style={{textAlign:'center',marginBottom:'clamp(2.5rem,6vw,4rem)'}}>
           <div className="reveal section-label">Il Configuratore</div>
-          <h2 className="reveal reveal-delay-1 section-title">Commissiona<br/><em>la Tua Opera</em></h2>
+          <h2 className="reveal reveal-delay-1 section-title">Ordina<br/><em>la tua creazione</em></h2>
           <span className="reveal reveal-delay-2 gold-bar-center" style={{margin:'0 auto 1.5rem',display:'block'}}/>
           <p className="reveal reveal-delay-3" style={{fontFamily:'Lato',fontSize:'clamp(0.83rem,1.6vw,0.9rem)',color:'#999',lineHeight:1.95,maxWidth:440,margin:'0 auto',padding:'0 1rem'}}>
             Non esistono prezzi fissi, perché non esistono creazioni uguali. Ogni opera nasce da un dialogo.
@@ -1811,7 +1862,7 @@ function Contatti() {
             </div>
             <div style={{fontFamily:'Playfair Display,serif',fontStyle:'italic',fontSize:'1.2rem',color:'#1A1A1A',marginBottom:'0.6rem'}}>Solo su Appuntamento</div>
             <p style={{fontFamily:'Lato',fontSize:'0.82rem',color:'#888',lineHeight:1.9,marginBottom:'0'}}>
-              L'atelier riceve <strong style={{color:'#1A1A1A'}}>esclusivamente su appuntamento</strong>.<br/>Contattaci per concordare data e orario.
+              Il laboratorio riceve <strong style={{color:'#1A1A1A'}}>esclusivamente su appuntamento</strong>.<br/>Contattaci per concordare data e orario.
             </p>
           </div>
           <div style={{textAlign:'center'}}>
@@ -1824,7 +1875,7 @@ function Contatti() {
                 target="_blank" rel="noopener noreferrer" className="btn-primary" style={{display:'inline-flex',width:'100%',maxWidth:260}}>
                 Prenota Ora
               </a>
-              <a href="https://g.page/r/INSERISCI_QUI_IL_TUO_ID_GOOGLE/review"
+              <a href="https://g.page/r/CajwyLah1p60EAE/review"
                 target="_blank" rel="noopener noreferrer" className="btn-reviews">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                   <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -1843,7 +1894,7 @@ function Contatti() {
           <div style={{overflow:'hidden',position:'relative'}}>
             <iframe
               title="MAVILO DOLCE — Fuorigrotta, Napoli"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6020.5!2d14.1789!3d40.8285!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x133b08f26b0d1111%3A0x1111111111111111!2sFuorigrotta%2C%20Napoli%2C%20NA!5e0!3m2!1sit!2sit!4v1700000000000!5m2!1sit!2sit"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6020.5!2d14.1789!3d40.8285!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x133b08f26b0d1111%3A0x1111111111111111!2sVia%20Campegna%2C%2080124%20Napoli%20NA!5e0!3m2!1sit!2sit!4v1700000000000!5m2!1sit!2sit"
               width="100%" height="320" style={{border:0,display:'block',filter:'grayscale(25%) contrast(1.05)',opacity:0.9}}
               allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"
               aria-label="Mappa di Fuorigrotta, Napoli"/>
@@ -1854,7 +1905,7 @@ function Contatti() {
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" strokeWidth="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
               <span style={{fontFamily:'Lato',fontSize:'0.62rem',letterSpacing:'0.16em',textTransform:'uppercase',color:'#888'}}>Fuorigrotta, Napoli</span>
             </div>
-            <a href="https://www.google.com/maps/search/Fuorigrotta+Napoli" target="_blank" rel="noopener noreferrer"
+            <a href="https://www.google.com/maps/search/Via+Campegna+80124+Napoli" target="_blank" rel="noopener noreferrer"
               style={{display:'flex',alignItems:'center',gap:'0.4rem',textDecoration:'none'}}>
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" strokeWidth="1.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
               <span style={{fontFamily:'Lato',fontSize:'0.6rem',letterSpacing:'0.14em',textTransform:'uppercase',color:'#D4AF37'}}>Apri in Maps</span>
@@ -2128,7 +2179,7 @@ function Footer({ onAdmin, onPrivacy }) {
   ];
 
   const footerLinks = [
-    { label: "L'Atelier", id: 'latelier' },
+    { label: "Il Laboratorio", id: 'latelier' },
     { label: 'Gallery', id: 'gallery' },
     { label: 'Stampe Alimentari', id: 'stampe' },
     { label: 'Come Funziona', id: 'comefunziona' },
@@ -2145,11 +2196,11 @@ function Footer({ onAdmin, onPrivacy }) {
           {/* Brand */}
           <div>
             <div onClick={handleLogoClick}
-              style={{fontFamily:'Playfair Display,serif',fontSize:'clamp(1.6rem,5vw,2.8rem)',fontWeight:400,letterSpacing:'0.1em',color:'#fff',marginBottom:'0.3rem',cursor:'default',userSelect:'none',WebkitUserSelect:'none'}}>
-              MAVILO<span style={{color:'#D4AF37'}}>.</span>
+              style={{marginBottom:'0.8rem',cursor:'default',userSelect:'none',WebkitUserSelect:'none'}}>
+              <img src={LOGO_SRC} alt="MAVILO DOLCE" style={{height:'65px',width:'65px',objectFit:'contain',borderRadius:'50%'}}/>
             </div>
             <div style={{fontFamily:'Playfair Display',fontStyle:'italic',color:'rgba(255,255,255,0.28)',fontSize:'0.88rem',marginBottom:'1.5rem',letterSpacing:'0.05em'}}>
-              Sugar Art & Couture Cakes
+              Sugar Artist & Pasticceria Artigianale
             </div>
             <div style={{fontFamily:'Lato',fontSize:'0.78rem',color:'rgba(255,255,255,0.35)',lineHeight:1.9,letterSpacing:'0.02em'}}>
               Fuorigrotta, Napoli<br/>
@@ -2222,18 +2273,25 @@ function App() {
     try { return JSON.parse(localStorage.getItem('mavilo_blocked') || '[]'); } catch { return []; }
   });
 
-  /* Loading screen */
+  /* Splash screen — fade-in 1.5s → pausa 1s → exit coperchio 1.5s */
   useEffect(() => {
     const loader = document.getElementById('loader');
-    const t = setTimeout(() => loader?.classList.add('hidden'), 1200);
-    return () => clearTimeout(t);
+    // Dopo 2.5s aggiungi classe exit (animazione 1.5s)
+    const t1 = setTimeout(() => {
+      if (loader) loader.classList.add('exit');
+    }, 2500);
+    // Dopo 4s totali rimuovi completamente
+    const t2 = setTimeout(() => {
+      if (loader) loader.style.display = 'none';
+    }, 4000);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
 
   /* Active nav via scroll position */
   useEffect(() => {
     const secs = [
       {id:'home',         label:'Home'},
-      {id:'latelier',     label:"L'Atelier"},
+      {id:'latelier',     label:"Il Laboratorio"},
       {id:'gallery',      label:'Gallery'},
       {id:'stampe',       label:'Stampe'},
       {id:'comefunziona', label:'Preventivo'},
