@@ -1,154 +1,43 @@
-# ══════════════════════════════════════════
-#   MAVILO DOLCE — Configurazione Decap CMS
-# ══════════════════════════════════════════
-
 backend:
   name: git-gateway
-  branch: main   # o master, dipende dal tuo repo GitHub
+  branch: main
 
-# Dove vengono salvati i media caricati
 media_folder: "uploads"
 public_folder: "/uploads"
 
-# Lingua interfaccia
-locale: it
-
-# Raccolte di contenuti
 collections:
-
-  # ── 1. GALLERY ──────────────────────────
   - name: "gallery"
     label: "Gallery"
-    label_singular: "Creazione"
     folder: "_gallery"
     create: true
     slug: "{{slug}}"
-    identifier_field: "titolo"
-    summary: "{{titolo}} — {{tipo}}"
     fields:
-
-      - label: "Titolo creazione"
-        name: "titolo"
-        widget: "string"
-        hint: "Es: Torta Nuziale Primavera 2024"
-
-      - label: "Tipo di contenuto"
-        name: "tipo"
-        widget: "select"
-        options:
-          - { label: "📷 Foto", value: "foto" }
-          - { label: "🎬 Video (file)", value: "video" }
-          - { label: "🔗 Link esterno (YouTube/Instagram)", value: "link" }
-        default: "foto"
-
-      - label: "Immagine"
-        name: "immagine"
-        widget: "image"
-        required: false
-        hint: "Carica una foto (.jpg, .png, .webp). Lascia vuoto se stai usando video o link."
-        media_library:
-          config:
-            multiple: false
-
-      - label: "Video"
-        name: "video"
-        widget: "file"
-        required: false
-        hint: "Carica un video (.mp4, .mov, .webm). Max ~100MB."
-        media_library:
-          config:
-            multiple: false
-        pattern:
-          - '.*\.(mp4|MP4|mov|MOV|webm|WEBM)$'
-          - "Formato non supportato. Usa .mp4, .mov o .webm"
-
-      - label: "Link esterno (YouTube / Instagram)"
-        name: "link_esterno"
-        widget: "string"
-        required: false
-        hint: "Incolla il link YouTube o Instagram. Es: https://youtube.com/watch?v=..."
-        pattern:
-          - '^(https?://|$).*'
-          - "Deve essere un link che inizia con https://"
-
-      - label: "Descrizione"
-        name: "descrizione"
-        widget: "text"
-        required: false
-        hint: "Descrizione breve della creazione (opzionale)"
-
+      - { label: "Titolo", name: "title", widget: "string" }
+      - { label: "Immagine", name: "image", widget: "image", required: false }
+      - { label: "Descrizione", name: "description", widget: "text", required: false }
       - label: "Categoria"
-        name: "categoria"
+        name: "category"
         widget: "select"
         required: false
         options:
           - { label: "Torte Nuziali", value: "nuziale" }
           - { label: "Compleanni", value: "compleanno" }
-          - { label: "Comunioni & Cresime", value: "comunione" }
+          - { label: "Comunioni", value: "comunione" }
           - { label: "Sugar Art", value: "sugar_art" }
           - { label: "Stampe Alimentari", value: "stampe" }
-          - { label: "Sweet Table", value: "sweet_table" }
-        default: "sugar_art"
 
-      - label: "In evidenza"
-        name: "evidenza"
-        widget: "boolean"
-        default: false
-        hint: "Mostra questa creazione in cima alla gallery"
-
-      - label: "Data creazione"
-        name: "data"
-        widget: "datetime"
-        format: "YYYY-MM-DD"
-        date_only: true
-        required: false
-
-  # ── 2. STAMPE ALIMENTARI ────────────────
   - name: "stampe"
     label: "Stampe Alimentari"
-    label_singular: "Stampa"
     folder: "_stampe"
     create: true
     slug: "{{slug}}"
     fields:
-      - label: "Titolo"
-        name: "titolo"
-        widget: "string"
-      - label: "Immagine esempio"
-        name: "immagine"
-        widget: "image"
-        required: false
-      - label: "Tipo supporto"
+      - { label: "Titolo", name: "title", widget: "string" }
+      - { label: "Immagine", name: "image", widget: "image", required: false }
+      - label: "Tipo"
         name: "tipo"
         widget: "select"
         options:
-          - { label: "Ostia (€6)", value: "ostia" }
-          - { label: "Pasta di Zucchero (€10)", value: "zucchero" }
-      - label: "Descrizione"
-        name: "descrizione"
-        widget: "text"
-        required: false
-
-  # ── 3. TESTI E INFORMAZIONI SITO ────────
-  - name: "impostazioni"
-    label: "Testi del Sito"
-    files:
-      - label: "Testi Homepage"
-        name: "homepage"
-        file: "_data/homepage.yml"
-        fields:
-          - label: "Frase hero principale"
-            name: "frase_hero"
-            widget: "text"
-            default: "Creiamo con passione il dolce perfetto per i tuoi momenti speciali."
-          - label: "Testo sezione Laboratorio"
-            name: "testo_laboratorio"
-            widget: "text"
-          - label: "Numero WhatsApp"
-            name: "whatsapp"
-            widget: "string"
-            default: "393278354278"
-          - label: "Email"
-            name: "email"
-            widget: "string"
-            default: "anjalagomez@gmail.com"
+          - { label: "Ostia (6€)", value: "ostia" }
+          - { label: "Pasta di Zucchero (10€)", value: "zucchero" }
+      - { label: "Descrizione", name: "description", widget: "text", required: false }
