@@ -13,7 +13,17 @@ collections:
     slug: "{{slug}}"
     fields:
       - { label: "Titolo", name: "title", widget: "string" }
-      - { label: "Immagine", name: "image", widget: "image", required: false }
+      - label: "Tipo di contenuto"
+        name: "tipo"
+        widget: "select"
+        default: "foto"
+        options:
+          - { label: "Foto", value: "foto" }
+          - { label: "Video", value: "video" }
+          - { label: "Link YouTube", value: "link" }
+      - { label: "Immagine (.jpg .png)", name: "image", widget: "image", required: false }
+      - { label: "Video (.mp4 .mov)", name: "video", widget: "file", required: false }
+      - { label: "Link YouTube o Instagram", name: "link_esterno", widget: "string", required: false }
       - { label: "Descrizione", name: "description", widget: "text", required: false }
       - label: "Categoria"
         name: "category"
@@ -22,9 +32,11 @@ collections:
         options:
           - { label: "Torte Nuziali", value: "nuziale" }
           - { label: "Compleanni", value: "compleanno" }
-          - { label: "Comunioni", value: "comunione" }
+          - { label: "Comunioni e Cresime", value: "comunione" }
           - { label: "Sugar Art", value: "sugar_art" }
           - { label: "Stampe Alimentari", value: "stampe" }
+          - { label: "Sweet Table", value: "sweet_table" }
+      - { label: "In evidenza", name: "evidenza", widget: "boolean", default: false }
 
   - name: "stampe"
     label: "Stampe Alimentari"
@@ -33,11 +45,11 @@ collections:
     slug: "{{slug}}"
     fields:
       - { label: "Titolo", name: "title", widget: "string" }
-      - { label: "Immagine", name: "image", widget: "image", required: false }
-      - label: "Tipo"
+      - { label: "Immagine esempio", name: "image", widget: "image", required: false }
+      - label: "Tipo supporto"
         name: "tipo"
         widget: "select"
         options:
-          - { label: "Ostia (6€)", value: "ostia" }
-          - { label: "Pasta di Zucchero (10€)", value: "zucchero" }
+          - { label: "Ostia classica (6€)", value: "ostia" }
+          - { label: "Pasta di Zucchero Premium (10€)", value: "zucchero" }
       - { label: "Descrizione", name: "description", widget: "text", required: false }
