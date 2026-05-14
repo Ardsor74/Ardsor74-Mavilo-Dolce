@@ -1,18 +1,25 @@
+const fs = require("fs");
+
 module.exports = function(eleventyConfig) {
+  const copyIfExists = (path) => {
+    if (fs.existsSync(path)) {
+      eleventyConfig.addPassthroughCopy(path);
+    }
+  };
 
   // File statici copiati in _site/
-  eleventyConfig.addPassthroughCopy("admin");
-  eleventyConfig.addPassthroughCopy("uploads");
-  eleventyConfig.addPassthroughCopy("atelier.jpg");
+  copyIfExists("admin");
+  copyIfExists("uploads");
+  copyIfExists("atelier.jpg");
 
   // Foto gallery
   for (let i = 1; i <= 20; i++) {
-    eleventyConfig.addPassthroughCopy(`foto${i}.jpg`);
+    copyIfExists(`foto${i}.jpg`);
   }
 
   // Video
   for (let i = 1; i <= 6; i++) {
-    eleventyConfig.addPassthroughCopy(`video${i}.mp4`);
+    copyIfExists(`video${i}.mp4`);
   }
 
   // Collection gallery dal CMS
@@ -32,7 +39,7 @@ module.exports = function(eleventyConfig) {
       includes: "_includes",
       data: "_data"
     },
-    templateFormats: ["njk", "md"],
+    templateFormats: ["html", "njk", "md"],
     htmlTemplateEngine: false,
     markdownTemplateEngine: false
   };

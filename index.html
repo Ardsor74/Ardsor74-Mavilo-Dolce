@@ -1053,13 +1053,27 @@ function Gallery() {
   const [lb, setLb] = useState(null);
   const [visible, setVisible] = useState(() => Array(20).fill(true));
   const [allChecked, setAllChecked] = useState(false);
+  const [useFallbackGallery, setUseFallbackGallery] = useState(false);
   const loadCount = useRef(0);
   useReveal();
 
   // Usa CMS se ha dati, altrimenti fallback alle foto statiche
-  const hasCms = cmsItems !== null && cmsItems.length > 0;
+  const hasCms = cmsItems !== null && cmsItems.length > 0 && !useFallbackGallery;
   const ITEMS = hasCms ? cmsItems : GALLERY;
   const total = ITEMS.length;
+
+  useEffect(() => {
+    loadCount.current = 0;
+    setVisible(Array(total).fill(true));
+    setAllChecked(false);
+    setLb(null);
+  }, [hasCms, total]);
+
+  useEffect(() => {
+    if (hasCms && allChecked && !visible.slice(0, total).some(Boolean)) {
+      setUseFallbackGallery(true);
+    }
+  }, [allChecked, hasCms, total, visible]);
 
   const handleResult = (i, ok) => {
     if (!ok) setVisible(v => { const n=[...v]; n[i]=false; return n; });
@@ -1071,7 +1085,7 @@ function Gallery() {
   if (cmsItems === null) return null;
 
   const lbItems = ITEMS.filter((_,i) => visible[i]);
-  const anyVisible = visible.some(Boolean);
+  const anyVisible = visible.slice(0, total).some(Boolean);
   if (allChecked && !anyVisible) return null;
 
   return (
