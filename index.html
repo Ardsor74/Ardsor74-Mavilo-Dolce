@@ -395,6 +395,34 @@ const GALLERY = Array.from({length:20},(_,i)=>({
   tall: [1,3,5,8,11,14,17,20].includes(i+1),
 }));
 
+/* ── CMS GALLERY (caricata da gallery-data.json) ── */
+function useCmsGallery() {
+  const [items, setItems] = useState(null); // null = loading
+  useEffect(() => {
+    fetch('/gallery-data.json')
+      .then(r => r.ok ? r.json() : [])
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          const mapped = data.map((item, i) => ({
+            id: i + 1,
+            src: item.data?.image || item.data?.video || '',
+            video: item.data?.video || null,
+            link: item.data?.link_esterno || null,
+            tipo: item.data?.tipo || 'foto',
+            titolo: item.data?.title || '',
+            categoria: item.data?.category || '',
+            tall: i % 3 === 0,
+          }));
+          setItems(mapped);
+        } else {
+          setItems([]); // nessun dato CMS → usa fallback
+        }
+      })
+      .catch(() => setItems([]));
+  }, []);
+  return items;
+}
+
 const TESTIMONIALS = [
   {
     quote: "La mia torta nuziale era più di quello che avevo sognato. Ogni fiore sembrava reale, ogni dettaglio raccontava la nostra storia. Un'emozione indescrivibile.",
@@ -1021,23 +1049,29 @@ function Lightbox({ items, idx, onClose, onPrev, onNext }) {
 
 /* ── GALLERY ── */
 function Gallery() {
+  const cmsItems = useCmsGallery();
   const [lb, setLb] = useState(null);
   const [visible, setVisible] = useState(() => Array(20).fill(true));
   const [allChecked, setAllChecked] = useState(false);
   const loadCount = useRef(0);
   useReveal();
 
+  // Usa CMS se ha dati, altrimenti fallback alle foto statiche
+  const hasCms = cmsItems !== null && cmsItems.length > 0;
+  const ITEMS = hasCms ? cmsItems : GALLERY;
+  const total = ITEMS.length;
+
   const handleResult = (i, ok) => {
     if (!ok) setVisible(v => { const n=[...v]; n[i]=false; return n; });
     loadCount.current += 1;
-    if (loadCount.current >= 20) setAllChecked(true);
+    if (loadCount.current >= total) setAllChecked(true);
   };
 
-  const lbItems = GALLERY.filter((_,i) => visible[i]);
-  const anyVisible = visible.some(Boolean);
+  // Mentre CMS carica, aspetta
+  if (cmsItems === null) return null;
 
-  // Nascondi l'intera sezione finché non sappiamo se ci sono foto
-  // e nascondila del tutto se non ce ne sono
+  const lbItems = ITEMS.filter((_,i) => visible[i]);
+  const anyVisible = visible.some(Boolean);
   if (allChecked && !anyVisible) return null;
 
   return (
@@ -1052,19 +1086,37 @@ function Gallery() {
           </p>
         </div>
         <div className="masonry">
-          {GALLERY.map((item,i) => (
+          {ITEMS.map((item,i) => (
             <div key={item.id} className="mason-item"
               style={{display: visible[i] ? 'block' : 'none'}}
               onClick={() => { const lbIdx=lbItems.findIndex(x=>x.id===item.id); if(lbIdx>=0) setLb(lbIdx); }}
               role="button" tabIndex={visible[i]?0:-1}
-              aria-label={`Apri creazione ${item.id}`}
+              aria-label={`Apri creazione ${item.titolo || item.id}`}
               onKeyDown={e=>e.key==='Enter'&&(()=>{const lbIdx=lbItems.findIndex(x=>x.id===item.id);if(lbIdx>=0)setLb(lbIdx);})()}>
-              <img src={item.src} alt={`MAVILO DOLCE — creazione ${item.id}`}
-                className="mason-img" style={{aspectRatio:item.tall?'3/4':'4/3'}}
-                loading="lazy"
-                onLoad={() => handleResult(i, true)}
-                onError={() => handleResult(i, false)}/>
+              {item.tipo === 'video' && item.src ? (
+                <video src={item.src} muted loop playsInline
+                  className="mason-img" style={{aspectRatio:item.tall?'3/4':'4/3',width:'100%',objectFit:'cover'}}
+                  onLoadedData={() => handleResult(i, true)}
+                  onError={() => handleResult(i, false)}/>
+              ) : item.tipo === 'link' && item.link ? (
+                <iframe src={item.link.replace('watch?v=','embed/')}
+                  className="mason-img" style={{aspectRatio:'16/9',width:'100%',border:'none'}}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  onLoad={() => handleResult(i, true)}
+                  onError={() => handleResult(i, false)}/>
+              ) : (
+                <img src={item.src} alt={`MAVILO DOLCE — ${item.titolo || 'creazione'}`}
+                  className="mason-img" style={{aspectRatio:item.tall?'3/4':'4/3'}}
+                  loading="lazy"
+                  onLoad={() => handleResult(i, true)}
+                  onError={() => handleResult(i, false)}/>
+              )}
               <div className="mason-overlay" aria-hidden="true"/>
+              {item.titolo && (
+                <div className="mason-label" style={{position:'absolute',bottom:0,left:0,right:0,padding:'0.6rem',background:'rgba(0,0,0,0.55)',color:'#fff',fontFamily:'Lato',fontSize:'0.72rem',letterSpacing:'0.05em',opacity:0,transition:'opacity 0.3s'}}>
+                  {item.titolo}
+                </div>
+              )}
             </div>
           ))}
         </div>
