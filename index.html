@@ -1,3 +1,7 @@
+---
+permalink: index.html
+templateEngineOverride: false
+---
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -1051,15 +1055,33 @@ function Lightbox({ items, idx, onClose, onPrev, onNext }) {
 function Gallery() {
   const cmsItems = useCmsGallery();
   const [lb, setLb] = useState(null);
-  const [visible, setVisible] = useState(() => Array(20).fill(true));
+  const [visible, setVisible] = useState(() => []);
   const [allChecked, setAllChecked] = useState(false);
+  const [useStaticFallback, setUseStaticFallback] = useState(false);
   const loadCount = useRef(0);
   useReveal();
 
   // Usa CMS se ha dati, altrimenti fallback alle foto statiche
   const hasCms = cmsItems !== null && cmsItems.length > 0;
-  const ITEMS = hasCms ? cmsItems : GALLERY;
+  const ITEMS = hasCms && !useStaticFallback ? cmsItems : GALLERY;
   const total = ITEMS.length;
+
+  useEffect(() => {
+    setVisible(Array(total).fill(true));
+    setAllChecked(total === 0);
+    setLb(null);
+    loadCount.current = 0;
+  }, [total, useStaticFallback]);
+
+  useEffect(() => {
+    if (cmsItems !== null) setUseStaticFallback(false);
+  }, [cmsItems]);
+
+  useEffect(() => {
+    if (allChecked && !visible.some(Boolean) && hasCms && !useStaticFallback) {
+      setUseStaticFallback(true);
+    }
+  }, [allChecked, visible, hasCms, useStaticFallback]);
 
   const handleResult = (i, ok) => {
     if (!ok) setVisible(v => { const n=[...v]; n[i]=false; return n; });
