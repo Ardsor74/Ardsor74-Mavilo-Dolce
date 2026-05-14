@@ -1,31 +1,36 @@
 const yaml = require("js-yaml");
-const fs = require("fs");
-const path = require("path");
 
 module.exports = function(eleventyConfig) {
-  // Passa tutti i file statici invariati
-  eleventyConfig.addPassthroughCopy("uploads");
-  eleventyConfig.addPassthroughCopy("admin");
-  eleventyConfig.addPassthroughCopy("atelier.jpg");
-  eleventyConfig.addPassthroughCopy({ "*.mp4": "." });
-  eleventyConfig.addPassthroughCopy({ "*.jpg": "." });
-  eleventyConfig.addPassthroughCopy({ "*.png": "." });
 
-  // Parsa i file YAML/Markdown del CMS
+  // ── File statici: copiati invariati in _site/ ──
+  eleventyConfig.addPassthroughCopy("admin");
+  eleventyConfig.addPassthroughCopy("uploads");
+  eleventyConfig.addPassthroughCopy("atelier.jpg");
+
+  // Foto gallery (foto1.jpg ... foto20.jpg)
+  for (let i = 1; i <= 20; i++) {
+    eleventyConfig.addPassthroughCopy(`foto${i}.jpg`);
+  }
+
+  // Video (video1.mp4 ... video6.mp4)
+  for (let i = 1; i <= 6; i++) {
+    eleventyConfig.addPassthroughCopy(`video${i}.mp4`);
+  }
+
+  // YAML nei _data/
   eleventyConfig.addDataExtension("yml", contents => yaml.load(contents));
 
-  // Collection gallery dal CMS
+  // Collection: creazioni dal CMS (_gallery/*.md)
   eleventyConfig.addCollection("gallery", function(collectionApi) {
     return collectionApi.getFilteredByGlob("_gallery/*.md")
       .sort((a, b) => {
-        // In evidenza prima, poi per data decrescente
         if (b.data.evidenza && !a.data.evidenza) return 1;
         if (a.data.evidenza && !b.data.evidenza) return -1;
-        return new Date(b.data.date || 0) - new Date(a.data.date || 0);
+        return new Date(b.date || 0) - new Date(a.date || 0);
       });
   });
 
-  // Collection stampe
+  // Collection: stampe (_stampe/*.md)
   eleventyConfig.addCollection("stampe", function(collectionApi) {
     return collectionApi.getFilteredByGlob("_stampe/*.md");
   });
@@ -37,7 +42,6 @@ module.exports = function(eleventyConfig) {
       includes: "_includes",
       data: "_data"
     },
-    // Non processare questi file come template
     templateFormats: ["njk", "md", "html"],
     htmlTemplateEngine: false,
     markdownTemplateEngine: false
