@@ -2,54 +2,22 @@ backend:
   name: git-gateway
   branch: main
 
-media_folder: "uploads"
-public_folder: "/uploads"
+media_folder: uploads
+public_folder: /uploads
 
 collections:
-  - name: "gallery"
-    label: "Gallery"
-    folder: "_gallery"
+  - name: gallery
+    label: Galleria
+    folder: _gallery
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "Titolo", name: "title", widget: "string" }
-      - label: "Tipo di contenuto"
-        name: "tipo"
-        widget: "select"
-        default: "foto"
-        options:
-          - { label: "Foto", value: "foto" }
-          - { label: "Video", value: "video" }
-          - { label: "Link YouTube", value: "link" }
-      - { label: "Immagine (.jpg .png)", name: "image", widget: "image", required: false }
-      - { label: "Video (.mp4 .mov)", name: "video", widget: "file", required: false }
-      - { label: "Link YouTube o Instagram", name: "link_esterno", widget: "string", required: false }
-      - { label: "Descrizione", name: "description", widget: "text", required: false }
-      - label: "Categoria"
-        name: "category"
-        widget: "select"
-        required: false
-        options:
-          - { label: "Torte Nuziali", value: "nuziale" }
-          - { label: "Compleanni", value: "compleanno" }
-          - { label: "Comunioni e Cresime", value: "comunione" }
-          - { label: "Sugar Art", value: "sugar_art" }
-          - { label: "Stampe Alimentari", value: "stampe" }
-          - { label: "Sweet Table", value: "sweet_table" }
-      - { label: "In evidenza", name: "evidenza", widget: "boolean", default: false }
-
-  - name: "stampe"
-    label: "Stampe Alimentari"
-    folder: "_stampe"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "Titolo", name: "title", widget: "string" }
-      - { label: "Immagine esempio", name: "image", widget: "image", required: false }
-      - label: "Tipo supporto"
-        name: "tipo"
-        widget: "select"
-        options:
-          - { label: "Ostia classica (6€)", value: "ostia" }
-          - { label: "Pasta di Zucchero Premium (10€)", value: "zucchero" }
-      - { label: "Descrizione", name: "description", widget: "text", required: false }
+      - { name: title, label: Titolo, widget: string }
+      - { name: tipo, label: Tipo, widget: select, options: [foto, video] }
+      - { name: image, label: Immagine, widget: image, required: false }
+      - { name: video, label: Video URL, widget: string, required: false }
+      - { name: description, label: Descrizione, widget: text, required: false }
+      - { name: category, label: Categoria, widget: string, required: false }
+      - { name: link_esterno, label: Link Esterno, widget: string, required: false }
+      - { name: evidenza, label: In Evidenza, widget: boolean, default: false }
+      - { name: date, label: Data, widget: datetime }
