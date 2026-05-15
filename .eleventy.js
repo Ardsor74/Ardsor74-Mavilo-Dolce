@@ -5,13 +5,13 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("uploads");
   eleventyConfig.addPassthroughCopy("atelier.jpg");
 
-  // Foto gallery
-  for (let i = 1; i <= 20; i++) {
+  // Foto gallery (9 foto)
+  for (let i = 1; i <= 9; i++) {
     eleventyConfig.addPassthroughCopy(`foto${i}.jpg`);
   }
 
-  // Video
-  for (let i = 1; i <= 6; i++) {
+  // Video (2 video)
+  for (let i = 1; i <= 2; i++) {
     eleventyConfig.addPassthroughCopy(`video${i}.mp4`);
   }
 
