@@ -1,17 +1,18 @@
 module.exports = function(eleventyConfig) {
 
-  // File statici copiati in _site/
+  // ── File statici copiati invariati in _site/ ──
+  eleventyConfig.addPassthroughCopy("index.html");  // <-- FONDAMENTALE
   eleventyConfig.addPassthroughCopy("admin");
   eleventyConfig.addPassthroughCopy("uploads");
   eleventyConfig.addPassthroughCopy("atelier.jpg");
 
-  // Foto gallery (9 foto)
-  for (let i = 1; i <= 9; i++) {
+  // Foto gallery
+  for (let i = 1; i <= 20; i++) {
     eleventyConfig.addPassthroughCopy(`foto${i}.jpg`);
   }
 
-  // Video (2 video)
-  for (let i = 1; i <= 2; i++) {
+  // Video
+  for (let i = 1; i <= 6; i++) {
     eleventyConfig.addPassthroughCopy(`video${i}.mp4`);
   }
 
@@ -33,7 +34,7 @@ module.exports = function(eleventyConfig) {
       data: "_data"
     },
     templateFormats: ["njk", "md"],
-    htmlTemplateEngine: "njk",
-    markdownTemplateEngine: "njk"
+    htmlTemplateEngine: false,
+    markdownTemplateEngine: false
   };
 };
