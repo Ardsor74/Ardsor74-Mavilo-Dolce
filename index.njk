@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+  <title>MAVILO DOLCE — Sugar Artist & Pasticceria Artigianale</title>
+
+  <meta name="description" content="MAVILO DOLCE — Atelier artigianale di Sugar Artist & Pasticceria Artigianale a Fuorigrotta, Napoli. Fiori di zucchero, torte nuziali su commissione e stampe alimentari."/>
+  <meta name="keywords" content="sugar art, couture cakes, torte nuziali, fiori di zucchero, wedding cake, torte su commissione, stampe alimentari, ostia, pasta di zucchero, Napoli, Fuorigrotta"/>
+  <meta name="author" content="MAVILO DOLCE"/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://mavilodolce.netlify.app/"/>
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="business.business"/>
+  <meta property="og:url" content="https://mavilodolce.netlify.app/"/>
+  <meta property="og:title" content="MAVILO DOLCE — Sugar Artist & Pasticceria Artigianale · Napoli"/>
+  <meta property="og:description" content="Torte artigianali su commissione e stampe alimentari personalizzate a Fuorigrotta, Napoli. Ogni creazione è un'opera d'arte irripetibile."/>
+  <meta property="og:image" content="https://mavilodolce.netlify.app/atelier.jpg"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="MAVILO DOLCE — Atelier di Sugar Art a Napoli"/>
+  <meta property="og:locale" content="it_IT"/>
+  <meta property="og:site_name" content="MAVILO DOLCE"/>
+  <meta property="business:contact_data:street_address" content="Fuorigrotta"/>
+  <meta property="business:contact_data:locality" content="Napoli"/>
+  <meta property="business:contact_data:country_name" content="Italia"/>
+  <meta property="business:contact_data:phone_number" content="+39 327 835 4278"/>
+  <meta property="business:contact_data:website" content="https://mavilodolce.netlify.app/"/>
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="MAVILO DOLCE — Sugar Artist & Pasticceria Artigianale · Napoli"/>
+  <meta name="twitter:description" content="Torte artigianali su commissione e stampe alimentari personalizzate a Fuorigrotta, Napoli."/>
+  <meta name="twitter:image" content="https://mavilodolce.netlify.app/atelier.jpg"/>
+
+  <meta name="theme-color" content="#1A1A1A"/>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%231A1A1A'/></svg>"/>
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Bakery",
+    "name": "MAVILO DOLCE",
+    "description": "Atelier artigianale di Sugar Artist & Pasticceria Artigianale. Fiori di zucchero e torte nuziali su commissione.",
+    "url": "https://mavilodolce.netlify.app/",
+    "image": "https://images.unsplash.com/photo-1558636508-e0969251be4b?w=1200&q=80",
+    "telephone": "+393278354278",
+    "sameAs": [
+      "https://www.instagram.com/anjalagomez/",
+      "https://www.facebook.com/anjalagomeznapoli/"
+    ],
+    "servesCuisine": "Pasticceria Artistica",
+    "priceRange": "€€€",
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "description": "Solo su appuntamento"
+    }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        colors: { gold:'#D4AF37','gold-pale':'#F0E3A0', anthracite:'#1A1A1A','warm':'#FAFAF8','offwhite':'#F5F3EE' },
+        fontFamily: { serif:['Playfair Display','serif'], sans:['Lato','sans-serif'] },
+        screens: { xs:'380px' }
+      }}
+    };
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body { font-family:'Lato',sans-serif; background:#FFF; color:#1A1A1A; overflow-x:hidden; touch-action:pan-y; overscroll-behavior-y:none; -webkit-overflow-scrolling:touch; }
+
+    /* — Skip link (accessibilità) — */
+    .skip-link { position:absolute; left:-9999px; top:0; background:#D4AF37; color:#1A1A1A; padding:0.5rem 1rem; font-family:'Lato'; font-size:0.8rem; z-index:99999; }
+    .skip-link:focus { left:0; }
+
+    /* — Scrollbar — */
+    .scroll-hint { display: flex; }
+    @media (max-height: 700px), (max-width: 480px) { .scroll-hint { display: none !important; } }
+    ::-webkit-scrollbar { width:5px; }
+    ::-webkit-scrollbar-track { background:transparent; }
+    ::-webkit-scrollbar-thumb { background:#D4AF37; border-radius:2px; }
+
+    /* — Loading Screen — */
+    #loader {
+      position:fixed; top:0; left:0; width:100%; height:100%;
+      background:#ffffff;
+      z-index:10000;
+      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.5rem;
+      text-align:center;
+    }
+    @keyframes splashContentIn {
+      0%   { opacity:0; transform:translateY(20px); }
+      100% { opacity:1; transform:translateY(0); }
+    }
+    #loader-logo {
+      animation: splashContentIn 1.5s cubic-bezier(0.25,0.46,0.45,0.94) 0s forwards;
+      opacity:0;
+    }
+    #loader-name {
+      animation: splashContentIn 1.5s cubic-bezier(0.25,0.46,0.45,0.94) 0.2s forwards;
+      opacity:0;
+    }
+    #loader-line {
+      animation: splashContentIn 1.5s cubic-bezier(0.25,0.46,0.45,0.94) 0.4s forwards;
+      opacity:0;
+    }
+    #loader-sub {
+      animation: splashContentIn 1.5s cubic-bezier(0.25,0.46,0.45,0.94) 0.55s forwards;
+      opacity:0;
+    }
+    @keyframes splashExit {
+      0%   { opacity:1; transform:translateY(0px); }
+      100% { opacity:0; transform:translateY(-50px); }
+    }
+    #loader.exit {
+      animation: splashExit 1.5s cubic-bezier(0.4,0,0.2,1) forwards;
+      pointer-events:none;
+    }
+    .loader-bar { width:160px; height:1px; background:rgba(212,175,55,0.2); position:relative; overflow:hidden; }
+    .loader-bar::after {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(90deg, transparent, #D4AF37, transparent);
+      animation: loadSlide 1.4s ease infinite;
+    }
+    @keyframes loadSlide { 0%{transform:translateX(-100%)} 100%{transform:translateX(200%)} }
+
+    /* — Nav — */
+    .nav-glass {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      background:rgba(255,255,255,0.97);
+      transition: border-color 0.4s, box-shadow 0.4s;
+    }
+    @media(min-width:768px){
+      .nav-glass { backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); background:rgba(255,255,255,0.94); }
+    }
+    .nav-glass.scrolled { border-bottom:1px solid rgba(212,175,55,0.22); box-shadow:0 2px 20px rgba(0,0,0,0.05); }
+    .nav-inner { max-width:1200px; margin:0 auto; padding:0 1.25rem; display:flex; align-items:center; justify-content:space-between; height:60px; }
+    @media(min-width:768px){ .nav-inner { padding:0 2.5rem; height:68px; } }
+    .nav-logo { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:600; letter-spacing:0.22em; color:#1A1A1A; background:none; border:none; cursor:pointer; }
+    .nav-links { display:none; gap:2rem; }
+    @media(min-width:768px){ .nav-links { display:flex; } }
+    .nav-link { font-family:'Lato'; font-size:0.7rem; letter-spacing:0.18em; text-transform:uppercase; background:none; border:none; cursor:pointer; padding-bottom:2px; border-bottom:1px solid transparent; }
+    .nav-link.active { color:#D4AF37; border-bottom-color:#D4AF37; }
+    .nav-link:not(.active) { color:#1A1A1A; }
+    .nav-link:hover { color:#D4AF37; }
+    .hamburger { display:flex; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:8px; }
+    @media(min-width:768px){ .hamburger { display:none; } }
+    .ham-line { display:block; width:22px; height:1px; background:#1A1A1A; transition:all 0.3s; }
+    .mobile-menu { display:none; background:rgba(255,255,255,0.98); border-top:1px solid rgba(212,175,55,0.15); padding:0.5rem 1.25rem 1.5rem; }
+    .mobile-menu.open { display:block; }
+    .mobile-link { display:block; font-family:'Lato'; font-size:0.82rem; letter-spacing:0.15em; text-transform:uppercase; background:none; border:none; cursor:pointer; padding:0.85rem 0; }
+
+    /* — Section common — */
+    .section-pad { padding:clamp(4.5rem,10vw,9rem) clamp(1.25rem,5vw,2.5rem); contain:layout style; }
+    .section-label { font-family:'Lato'; font-size:0.66rem; letter-spacing:0.44em; text-transform:uppercase; color:#D4AF37; margin-bottom:1.1rem; }
+    .section-title { font-family:'Playfair Display',serif; font-size:clamp(1.9rem,4.5vw,3rem); font-weight:400; line-height:1.15; color:#1A1A1A; margin-bottom:1.4rem; }
+    .gold-bar { display:block; width:38px; height:1px; background:#D4AF37; }
+    .gold-bar-center { display:block; width:38px; height:1px; background:#D4AF37; margin:0 auto; }
+
+    /* — Reveal animation — */
+    .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.75s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.75s cubic-bezier(0.25,0.46,0.45,0.94); will-change:opacity,transform; }
+    .reveal.visible { opacity:1; transform:translateY(0); will-change:auto; }
+    .reveal-delay-1 { transition-delay:0.12s; }
+    .reveal-delay-2 { transition-delay:0.24s; }
+    .reveal-delay-3 { transition-delay:0.36s; }
+    .reveal-delay-4 { transition-delay:0.48s; }
+
+    /* — Hero — */
+    .hero-title { font-family:'Playfair Display',serif; font-size:clamp(3.8rem,14vw,9.5rem); font-weight:400; letter-spacing:0.03em; line-height:0.9; color:#1A1A1A; }
+    @keyframes heroUp { from{opacity:0;transform:translateY(36px)} to{opacity:1;transform:translateY(0)} }
+    .hero-anim { opacity:0; animation:heroUp 1s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
+    .ha0{animation-delay:0.1s} .ha1{animation-delay:0.28s} .ha2{animation-delay:0.46s} .ha3{animation-delay:0.64s} .ha4{animation-delay:0.82s}
+
+    /* — Numbers — */
+    .stat-num { font-family:'Playfair Display',serif; font-size:clamp(2.2rem,5vw,3.5rem); font-weight:400; color:#D4AF37; line-height:1; }
+
+    /* — Gallery Masonry — */
+    .masonry { columns:2; column-gap:10px; min-height:10px; }
+    @media(min-width:640px){ .masonry { columns:2; column-gap:14px; } }
+    @media(min-width:1024px){ .masonry { columns:3; column-gap:16px; } }
+    .mason-item { break-inside:avoid; margin-bottom:10px; cursor:pointer; overflow:hidden; position:relative; display:block; }
+    @media(min-width:640px){ .mason-item { margin-bottom:14px; } }
+    @media(min-width:1024px){ .mason-item { margin-bottom:16px; } }
+    .mason-img { width:100%; display:block; transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); object-fit:cover; will-change:transform; backface-visibility:hidden; }
+    .mason-item:hover .mason-img { transform:scale(1.04); }
+    .mason-overlay { position:absolute; inset:0; background:rgba(26,26,26,0); transition:background 0.4s; display:flex; align-items:flex-end; padding:1rem; }
+    .mason-item:hover .mason-overlay { background:rgba(26,26,26,0.52); }
+    .mason-label { font-family:'Playfair Display',serif; font-style:italic; color:#fff; font-size:0.82rem; letter-spacing:0.04em; opacity:0; transition:opacity 0.3s; }
+    .mason-item:hover .mason-label { opacity:1; }
+
+    /* — Lightbox — */
+    .lb-overlay { position:fixed; inset:0; background:rgba(8,8,8,0.97); z-index:9999; display:flex; align-items:center; justify-content:center; overscroll-behavior:contain; touch-action:none; }
+    .lb-img { max-width:min(92vw,860px); max-height:82dvh; object-fit:contain; display:block; animation:fadeInLb 0.25s ease; user-select:none; }
+    @keyframes fadeInLb { from{opacity:0;transform:scale(0.97)} to{opacity:1;transform:scale(1)} }
+
+    /* — Form inputs — */
+    .f-input { width:100%; padding:0.92rem 1rem; border:1px solid rgba(26,26,26,0.18); font-family:'Lato'; font-size:1rem; background:#FAFAF8; color:#1A1A1A; }
+    .f-input:focus { outline:none; border-color:#D4AF37; box-shadow:0 0 0 3px rgba(212,175,55,0.12); }
+    .f-label { font-family:'Lato'; font-size:0.68rem; letter-spacing:0.22em; text-transform:uppercase; color:#777; display:block; margin-bottom:0.55rem; }
+
+    /* — Buttons — */
+    .btn-primary { font-family:'Lato'; font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; background:#1A1A1A; color:#D4AF37; border:none; padding:1rem 2rem; cursor:pointer; transition:all 0.3s; }
+    .btn-primary:hover { background:#D4AF37; color:#1A1A1A; }
+    .btn-secondary { font-family:'Lato'; font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; background:transparent; color:#1A1A1A; border:1px solid rgba(26,26,26,0.28); padding:1rem 2rem; cursor:pointer; transition:all 0.3s; }
+    .btn-secondary:hover { border-color:#D4AF37; color:#D4AF37; }
+
+    /* — Float WA — */
+    .float-wa { position:fixed; bottom:1.5rem; right:1.5rem; z-index:500; width:56px; height:56px; border-radius:50%; background:#25D366; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+    .float-wa:hover { box-shadow:0 6px 28px rgba(37,211,102,0.55); }
+    @media(min-width:768px){ .float-wa { width:60px; height:60px; bottom:2rem; right:2rem; } }
+
+    /* — Toast — */
+    .toast { position:fixed; bottom:5.5rem; right:1.25rem; z-index:5000; background:#111; color:#D4AF37; padding:0.85rem 1.3rem; border:1px solid rgba(212,175,55,0.45); font-family:'Lato'; font-size:0.82rem; }
+
+    /* — Cookie banner — */
+    .cookie-banner { position:fixed; bottom:0; left:0; right:0; z-index:8000; background:#111; border-top:1px solid rgba(212,175,55,0.25); padding:clamp(1rem,3vw,1.5rem) clamp(1.25rem,5vw,2.5rem); display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+    .cookie-text { font-family:'Lato'; font-size:0.78rem; color:rgba(255,255,255,0.65); line-height:1.75; flex:1 1 280px; }
+    .cookie-text a { color:#D4AF37; text-decoration:underline; }
+    .cookie-btns { display:flex; gap:0.6rem; flex-wrap:wrap; flex-shrink:0; }
+    .cookie-accept { font-family:'Lato'; font-size:0.68rem; letter-spacing:0.16em; text-transform:uppercase; background:#D4AF37; color:#1A1A1A; border:none; padding:0.7rem 1.4rem; cursor:pointer; }
+    .cookie-accept:hover { background:#c9a52e; }
+    .cookie-reject { font-family:'Lato'; font-size:0.68rem; letter-spacing:0.16em; text-transform:uppercase; background:transparent; color:rgba(255,255,255,0.35); border:1px solid rgba(255,255,255,0.15); padding:0.7rem 1.4rem; cursor:pointer; }
+    .cookie-reject:hover { color:rgba(255,255,255,0.7); border-color:rgba(255,255,255,0.3); }
+
+    /* — Privacy Modal — */
+    .privacy-overlay { position:fixed; inset:0; background:rgba(8,8,8,0.96); z-index:9000; display:flex; align-items:center; justify-content:center; padding:1rem; }
+    .privacy-card { background:#111; border:1px solid rgba(212,175,55,0.25); width:100%; max-width:720px; max-height:88vh; display:flex; flex-direction:column; }
+    .privacy-head { padding:1.5rem 2rem; border-bottom:1px solid rgba(212,175,55,0.12); display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
+    .privacy-body { overflow-y:auto; padding:1.5rem 2rem 2rem; flex:1; }
+    .privacy-body h3 { font-family:'Playfair Display',serif; font-style:italic; font-size:1rem; color:#D4AF37; margin:1.4rem 0 0.5rem; font-weight:400; }
+    .privacy-body h3:first-child { margin-top:0; }
+    .privacy-body p { font-family:'Lato'; font-size:0.82rem; color:#888; line-height:1.9; margin-bottom:0.6rem; }
+    .privacy-body strong { color:#bbb; }
+
+    /* — Step card — */
+    .step-card { background:#FFF; border:1px solid rgba(212,175,55,0.18); padding:clamp(1.5rem,4vw,2.2rem); position:relative; transition:border-color 0.3s, box-shadow 0.3s; }
+    .step-card:hover { border-color:rgba(212,175,55,0.5); box-shadow:0 8px 32px rgba(0,0,0,0.06); }
+
+    /* — Price card — */
+    .price-card { border:1px solid rgba(212,175,55,0.2); padding:clamp(1.5rem,4vw,2.5rem); background:#FFF; transition:all 0.3s; }
+    .price-card:hover { border-color:rgba(212,175,55,0.5); box-shadow:0 12px 40px rgba(0,0,0,0.07); }
+    .price-tag { font-family:'Playfair Display',serif; font-size:clamp(1.6rem,4vw,2.2rem); font-weight:400; color:#D4AF37; line-height:1; }
+  </style>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">Vai al contenuto principale</a>
+
+<div id="loader" role="status" aria-label="Caricamento">
+  <div id="loader-name" style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:400;letter-spacing:0.25em;color:#1A1A1A">
+    MAVILO<span style="color:#D4AF37">.</span>
+  </div>
+  <div id="loader-line" class="loader-bar"></div>
+  <div id="loader-sub" style="font-family:'Lato';font-size:0.6rem;letter-spacing:0.42em;text-transform:uppercase;color:#D4AF37;text-align:center">
+    Sugar Artist & Pasticceria Artigianale
+  </div>
+</div>
+
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+const { createPortal } = ReactDOM;
+
+const LOGO_SRC = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%23D4AF37" opacity="0.2"/></svg>';
+const WA = '393278354278';
+const IG = 'https://www.instagram.com/anjalagomez/';
+const FB = 'https://www.facebook.com/anjalagomeznapoli/';
+
+function App() {
+  const [showPrivacy, setShowPrivacy] = useState(false);
+  const [showCookie, setShowCookie] = useState(true);
+
+  useEffect(() => {
+    const consent = localStorage.getItem('mavilo_cookie');
+    if (consent) setShowCookie(false);
+  }, []);
+
+  const acceptCookie = () => {
+    localStorage.setItem('mavilo_cookie', 'accepted');
+    setShowCookie(false);
+  };
+
+  return (
+    <>
+      {/* NAV */}
+      <header className="nav-glass" role="banner">
+        <div className="nav-inner">
+          <button className="nav-logo" aria-label="MAVILO DOLCE">MAVILO</button>
+          <nav className="nav-links" aria-label="Navigazione principale">
+            <button className="nav-link active">Home</button>
+            <button className="nav-link">Gallery</button>
+            <button className="nav-link">Contatti</button>
+          </nav>
+        </div>
+      </header>
+
+      {/* HERO */}
+      <section id="home" style={{minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center', paddingTop:60, background:'#FFF'}}>
+        <div id="main-content" style={{textAlign:'center', maxWidth:820, padding:'0 1.25rem'}}>
+          <h1 className="hero-title">MAVILO<br/><span style={{fontStyle:'italic', color:'#D4AF37'}}>DOLCE</span></h1>
+          <p style={{fontSize:'1.1rem', color:'#777', marginTop:'1rem', marginBottom:'2rem'}}>Sugar Artist & Pasticceria Artigianale</p>
+          <div style={{display:'flex', gap:'1rem', justifyContent:'center', flexWrap:'wrap'}}>
+            <button className="btn-primary">Scopri i nostri servizi</button>
+            <a href={`https://wa.me/${WA}`} target="_blank" rel="noopener noreferrer" className="btn-secondary">Contattaci</a>
+          </div>
+        </div>
+      </section>
+
+      {/* FLOATING WA */}
+      <a href={`https://wa.me/${WA}`} target="_blank" rel="noopener noreferrer" className="float-wa" title="Contattaci su WhatsApp">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="white">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.67.025-.297-.198-1.255-.491-2.393-1.476-.886-.79-1.484-1.766-1.657-2.063-.173-.297-.018-.458.13-.607.134-.134.297-.348.446-.522.149-.174.198-.297.297-.496.099-.198.05-.371-.025-.521-.075-.149-.67-1.612-.92-2.207-.241-.579-.486-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.626.712.228 1.36.196 1.871.119.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004c-1.537 0-2.852-.666-2.852-1.485 0-.819 1.315-1.484 2.852-1.484 1.536 0 2.852.665 2.852 1.484 0 .819-1.316 1.485-2.852 1.485"/>
+        </svg>
+      </a>
+
+      {/* COOKIE BANNER */}
+      {showCookie && (
+        <div className="cookie-banner" role="dialog">
+          <p className="cookie-text">
+            🍪 Utilizziamo cookie tecnici essenziali.{' '}
+            <a href="#" onClick={(e) => { e.preventDefault(); setShowPrivacy(true); }}>Privacy Policy</a>
+          </p>
+          <div className="cookie-btns">
+            <button className="cookie-reject" onClick={() => setShowCookie(false)}>Rifiuta</button>
+            <button className="cookie-accept" onClick={acceptCookie}>Accetta</button>
+          </div>
+        </div>
+      )}
+
+      {/* PRIVACY MODAL */}
+      {showPrivacy && (
+        <div className="privacy-overlay" onClick={() => setShowPrivacy(false)}>
+          <div className="privacy-card" onClick={(e) => e.stopPropagation()}>
+            <div className="privacy-head">
+              <h2 style={{color:'#fff', fontSize:'1.2rem'}}>Privacy Policy</h2>
+              <button onClick={() => setShowPrivacy(false)} style={{background:'none', border:'none', color:'#D4AF37', cursor:'pointer', fontSize:'1.5rem'}}>×</button>
+            </div>
+            <div className="privacy-body">
+              <h3>Informativa Privacy</h3>
+              <p>MAVILO DOLCE rispetta la tua privacy. Raccogliamo solo i dati necessari per erogare i nostri servizi.</p>
+              <h3>Dati Raccolti</h3>
+              <p>Dati di contatto (email, WhatsApp) forniti volontariamente tramite il formulario.</p>
+              <h3>Finalità</h3>
+              <p>Gestione richieste di preventivo e comunicazioni commerciali, previo consenso.</p>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
+const root = document.getElementById('root');
+const loader = document.getElementById('loader');
+
+setTimeout(() => {
+  if (loader) loader.classList.add('exit');
+}, 2500);
+
+ReactDOM.createRoot(root).render(<App />);
+</script>
+
+</body>
+</html>
