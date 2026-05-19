@@ -4,6 +4,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("admin");
   eleventyConfig.addPassthroughCopy("uploads");
   eleventyConfig.addPassthroughCopy("atelier.jpg");
+  eleventyConfig.addPassthroughCopy("index.html");
 
   // Foto gallery (9 foto)
   for (let i = 1; i <= 9; i++) {
