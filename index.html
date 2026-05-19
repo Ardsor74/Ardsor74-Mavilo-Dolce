@@ -400,25 +400,25 @@ function useCmsGallery() {
   const [items, setItems] = useState(null); // null = loading
   useEffect(() => {
     fetch('/gallery-data.json')
-      .then(r => r.ok ? r.json() : [])
+      .then(r => { if(!r.ok) throw new Error('no json'); return r.json(); })
       .then(data => {
         if (Array.isArray(data) && data.length > 0) {
           const mapped = data.map((item, i) => ({
             id: i + 1,
-            src: item.data?.image || item.data?.video || '',
-            video: item.data?.video || null,
-            link: item.data?.link_esterno || null,
-            tipo: item.data?.tipo || 'foto',
-            titolo: item.data?.title || '',
-            categoria: item.data?.category || '',
+            src: item.image || item.video || '',
+            video: item.video || null,
+            link: item.link_esterno || null,
+            tipo: item.tipo || 'foto',
+            titolo: item.title || '',
+            categoria: item.category || '',
             tall: i % 3 === 0,
           }));
           setItems(mapped);
         } else {
-          setItems([]); // nessun dato CMS → usa fallback
+          setItems(null); // vuoto → usa fallback foto statiche
         }
       })
-      .catch(() => setItems([]));
+      .catch(() => setItems(null)); // errore → usa fallback foto statiche
   }, []);
   return items;
 }
@@ -1057,7 +1057,7 @@ function Gallery() {
   useReveal();
 
   // Usa CMS se ha dati, altrimenti fallback alle foto statiche
-  const hasCms = cmsItems !== null && cmsItems.length > 0;
+  const hasCms = Array.isArray(cmsItems) && cmsItems.length > 0;
   const ITEMS = hasCms ? cmsItems : GALLERY;
   const total = ITEMS.length;
 
@@ -1066,9 +1066,6 @@ function Gallery() {
     loadCount.current += 1;
     if (loadCount.current >= total) setAllChecked(true);
   };
-
-  // Mentre CMS carica, aspetta
-  if (cmsItems === null) return null;
 
   const lbItems = ITEMS.filter((_,i) => visible[i]);
   const anyVisible = visible.some(Boolean);
