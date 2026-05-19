@@ -1,0 +1,14 @@
+---
+permalink: /gallery-data.json
+eleventyExcludeFromCollections: true
+---
+[{% for item in collections.gallery %}{
+  "title": {{ item.data.title | default("") | dump | safe }},
+  "image": {{ item.data.image | default("") | dump | safe }},
+  "video": {{ item.data.video | default("") | dump | safe }},
+  "link_esterno": {{ item.data.link_esterno | default("") | dump | safe }},
+  "tipo": {{ item.data.tipo | default("foto") | dump | safe }},
+  "category": {{ item.data.category | default("") | dump | safe }},
+  "evidenza": {{ "true" if item.data.evidenza else "false" }},
+  "date": {{ item.data.date | default("") | dump | safe }}
+}{% if not loop.last %},{% endif %}{% endfor %}]
