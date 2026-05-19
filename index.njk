@@ -158,74 +158,14 @@
     .nav-link.active { color:#D4AF37; border-bottom-color:#D4AF37; }
     .nav-link:not(.active) { color:#1A1A1A; }
     .nav-link:hover { color:#D4AF37; }
-    .hamburger { display:flex; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:8px; }
-    @media(min-width:768px){ .hamburger { display:none; } }
-    .ham-line { display:block; width:22px; height:1px; background:#1A1A1A; transition:all 0.3s; }
-    .mobile-menu { display:none; background:rgba(255,255,255,0.98); border-top:1px solid rgba(212,175,55,0.15); padding:0.5rem 1.25rem 1.5rem; }
-    .mobile-menu.open { display:block; }
-    .mobile-link { display:block; font-family:'Lato'; font-size:0.82rem; letter-spacing:0.15em; text-transform:uppercase; background:none; border:none; cursor:pointer; padding:0.85rem 0; }
-
-    /* — Section common — */
-    .section-pad { padding:clamp(4.5rem,10vw,9rem) clamp(1.25rem,5vw,2.5rem); contain:layout style; }
-    .section-label { font-family:'Lato'; font-size:0.66rem; letter-spacing:0.44em; text-transform:uppercase; color:#D4AF37; margin-bottom:1.1rem; }
-    .section-title { font-family:'Playfair Display',serif; font-size:clamp(1.9rem,4.5vw,3rem); font-weight:400; line-height:1.15; color:#1A1A1A; margin-bottom:1.4rem; }
-    .gold-bar { display:block; width:38px; height:1px; background:#D4AF37; }
-    .gold-bar-center { display:block; width:38px; height:1px; background:#D4AF37; margin:0 auto; }
-
-    /* — Reveal animation — */
-    .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.75s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.75s cubic-bezier(0.25,0.46,0.45,0.94); will-change:opacity,transform; }
-    .reveal.visible { opacity:1; transform:translateY(0); will-change:auto; }
-    .reveal-delay-1 { transition-delay:0.12s; }
-    .reveal-delay-2 { transition-delay:0.24s; }
-    .reveal-delay-3 { transition-delay:0.36s; }
-    .reveal-delay-4 { transition-delay:0.48s; }
 
     /* — Hero — */
     .hero-title { font-family:'Playfair Display',serif; font-size:clamp(3.8rem,14vw,9.5rem); font-weight:400; letter-spacing:0.03em; line-height:0.9; color:#1A1A1A; }
-    @keyframes heroUp { from{opacity:0;transform:translateY(36px)} to{opacity:1;transform:translateY(0)} }
-    .hero-anim { opacity:0; animation:heroUp 1s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
-    .ha0{animation-delay:0.1s} .ha1{animation-delay:0.28s} .ha2{animation-delay:0.46s} .ha3{animation-delay:0.64s} .ha4{animation-delay:0.82s}
-
-    /* — Numbers — */
-    .stat-num { font-family:'Playfair Display',serif; font-size:clamp(2.2rem,5vw,3.5rem); font-weight:400; color:#D4AF37; line-height:1; }
-
-    /* — Gallery Masonry — */
-    .masonry { columns:2; column-gap:10px; min-height:10px; }
-    @media(min-width:640px){ .masonry { columns:2; column-gap:14px; } }
-    @media(min-width:1024px){ .masonry { columns:3; column-gap:16px; } }
-    .mason-item { break-inside:avoid; margin-bottom:10px; cursor:pointer; overflow:hidden; position:relative; display:block; }
-    @media(min-width:640px){ .mason-item { margin-bottom:14px; } }
-    @media(min-width:1024px){ .mason-item { margin-bottom:16px; } }
-    .mason-img { width:100%; display:block; transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); object-fit:cover; will-change:transform; backface-visibility:hidden; }
-    .mason-item:hover .mason-img { transform:scale(1.04); }
-    .mason-overlay { position:absolute; inset:0; background:rgba(26,26,26,0); transition:background 0.4s; display:flex; align-items:flex-end; padding:1rem; }
-    .mason-item:hover .mason-overlay { background:rgba(26,26,26,0.52); }
-    .mason-label { font-family:'Playfair Display',serif; font-style:italic; color:#fff; font-size:0.82rem; letter-spacing:0.04em; opacity:0; transition:opacity 0.3s; }
-    .mason-item:hover .mason-label { opacity:1; }
-
-    /* — Lightbox — */
-    .lb-overlay { position:fixed; inset:0; background:rgba(8,8,8,0.97); z-index:9999; display:flex; align-items:center; justify-content:center; overscroll-behavior:contain; touch-action:none; }
-    .lb-img { max-width:min(92vw,860px); max-height:82dvh; object-fit:contain; display:block; animation:fadeInLb 0.25s ease; user-select:none; }
-    @keyframes fadeInLb { from{opacity:0;transform:scale(0.97)} to{opacity:1;transform:scale(1)} }
-
-    /* — Form inputs — */
-    .f-input { width:100%; padding:0.92rem 1rem; border:1px solid rgba(26,26,26,0.18); font-family:'Lato'; font-size:1rem; background:#FAFAF8; color:#1A1A1A; }
-    .f-input:focus { outline:none; border-color:#D4AF37; box-shadow:0 0 0 3px rgba(212,175,55,0.12); }
-    .f-label { font-family:'Lato'; font-size:0.68rem; letter-spacing:0.22em; text-transform:uppercase; color:#777; display:block; margin-bottom:0.55rem; }
-
-    /* — Buttons — */
-    .btn-primary { font-family:'Lato'; font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; background:#1A1A1A; color:#D4AF37; border:none; padding:1rem 2rem; cursor:pointer; transition:all 0.3s; }
-    .btn-primary:hover { background:#D4AF37; color:#1A1A1A; }
-    .btn-secondary { font-family:'Lato'; font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; background:transparent; color:#1A1A1A; border:1px solid rgba(26,26,26,0.28); padding:1rem 2rem; cursor:pointer; transition:all 0.3s; }
-    .btn-secondary:hover { border-color:#D4AF37; color:#D4AF37; }
 
     /* — Float WA — */
     .float-wa { position:fixed; bottom:1.5rem; right:1.5rem; z-index:500; width:56px; height:56px; border-radius:50%; background:#25D366; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; }
     .float-wa:hover { box-shadow:0 6px 28px rgba(37,211,102,0.55); }
     @media(min-width:768px){ .float-wa { width:60px; height:60px; bottom:2rem; right:2rem; } }
-
-    /* — Toast — */
-    .toast { position:fixed; bottom:5.5rem; right:1.25rem; z-index:5000; background:#111; color:#D4AF37; padding:0.85rem 1.3rem; border:1px solid rgba(212,175,55,0.45); font-family:'Lato'; font-size:0.82rem; }
 
     /* — Cookie banner — */
     .cookie-banner { position:fixed; bottom:0; left:0; right:0; z-index:8000; background:#111; border-top:1px solid rgba(212,175,55,0.25); padding:clamp(1rem,3vw,1.5rem) clamp(1.25rem,5vw,2.5rem); display:flex; align-items:center; justify-content:space-between; gap:1rem; }
@@ -235,7 +175,6 @@
     .cookie-accept { font-family:'Lato'; font-size:0.68rem; letter-spacing:0.16em; text-transform:uppercase; background:#D4AF37; color:#1A1A1A; border:none; padding:0.7rem 1.4rem; cursor:pointer; }
     .cookie-accept:hover { background:#c9a52e; }
     .cookie-reject { font-family:'Lato'; font-size:0.68rem; letter-spacing:0.16em; text-transform:uppercase; background:transparent; color:rgba(255,255,255,0.35); border:1px solid rgba(255,255,255,0.15); padding:0.7rem 1.4rem; cursor:pointer; }
-    .cookie-reject:hover { color:rgba(255,255,255,0.7); border-color:rgba(255,255,255,0.3); }
 
     /* — Privacy Modal — */
     .privacy-overlay { position:fixed; inset:0; background:rgba(8,8,8,0.96); z-index:9000; display:flex; align-items:center; justify-content:center; padding:1rem; }
@@ -243,18 +182,7 @@
     .privacy-head { padding:1.5rem 2rem; border-bottom:1px solid rgba(212,175,55,0.12); display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
     .privacy-body { overflow-y:auto; padding:1.5rem 2rem 2rem; flex:1; }
     .privacy-body h3 { font-family:'Playfair Display',serif; font-style:italic; font-size:1rem; color:#D4AF37; margin:1.4rem 0 0.5rem; font-weight:400; }
-    .privacy-body h3:first-child { margin-top:0; }
     .privacy-body p { font-family:'Lato'; font-size:0.82rem; color:#888; line-height:1.9; margin-bottom:0.6rem; }
-    .privacy-body strong { color:#bbb; }
-
-    /* — Step card — */
-    .step-card { background:#FFF; border:1px solid rgba(212,175,55,0.18); padding:clamp(1.5rem,4vw,2.2rem); position:relative; transition:border-color 0.3s, box-shadow 0.3s; }
-    .step-card:hover { border-color:rgba(212,175,55,0.5); box-shadow:0 8px 32px rgba(0,0,0,0.06); }
-
-    /* — Price card — */
-    .price-card { border:1px solid rgba(212,175,55,0.2); padding:clamp(1.5rem,4vw,2.5rem); background:#FFF; transition:all 0.3s; }
-    .price-card:hover { border-color:rgba(212,175,55,0.5); box-shadow:0 12px 40px rgba(0,0,0,0.07); }
-    .price-tag { font-family:'Playfair Display',serif; font-size:clamp(1.6rem,4vw,2.2rem); font-weight:400; color:#D4AF37; line-height:1; }
   </style>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
@@ -274,14 +202,11 @@
 
 <div id="root"></div>
 
+{% raw %}
 <script type="text/babel">
-const { useState, useEffect, useRef } = React;
-const { createPortal } = ReactDOM;
+const { useState, useEffect } = React;
 
-const LOGO_SRC = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%23D4AF37" opacity="0.2"/></svg>';
 const WA = '393278354278';
-const IG = 'https://www.instagram.com/anjalagomez/';
-const FB = 'https://www.facebook.com/anjalagomeznapoli/';
 
 function App() {
   const [showPrivacy, setShowPrivacy] = useState(false);
@@ -299,7 +224,6 @@ function App() {
 
   return (
     <>
-      {/* NAV */}
       <header className="nav-glass" role="banner">
         <div className="nav-inner">
           <button className="nav-logo" aria-label="MAVILO DOLCE">MAVILO</button>
@@ -311,31 +235,27 @@ function App() {
         </div>
       </header>
 
-      {/* HERO */}
       <section id="home" style={{minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center', paddingTop:60, background:'#FFF'}}>
         <div id="main-content" style={{textAlign:'center', maxWidth:820, padding:'0 1.25rem'}}>
           <h1 className="hero-title">MAVILO<br/><span style={{fontStyle:'italic', color:'#D4AF37'}}>DOLCE</span></h1>
           <p style={{fontSize:'1.1rem', color:'#777', marginTop:'1rem', marginBottom:'2rem'}}>Sugar Artist & Pasticceria Artigianale</p>
           <div style={{display:'flex', gap:'1rem', justifyContent:'center', flexWrap:'wrap'}}>
-            <button className="btn-primary">Scopri i nostri servizi</button>
-            <a href={`https://wa.me/${WA}`} target="_blank" rel="noopener noreferrer" className="btn-secondary">Contattaci</a>
+            <button className="btn-primary" style={{background:'#1A1A1A', color:'#D4AF37', border:'none', padding:'1rem 2rem', cursor:'pointer', fontSize:'0.9rem'}}>Scopri i nostri servizi</button>
+            <a href={`https://wa.me/${WA}`} target="_blank" rel="noopener noreferrer" style={{background:'transparent', color:'#1A1A1A', border:'1px solid rgba(26,26,26,0.28)', padding:'1rem 2rem', cursor:'pointer', fontSize:'0.9rem', textDecoration:'none', display:'inline-block'}}>Contattaci</a>
           </div>
         </div>
       </section>
 
-      {/* FLOATING WA */}
-      <a href={`https://wa.me/${WA}`} target="_blank" rel="noopener noreferrer" className="float-wa" title="Contattaci su WhatsApp">
+      <a href={`https://wa.me/${WA}`} target="_blank" rel="noopener noreferrer" className="float-wa" title="Contattaci su WhatsApp" aria-label="WhatsApp">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="white">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.67.025-.297-.198-1.255-.491-2.393-1.476-.886-.79-1.484-1.766-1.657-2.063-.173-.297-.018-.458.13-.607.134-.134.297-.348.446-.522.149-.174.198-.297.297-.496.099-.198.05-.371-.025-.521-.075-.149-.67-1.612-.92-2.207-.241-.579-.486-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.626.712.228 1.36.196 1.871.119.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004c-1.537 0-2.852-.666-2.852-1.485 0-.819 1.315-1.484 2.852-1.484 1.536 0 2.852.665 2.852 1.484 0 .819-1.316 1.485-2.852 1.485"/>
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.67.025-.297-.198-1.255-.491-2.393-1.476-.886-.79-1.484-1.766-1.657-2.063-.173-.297-.018-.458.13-.607.134-.134.297-.348.446-.522.149-.174.198-.297.297-.496.099-.198.05-.371-.025-.521-.075-.149-.67-1.612-.92-2.207-.241-.579-.486-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.626.712.228 1.36.196 1.871.119.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/>
         </svg>
       </a>
 
-      {/* COOKIE BANNER */}
       {showCookie && (
         <div className="cookie-banner" role="dialog">
           <p className="cookie-text">
-            🍪 Utilizziamo cookie tecnici essenziali.{' '}
-            <a href="#" onClick={(e) => { e.preventDefault(); setShowPrivacy(true); }}>Privacy Policy</a>
+            🍪 Utilizziamo cookie tecnici essenziali. <a href="#" onClick={(e) => { e.preventDefault(); setShowPrivacy(true); }}>Privacy Policy</a>
           </p>
           <div className="cookie-btns">
             <button className="cookie-reject" onClick={() => setShowCookie(false)}>Rifiuta</button>
@@ -344,7 +264,6 @@ function App() {
         </div>
       )}
 
-      {/* PRIVACY MODAL */}
       {showPrivacy && (
         <div className="privacy-overlay" onClick={() => setShowPrivacy(false)}>
           <div className="privacy-card" onClick={(e) => e.stopPropagation()}>
@@ -376,6 +295,7 @@ setTimeout(() => {
 
 ReactDOM.createRoot(root).render(<App />);
 </script>
+{% endraw %}
 
 </body>
 </html>
