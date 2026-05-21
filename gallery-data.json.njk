@@ -9,6 +9,5 @@ eleventyExcludeFromCollections: true
   "link_esterno": {{ item.data.link_esterno | default("") | dump | safe }},
   "tipo": {{ item.data.tipo | default("foto") | dump | safe }},
   "category": {{ item.data.category | default("") | dump | safe }},
-  "evidenza": {{ "true" if item.data.evidenza else "false" }},
-  "date": {{ item.data.date | default("") | dump | safe }}
+  "evidenza": {{ "true" if item.data.evidenza else "false" }}
 }{% if not loop.last %},{% endif %}{% endfor %}]
