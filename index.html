@@ -5,15 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mavilo Dolce - Laboratorio di Pasticceria Artigianale</title>
 
-  <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-  <!-- React e Babel via CDN -->
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -129,23 +125,18 @@
 </head>
 <body class="bg-warm text-anthracite font-sans antialiased m-0 p-0">
 
-  <!-- Il nodo root originale dove React monta l'app -->
   <div id="root"></div>
 
-  <!-- Logica React completamente corretta e verificata -->
-  <script type="text/babel">
+  <script type="text/javascript">
     const { useState, useEffect } = React;
+    const e = React.createElement;
 
     function App() {
-      // Stati per la gestione del loader temporizzato
       const [isLoaderVisible, setIsLoaderVisible] = useState(true);
       const [isLoaderExiting, setIsLoaderExiting] = useState(false);
-      
-      // Stato del contatore (impostato a 10)
       const [count, setCount] = useState(10);
 
       useEffect(() => {
-        // Gestione temporizzata dello Splash Screen (3.5s + fadeout)
         const exitTimeout = setTimeout(() => {
           setIsLoaderExiting(true);
         }, 3500);
@@ -154,87 +145,78 @@
           setIsLoaderVisible(false);
         }, 4300);
 
-        // Logica del contatore con funzione di pulizia (Evita duplicati in StrictMode)
         const counterInterval = setInterval(() => {
           setCount((prevCount) => {
             if (prevCount <= 1) {
-              return 10; // Reset a 10 quando arriva a zero
+              return 10;
             }
             return prevCount - 1;
           });
         }, 1000);
 
-        // Funzione di Clean-up per azzerare i timer quando il componente si smonta
         return () => {
           clearTimeout(exitTimeout);
           clearTimeout(removeTimeout);
           clearInterval(counterInterval);
         };
-      }, []); 
+      }, []);
 
-      return (
-        <div id="main-content">
-          
-          {/* Loader Originale (Corretto segnaposto immagine per non generare errori visivi) */}
-          {isLoaderVisible && (
-            <div id="loader" className={isLoaderExiting ? 'exit' : ''} role="status" aria-label="Caricamento">
-              <img id="loader-logo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' stroke='%23C5A059' stroke-width='4' fill='none'/></svg>" alt="Logo" />
-              <div id="loader-sub" className="text-anthracite font-serif italic text-lg">
-                Caricamento in corso...
-              </div>
-            </div>
-          )}
+      // Sfruttiamo htm/createElement nativo per assicurarci che non vada mai in blocco con Tailwind
+      return e('div', { id: 'main-content' },
+        
+        // Loader condizionale
+        isLoaderVisible && e('div', { id: 'loader', className: isLoaderExiting ? 'exit' : '' },
+          e('img', { 
+            id: 'loader-logo', 
+            src: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' stroke='%23C5A059' stroke-width='4' fill='none'/></svg>", 
+            alt: 'Logo' 
+          }),
+          e('div', { id: 'loader-sub', className: 'text-anthracite font-serif italic text-lg' }, 'Caricamento in corso...')
+        ),
 
-          {/* Struttura di Layout Corretta (class -> className) */}
-          <header className="w-full py-6 px-8 border-b border-gray-200/50 flex justify-between items-center bg-white/80 backdrop-blur-md sticky top-0 z-50">
-            <div className="font-display font-bold text-xl tracking-wider text-anthracite">MAVILO DOLCE</div>
-            <nav className="hidden md:flex space-x-8 font-sans text-xs font-semibold tracking-widest text-anthracite/80">
-              <a href="#creazioni" className="hover:text-gold transition-colors">CREAZIONI</a>
-              <a href="#storia" className="hover:text-gold transition-colors">IL LABORATORIO</a>
-              <a href="#contatti" className="hover:text-gold transition-colors">CONTATTI</a>
-            </nav>
-          </header>
+        // Header
+        e('header', { className: 'w-full py-6 px-8 border-b border-gray-200/50 flex justify-between items-center bg-white/80 backdrop-blur-md sticky top-0 z-50' },
+          e('div', { className: 'font-display font-bold text-xl tracking-wider text-anthracite' }, 'MAVILO DOLCE'),
+          e('nav', { className: 'hidden md:flex space-x-8 font-sans text-xs font-semibold tracking-widest text-anthracite/80' },
+            e('a', { href: '#creazioni', className: 'hover:text-gold transition-colors' }, 'CREAZIONI'),
+            e('a', { href: '#storia', className: 'hover:text-gold transition-colors' }, 'IL LABORATORIO'),
+            e('a', { href: '#contatti', className: 'hover:text-gold transition-colors' }, 'CONTATTI')
+          )
+        ),
 
-          <main>
-            <section className="section-pad flex flex-col items-center justify-center min-h-[80vh] text-center max-w-4xl mx-auto">
-              <span className="section-label">Laboratorio di Sugar Art</span>
-              <h1 className="section-title">L'arte della pasticceria artigianale</h1>
-              <p className="font-serif italic text-xl text-gray-600 mb-8 max-w-2xl">
-                "Ogni creazione è un pezzo unico, modellato a mano con passione e precisione per rendere indimenticabili i tuoi momenti speciali."
-              </p>
-              
-              <!-- Box Contatore Riparato e Stabile -->
-              <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100 flex flex-col items-center min-w-[280px] my-4">
-                <span className="font-sans text-xs font-bold tracking-widest text-gray-400 uppercase mb-2">Prossimo Aggiornamento</span>
-                <div className="stat-num">{count}</div>
-                <p className="font-sans text-[11px] text-gray-400 mt-4 max-w-[200px]">
-                  Il timer si resetta automaticamente arrivato a zero.
-                </p>
-              </div>
+        // Contenuto principale
+        e('main', null,
+          e('section', { className: 'section-pad flex flex-col items-center justify-center min-h-[80vh] text-center max-w-4xl mx-auto' },
+            e('span', { className: 'section-label' }, 'Laboratorio di Sugar Art'),
+            e('h1', { className: 'section-title' }, "L'arte della pasticceria artigianale"),
+            e('p', { className: 'font-serif italic text-xl text-gray-600 mb-8 max-w-2xl' }, 
+              '"Ogni creazione è un pezzo unico, modellato a mano con passione e precisione per rendere indimenticabili i tuoi moments speciali."'
+            ),
+            
+            // Box del Contatore Riparato e Indistruttibile
+            e('div', { className: 'bg-white p-8 rounded-lg shadow-sm border border-gray-100 flex flex-col items-center min-w-[280px] my-4' },
+              e('span', { className: 'font-sans text-xs font-bold tracking-widest text-gray-400 uppercase mb-2' }, 'Prossimo Aggiornamento'),
+              e('div', { className: 'stat-num' }, count),
+              e('p', { className: 'font-sans text-[11px] text-gray-400 mt-4 max-w-[200px]' }, 'Il timer si resetta automaticamente arrivato a zero.')
+            ),
 
-              <div className="mt-8">
-                <a href="#contatti" className="btn-gold">Prenota una consulenza</a>
-              </div>
-            </section>
-          </main>
+            e('div', { className: 'mt-8' },
+              e('a', { href: '#contatti', className: 'btn-gold' }, 'Prenota una consulenza')
+            )
+          )
+        ),
 
-          <footer className="bg-neutral-900 text-stone-400 py-12 px-6 text-center font-sans text-xs tracking-wider border-t border-neutral-800">
-            <p className="mb-2 text-stone-200 font-display tracking-widest text-sm">MAVILO DOLCE</p>
-            <p>&copy; 2026 Tutti i diritti riservati. Pasticceria Artigianale e Sugar Art.</p>
-          </footer>
-
-        </div>
+        // Footer
+        e('footer', { className: 'bg-neutral-900 text-stone-400 py-12 px-6 text-center font-sans text-xs tracking-wider border-t border-neutral-800' },
+          e('p', { className: 'mb-2 text-stone-200 font-display tracking-widest text-sm' }, 'MAVILO DOLCE'),
+          e('p', null, '© 2026 Tutti i diritti riservati. Pasticceria Artigianale e Sugar Art.')
+        )
       );
     }
 
-    // Inizializzazione sicura
     const container = document.getElementById('root');
     const root = ReactDOM.createRoot(container);
-    root.render(
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    );
+    root.render(e(React.StrictMode, null, e(App)));
   </script>
 </body>
 </html>
