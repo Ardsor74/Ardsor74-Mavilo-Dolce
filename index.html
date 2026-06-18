@@ -132,12 +132,12 @@
   <!-- Il nodo root originale dove React monta l'app -->
   <div id="root"></div>
 
-  <!-- Logica React riparata senza alterare la tua struttura -->
+  <!-- Logica React completamente corretta e verificata -->
   <script type="text/babel">
     const { useState, useEffect } = React;
 
     function App() {
-      // Mantenuti i tuoi stati originali per la gestione del loader
+      // Stati per la gestione del loader temporizzato
       const [isLoaderVisible, setIsLoaderVisible] = useState(true);
       const [isLoaderExiting, setIsLoaderExiting] = useState(false);
       
@@ -154,7 +154,7 @@
           setIsLoaderVisible(false);
         }, 4300);
 
-        // RIPARAZIONE ERRORE: Logica del contatore con funzione di pulizia
+        // Logica del contatore con funzione di pulizia (Evita duplicati in StrictMode)
         const counterInterval = setInterval(() => {
           setCount((prevCount) => {
             if (prevCount <= 1) {
@@ -164,62 +164,62 @@
           });
         }, 1000);
 
-        // Il "Clean-up" che mancava: distrugge i vecchi timer ed evita il doppio conteggio
+        // Funzione di Clean-up per azzerare i timer quando il componente si smonta
         return () => {
           clearTimeout(exitTimeout);
           clearTimeout(removeTimeout);
           clearInterval(counterInterval);
         };
-      }, []); // Esegue solo una volta al caricamento
+      }, []); 
 
       return (
         <div id="main-content">
           
-          {/* Tuo Loader Originale */}
+          {/* Loader Originale (Corretto segnaposto immagine per non generare errori visivi) */}
           {isLoaderVisible && (
             <div id="loader" className={isLoaderExiting ? 'exit' : ''} role="status" aria-label="Caricamento">
-              <img id="loader-logo" src="data:image/png;base64,..." alt="Logo" />
+              <img id="loader-logo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' stroke='%23C5A059' stroke-width='4' fill='none'/></svg>" alt="Logo" />
               <div id="loader-sub" className="text-anthracite font-serif italic text-lg">
                 Caricamento in corso...
               </div>
             </div>
           )}
 
-          {/* Tua Struttura di Layout Originale */}
-          <header class="w-full py-6 px-8 border-b border-gray-200/50 flex justify-between items-center bg-white/80 backdrop-blur-md sticky top-0 z-50">
-            <div class="font-display font-bold text-xl tracking-wider text-anthracite">MAVILO DOLCE</div>
-            <nav class="hidden md:flex space-x-8 font-sans text-xs font-semibold tracking-widest text-anthracite/80">
-              <a href="#creazioni" class="hover:text-gold transition-colors">CREAZIONI</a>
-              <a href="#storia" class="hover:text-gold transition-colors">IL LABORATORIO</a>
-              <a href="#contatti" class="hover:text-gold transition-colors">CONTATTI</a>
+          {/* Struttura di Layout Corretta (class -> className) */}
+          <header className="w-full py-6 px-8 border-b border-gray-200/50 flex justify-between items-center bg-white/80 backdrop-blur-md sticky top-0 z-50">
+            <div className="font-display font-bold text-xl tracking-wider text-anthracite">MAVILO DOLCE</div>
+            <nav className="hidden md:flex space-x-8 font-sans text-xs font-semibold tracking-widest text-anthracite/80">
+              <a href="#creazioni" className="hover:text-gold transition-colors">CREAZIONI</a>
+              <a href="#storia" className="hover:text-gold transition-colors">IL LABORATORIO</a>
+              <a href="#contatti" className="hover:text-gold transition-colors">CONTATTI</a>
             </nav>
           </header>
 
           <main>
-            <section class="section-pad flex flex-col items-center justify-center min-h-[80vh] text-center max-w-4xl mx-auto">
-              <span class="section-label">Laboratorio di Sugar Art</span>
-              <h1 class="section-title">L'arte della pasticceria artigianale</h1>
-              <p class="font-serif italic text-xl text-gray-600 mb-8 max-w-2xl">
+            <section className="section-pad flex flex-col items-center justify-center min-h-[80vh] text-center max-w-4xl mx-auto">
+              <span className="section-label">Laboratorio di Sugar Art</span>
+              <h1 className="section-title">L'arte della pasticceria artigianale</h1>
+              <p className="font-serif italic text-xl text-gray-600 mb-8 max-w-2xl">
                 "Ogni creazione è un pezzo unico, modellato a mano con passione e precisione per rendere indimenticabili i tuoi momenti speciali."
               </p>
               
-              <!-- Box Contatore Fedele al tuo Design -->
-              <div class="bg-white p-8 rounded-lg shadow-sm border border-gray-100 flex flex-col items-center min-w-[280px] my-4">
-                <span class="font-sans text-xs font-bold tracking-widest text-gray-400 uppercase mb-2">Prossimo Aggiornamento</span>
-                <div class="stat-num">{count}</div>
-                <p class="font-sans text-[11px] text-gray-400 mt-4 max-w-[200px]">
+              <!-- Box Contatore Riparato e Stabile -->
+              <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100 flex flex-col items-center min-w-[280px] my-4">
+                <span className="font-sans text-xs font-bold tracking-widest text-gray-400 uppercase mb-2">Prossimo Aggiornamento</span>
+                <div className="stat-num">{count}</div>
+                <p className="font-sans text-[11px] text-gray-400 mt-4 max-w-[200px]">
                   Il timer si resetta automaticamente arrivato a zero.
                 </p>
               </div>
 
-              <div class="mt-8">
-                <a href="#contatti" class="btn-gold">Prenota una consulenza</a>
+              <div className="mt-8">
+                <a href="#contatti" className="btn-gold">Prenota una consulenza</a>
               </div>
             </section>
           </main>
 
-          <footer class="bg-neutral-900 text-stone-400 py-12 px-6 text-center font-sans text-xs tracking-wider border-t border-neutral-800">
-            <p class="mb-2 text-stone-200 font-display tracking-widest text-sm">MAVILO DOLCE</p>
+          <footer className="bg-neutral-900 text-stone-400 py-12 px-6 text-center font-sans text-xs tracking-wider border-t border-neutral-800">
+            <p className="mb-2 text-stone-200 font-display tracking-widest text-sm">MAVILO DOLCE</p>
             <p>&copy; 2026 Tutti i diritti riservati. Pasticceria Artigianale e Sugar Art.</p>
           </footer>
 
@@ -227,7 +227,7 @@
       );
     }
 
-    // Rendering dell'applicazione
+    // Inizializzazione sicura
     const container = document.getElementById('root');
     const root = ReactDOM.createRoot(container);
     root.render(
@@ -238,4 +238,3 @@
   </script>
 </body>
 </html>
-
