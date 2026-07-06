@@ -442,6 +442,15 @@ function useCmsGallery() {
   return items;
 }
 
+/* ── Netlify Image CDN: ottimizza/compressione automatica in WebP ── */
+function netlifyImg(src, w) {
+  if (!src || typeof src !== 'string') return src;
+  if (/^https?:\/\//i.test(src)) return src; // link esterni (YouTube ecc.) non transformati
+  const path = src.startsWith('/') ? src : '/' + src;
+  const params = new URLSearchParams({ url: path, w: String(w || 600), q: '75', fm: 'webp' });
+  return `/.netlify/images?${params.toString()}`;
+}
+
 const TESTIMONIALS = [
   {
     quote: "La mia torta nuziale era più di quello che avevo sognato. Ogni fiore sembrava reale, ogni dettaglio raccontava la nostra storia. Un'emozione indescrivibile.",
@@ -698,7 +707,7 @@ function FloatWA() {
 }
 
 /* ── NAV ── */
-function Nav({ active, setActive }) {
+function Nav({ active, setActive, page }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
@@ -709,8 +718,22 @@ function Nav({ active, setActive }) {
   const links = ['Home', "Il Laboratorio", 'Gallery', 'Stampe', 'Preventivo', 'Contatti'];
   const ID_MAP = { 'home':'home', 'il laboratorio':'latelier', 'gallery':'gallery', 'stampe':'stampe', 'preventivo':'preventivo', 'contatti':'contatti' };
   const go = l => {
-    setActive(l); setOpen(false);
+    setOpen(false);
+    if (l === 'Gallery') {
+      setActive('Gallery');
+      window.location.hash = '#/gallery';
+      return;
+    }
     const id = ID_MAP[l.toLowerCase()] || l.toLowerCase().replace(/'/g,'').replace(/\s/g,'');
+    if (page === 'gallery') {
+      window.location.hash = '';
+      setTimeout(() => {
+        setActive(l);
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+      }, 80);
+      return;
+    }
+    setActive(l);
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
   return (
@@ -1013,7 +1036,7 @@ function Lightbox({ items, idx, onClose, onPrev, onNext }) {
       >
         <img
           key={idx}
-          src={item.src}
+          src={netlifyImg(item.src, 1400)}
           alt={`MAVILO DOLCE creazione ${item.id}`}
           style={{
             display:'block',
@@ -1066,32 +1089,18 @@ function Lightbox({ items, idx, onClose, onPrev, onNext }) {
   return createPortal(content, document.body);
 }
 
-/* ── GALLERY ── */
-function Gallery() {
+/* ── GALLERY PREVIEW (Home) — selezione fissa di 6, leggerissima ── */
+function GalleryPreview() {
   const cmsItems = useCmsGallery();
   const [lb, setLb] = useState(null);
-  const [visible, setVisible] = useState(() => Array(20).fill(true));
-  const [allChecked, setAllChecked] = useState(false);
-  const loadCount = useRef(0);
   useReveal();
 
-  // Usa CMS se ha dati, altrimenti fallback alle foto statiche
-  const hasCms = cmsItems !== null && cmsItems.length > 0;
-  const ITEMS = hasCms ? cmsItems : GALLERY;
-  const total = ITEMS.length;
-
-  const handleResult = (i, ok) => {
-    if (!ok) setVisible(v => { const n=[...v]; n[i]=false; return n; });
-    loadCount.current += 1;
-    if (loadCount.current >= total) setAllChecked(true);
-  };
-
-  // Mentre CMS carica, aspetta
   if (cmsItems === null) return null;
 
-  const lbItems = ITEMS.filter((_,i) => visible[i]);
-  const anyVisible = visible.some(Boolean);
-  if (allChecked && !anyVisible) return null;
+  const hasCms = cmsItems.length > 0;
+  const source = hasCms ? cmsItems.filter(it => it.tipo !== 'video') : GALLERY;
+  const ITEMS = source.slice(0, 6);
+  if (ITEMS.length === 0) return null;
 
   return (
     <section id="gallery" className="section-pad" aria-label="Galleria creazioni" style={{background:'#FFF'}}>
@@ -1101,34 +1110,25 @@ function Gallery() {
           <h2 className="reveal reveal-delay-1 section-title">Le Nostre <em>Creazioni</em></h2>
           <span className="reveal reveal-delay-2 gold-bar-center" style={{margin:'0 auto'}}/>
           <p className="reveal reveal-delay-3" style={{fontFamily:'Lato',fontSize:'0.8rem',color:'#bbb',letterSpacing:'0.1em',marginTop:'1.2rem'}}>
-            Tocca per aprire · Scorri per navigare
+            Un assaggio delle nostre creazioni
           </p>
         </div>
         <div className="masonry">
           {ITEMS.map((item,i) => (
-            <div key={item.id} className="mason-item"
-              style={{display: visible[i] ? 'block' : 'none'}}
-              onClick={() => { const lbIdx=lbItems.findIndex(x=>x.id===item.id); if(lbIdx>=0) setLb(lbIdx); }}
-              role="button" tabIndex={visible[i]?0:-1}
-              aria-label={`Apri creazione ${item.titolo || item.id}`}
-              onKeyDown={e=>e.key==='Enter'&&(()=>{const lbIdx=lbItems.findIndex(x=>x.id===item.id);if(lbIdx>=0)setLb(lbIdx);})()}>
-              {item.tipo === 'video' && item.src ? (
-                <video src={item.src} muted loop playsInline
-                  className="mason-img" style={{aspectRatio:item.tall?'3/4':'4/3',width:'100%',objectFit:'cover'}}
-                  onLoadedData={() => handleResult(i, true)}
-                  onError={() => handleResult(i, false)}/>
-              ) : item.tipo === 'link' && item.link ? (
+            <div key={item.id ?? i} className="mason-item"
+              onClick={() => setLb(i)}
+              role="button" tabIndex={0}
+              aria-label={`Apri creazione ${item.titolo || i+1}`}
+              onKeyDown={e=>e.key==='Enter'&&setLb(i)}>
+              {item.tipo === 'link' && item.link ? (
                 <iframe src={item.link.replace('watch?v=','embed/')}
                   className="mason-img" style={{aspectRatio:'16/9',width:'100%',border:'none'}}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  onLoad={() => handleResult(i, true)}
-                  onError={() => handleResult(i, false)}/>
+                  loading="lazy"/>
               ) : (
-                <img src={item.src} alt={`MAVILO DOLCE — ${item.titolo || 'creazione'}`}
+                <img src={netlifyImg(item.src, 500)} alt={`MAVILO DOLCE — ${item.titolo || 'creazione'}`}
                   className="mason-img" style={{aspectRatio:item.tall?'3/4':'4/3'}}
-                  loading="lazy"
-                  onLoad={() => handleResult(i, true)}
-                  onError={() => handleResult(i, false)}/>
+                  loading="lazy" decoding="async"/>
               )}
               <div className="mason-overlay" aria-hidden="true"/>
               {item.titolo && (
@@ -1139,11 +1139,16 @@ function Gallery() {
             </div>
           ))}
         </div>
+        <div className="reveal" style={{textAlign:'center',marginTop:'clamp(2rem,5vw,3rem)'}}>
+          <button className="btn-secondary" onClick={() => { window.location.hash = '#/gallery'; }}>
+            Vedi tutta la Gallery →
+          </button>
+        </div>
       </div>
-      {lb !== null && lbItems.length > 0 && (
-        <Lightbox items={lbItems} idx={lb} onClose={() => setLb(null)}
-          onPrev={() => setLb(i=>(i-1+lbItems.length)%lbItems.length)}
-          onNext={() => setLb(i=>(i+1)%lbItems.length)}/>
+      {lb !== null && (
+        <Lightbox items={ITEMS} idx={lb} onClose={() => setLb(null)}
+          onPrev={() => setLb(i=>(i-1+ITEMS.length)%ITEMS.length)}
+          onNext={() => setLb(i=>(i+1)%ITEMS.length)}/>
       )}
     </section>
   );
@@ -1217,29 +1222,14 @@ function VideoLightbox({ src, onClose }) {
   return createPortal(content, document.body);
 }
 
-/* ── VIDEO SECTION ── */
-function VideoSection() {
+/* ── VIDEO PREVIEW (Home) — solo 2 video, niente autoplay, leggera ── */
+function VideoPreviewHome() {
   useReveal();
-  const videos = ['video1.mp4','video2.mp4','video3.mp4','video4.mp4','video5.mp4','video6.mp4'];
-  const [visible, setVisible] = useState(() => Array(6).fill(true));
-  const [allChecked, setAllChecked] = useState(false);
-  const loadCount = useRef(0);
-
-  const handleResult = (i, ok) => {
-    if (!ok) setVisible(v => { const n=[...v]; n[i]=false; return n; });
-    loadCount.current += 1;
-    if (loadCount.current >= 6) setAllChecked(true);
-  };
-
+  const STATIC_VIDEOS = ['video1.mp4','video2.mp4'];
   const [playing, setPlaying] = useState(null);
-  const anyVisible = visible.some(Boolean);
-
-  // Non mostrare nulla finché non sappiamo se ci sono video
-  if (allChecked && !anyVisible) return null;
-  if (!allChecked && !anyVisible) return null;
 
   return (
-    <section id="video" className="section-pad" aria-label="Video delil laboratorio" style={{background:'#1A1A1A'}}>
+    <section className="section-pad" aria-label="Video del laboratorio" style={{background:'#1A1A1A'}}>
       <div style={{maxWidth:1200,margin:'0 auto'}}>
         <div style={{textAlign:'center',marginBottom:'clamp(2.5rem,6vw,4rem)'}}>
           <div className="reveal section-label" style={{color:'rgba(212,175,55,0.8)'}}>L'Arte in Movimento</div>
@@ -1249,19 +1239,15 @@ function VideoSection() {
             Tocca un video per riprodurlo
           </p>
         </div>
-        <div className="reveal" style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(min(100%,260px),1fr))',gap:'clamp(0.8rem,2vw,1.5rem)'}}>
-          {videos.map((v,i) => (
-            <div key={i} style={{display: visible[i] ? 'block' : 'none', position:'relative',overflow:'hidden',background:'#111',aspectRatio:'9/16',cursor:'pointer'}}
+        <div className="reveal" style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,260px),1fr))',gap:'clamp(0.8rem,2vw,1.5rem)',maxWidth:560,margin:'0 auto'}}>
+          {STATIC_VIDEOS.map((v,i) => (
+            <div key={i} style={{position:'relative',overflow:'hidden',background:'#111',aspectRatio:'9/16',cursor:'pointer'}}
               onClick={() => setPlaying(v)} role="button" tabIndex={0} aria-label={`Riproduci video ${i+1}`}
               onKeyDown={e => e.key==='Enter' && setPlaying(v)}>
-              <video src={v} autoPlay muted loop playsInline
-                style={{width:'100%',height:'100%',objectFit:'cover',display:'block',pointerEvents:'none'}}
-                onLoadedData={() => handleResult(i, true)}
-                onError={() => handleResult(i, false)}/>
-              <div style={{position:'absolute',inset:0,background:'rgba(0,0,0,0)',transition:'background 0.3s',display:'flex',alignItems:'center',justifyContent:'center'}}
-                onMouseEnter={e=>e.currentTarget.style.background='rgba(0,0,0,0.35)'}
-                onMouseLeave={e=>e.currentTarget.style.background='rgba(0,0,0,0)'}>
-                <div style={{width:56,height:56,borderRadius:'50%',background:'rgba(212,175,55,0.85)',display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 4px 20px rgba(0,0,0,0.4)'}}>
+              <video src={v} preload="metadata" muted playsInline
+                style={{width:'100%',height:'100%',objectFit:'cover',display:'block',pointerEvents:'none'}}/>
+              <div style={{position:'absolute',inset:0,background:'rgba(0,0,0,0.18)',display:'flex',alignItems:'center',justifyContent:'center'}}>
+                <div style={{width:56,height:56,borderRadius:'50%',background:'rgba(212,175,55,0.9)',display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 4px 20px rgba(0,0,0,0.4)'}}>
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="#1A1A1A"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                 </div>
               </div>
@@ -1269,9 +1255,165 @@ function VideoSection() {
             </div>
           ))}
         </div>
+        <div className="reveal" style={{textAlign:'center',marginTop:'2.5rem'}}>
+          <button className="btn-secondary" style={{borderColor:'rgba(212,175,55,0.4)',color:'#D4AF37'}}
+            onClick={() => { window.location.hash = '#/gallery'; }}>
+            Guarda tutti i video →
+          </button>
+        </div>
       </div>
       {playing && <VideoLightbox src={playing} onClose={() => setPlaying(null)}/>}
     </section>
+  );
+}
+
+/* ── GALLERY PAGE — archivio completo, paginato, ottimizzato Netlify ── */
+const PAGE_SIZE_PHOTOS = 9;
+const PAGE_SIZE_VIDEOS = 6;
+const ALL_STATIC_VIDEOS = ['video1.mp4','video2.mp4','video3.mp4','video4.mp4','video5.mp4','video6.mp4'];
+
+function GalleryPage() {
+  const cmsItems = useCmsGallery();
+  const [lb, setLb] = useState(null);
+  const [photoCount, setPhotoCount] = useState(PAGE_SIZE_PHOTOS);
+  const [videoCount, setVideoCount] = useState(PAGE_SIZE_VIDEOS);
+  const [playing, setPlaying] = useState(null);
+  useReveal();
+
+  useEffect(() => { window.scrollTo({ top: 0 }); }, []);
+
+  if (cmsItems === null) {
+    return (
+      <div style={{minHeight:'60vh',display:'flex',alignItems:'center',justifyContent:'center',paddingTop:120}}>
+        <div style={{fontFamily:'Lato',fontSize:'0.8rem',letterSpacing:'0.15em',color:'#bbb'}}>Caricamento…</div>
+      </div>
+    );
+  }
+
+  const hasCms = cmsItems.length > 0;
+  const allPhotos = hasCms ? cmsItems.filter(it => it.tipo !== 'video') : GALLERY;
+  const cmsVideos = hasCms ? cmsItems.filter(it => it.tipo === 'video' && it.src) : [];
+  const staticVideos = ALL_STATIC_VIDEOS.map((v,i) => ({ id:`static-${i}`, src:v, titolo:'' }));
+  const allVideos = [...cmsVideos, ...staticVideos];
+
+  const photos = allPhotos.slice(0, photoCount);
+  const videos = allVideos.slice(0, videoCount);
+
+  return (
+    <div style={{paddingTop:'clamp(64px,11vw,84px)',background:'#FFF'}}>
+      <section className="section-pad" style={{paddingBottom:'1.5rem',background:'#FFF'}} aria-label="Gallery completa">
+        <div style={{maxWidth:1200,margin:'0 auto',textAlign:'center'}}>
+          <div className="reveal section-label">Archivio Completo</div>
+          <h1 className="reveal reveal-delay-1 section-title">La Nostra <em>Gallery</em></h1>
+          <span className="reveal reveal-delay-2 gold-bar-center" style={{margin:'0 auto'}}/>
+          <p className="reveal reveal-delay-3" style={{fontFamily:'Lato',fontSize:'0.8rem',color:'#bbb',letterSpacing:'0.1em',marginTop:'1.2rem'}}>
+            Tocca per aprire · Scorri per navigare
+          </p>
+        </div>
+      </section>
+
+      <section className="section-pad" style={{paddingTop:0,background:'#FFF'}} aria-label="Tutte le foto">
+        <div style={{maxWidth:1200,margin:'0 auto'}}>
+          {photos.length === 0 ? (
+            <p style={{textAlign:'center',fontFamily:'Lato',color:'#bbb',fontSize:'0.85rem'}}>Nessuna foto ancora disponibile.</p>
+          ) : (
+            <>
+              <div className="masonry">
+                {photos.map((item,i) => (
+                  <div key={item.id ?? i} className="mason-item"
+                    onClick={() => setLb(i)}
+                    role="button" tabIndex={0}
+                    aria-label={`Apri creazione ${item.titolo || i+1}`}
+                    onKeyDown={e=>e.key==='Enter'&&setLb(i)}>
+                    {item.tipo === 'link' && item.link ? (
+                      <iframe src={item.link.replace('watch?v=','embed/')}
+                        className="mason-img" style={{aspectRatio:'16/9',width:'100%',border:'none'}}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        loading="lazy"/>
+                    ) : (
+                      <img src={netlifyImg(item.src, 500)} alt={`MAVILO DOLCE — ${item.titolo || 'creazione'}`}
+                        className="mason-img" style={{aspectRatio:item.tall?'3/4':'4/3'}}
+                        loading="lazy" decoding="async"/>
+                    )}
+                    <div className="mason-overlay" aria-hidden="true"/>
+                    {item.titolo && (
+                      <div className="mason-label" style={{position:'absolute',bottom:0,left:0,right:0,padding:'0.6rem',background:'rgba(0,0,0,0.55)',color:'#fff',fontFamily:'Lato',fontSize:'0.72rem',letterSpacing:'0.05em',opacity:0,transition:'opacity 0.3s'}}>
+                        {item.titolo}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+              {photoCount < allPhotos.length && (
+                <div style={{textAlign:'center',marginTop:'2.5rem'}}>
+                  <button className="btn-secondary" onClick={() => setPhotoCount(c => c + PAGE_SIZE_PHOTOS)}>
+                    Carica altre foto ({allPhotos.length - photoCount} rimanenti)
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </section>
+
+      {allVideos.length > 0 && (
+        <section className="section-pad" aria-label="Tutti i video" style={{background:'#1A1A1A'}}>
+          <div style={{maxWidth:1200,margin:'0 auto'}}>
+            <div style={{textAlign:'center',marginBottom:'clamp(2.5rem,6vw,4rem)'}}>
+              <div className="reveal section-label" style={{color:'rgba(212,175,55,0.8)'}}>L'Arte in Movimento</div>
+              <h2 className="reveal reveal-delay-1 section-title" style={{color:'#fff'}}>Guardaci <em style={{color:'#D4AF37'}}>al lavoro</em></h2>
+              <span className="reveal reveal-delay-2" style={{display:'block',width:38,height:1,background:'rgba(212,175,55,0.4)',margin:'0 auto'}}/>
+              <p className="reveal reveal-delay-3" style={{fontFamily:'Lato',fontSize:'0.78rem',color:'rgba(255,255,255,0.3)',letterSpacing:'0.1em',marginTop:'1.2rem'}}>
+                Tocca un video per riprodurlo
+              </p>
+            </div>
+            <div className="reveal" style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(min(100%,260px),1fr))',gap:'clamp(0.8rem,2vw,1.5rem)'}}>
+              {videos.map((v,i) => (
+                <div key={v.id ?? i} style={{position:'relative',overflow:'hidden',background:'#111',aspectRatio:'9/16',cursor:'pointer'}}
+                  onClick={() => setPlaying(v.src)} role="button" tabIndex={0} aria-label={`Riproduci video ${i+1}`}
+                  onKeyDown={e => e.key==='Enter' && setPlaying(v.src)}>
+                  <video src={v.src} preload="metadata" muted playsInline
+                    style={{width:'100%',height:'100%',objectFit:'cover',display:'block',pointerEvents:'none'}}/>
+                  <div style={{position:'absolute',inset:0,background:'rgba(0,0,0,0.18)',display:'flex',alignItems:'center',justifyContent:'center'}}>
+                    <div style={{width:56,height:56,borderRadius:'50%',background:'rgba(212,175,55,0.9)',display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 4px 20px rgba(0,0,0,0.4)'}}>
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="#1A1A1A"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    </div>
+                  </div>
+                  <div style={{position:'absolute',inset:0,border:'1px solid rgba(212,175,55,0.15)',pointerEvents:'none'}} aria-hidden="true"/>
+                </div>
+              ))}
+            </div>
+            {videoCount < allVideos.length && (
+              <div style={{textAlign:'center',marginTop:'2.5rem'}}>
+                <button className="btn-secondary" style={{borderColor:'rgba(212,175,55,0.4)',color:'#D4AF37'}}
+                  onClick={() => setVideoCount(c => c + PAGE_SIZE_VIDEOS)}>
+                  Carica altri video ({allVideos.length - videoCount} rimanenti)
+                </button>
+              </div>
+            )}
+          </div>
+          {playing && <VideoLightbox src={playing} onClose={() => setPlaying(null)}/>}
+        </section>
+      )}
+
+      <section className="section-pad" style={{background:'#FAFAF8',textAlign:'center'}}>
+        <div style={{maxWidth:600,margin:'0 auto'}}>
+          <div className="reveal" style={{fontFamily:'Playfair Display,serif',fontStyle:'italic',fontSize:'1.2rem',color:'#1A1A1A',marginBottom:'1.2rem'}}>
+            Ti piace quello che vedi?
+          </div>
+          <a href={`https://wa.me/${WA}?text=${encodeURIComponent('Ciao! Ho visto la vostra gallery, vorrei un preventivo. 🌸')}`}
+            target="_blank" rel="noopener noreferrer" className="btn-primary" style={{display:'inline-flex'}}>
+            Richiedi un Preventivo
+          </a>
+        </div>
+      </section>
+
+      {lb !== null && photos.length > 0 && (
+        <Lightbox items={photos} idx={lb} onClose={() => setLb(null)}
+          onPrev={() => setLb(i=>(i-1+photos.length)%photos.length)}
+          onNext={() => setLb(i=>(i+1)%photos.length)}/>
+      )}
+    </div>
   );
 }
 
@@ -2300,7 +2442,15 @@ function Footer({ onAdmin, onPrivacy }) {
             <div style={{fontFamily:'Lato',fontSize:'0.6rem',letterSpacing:'0.28em',textTransform:'uppercase',color:'#D4AF37',marginBottom:'1.2rem'}}>Navigazione</div>
             <nav aria-label="Link utili footer">
               {footerLinks.map(l => (
-                <button key={l.id} onClick={() => document.getElementById(l.id)?.scrollIntoView({behavior:'smooth'})}
+                <button key={l.id} onClick={() => {
+                    if (l.id === 'gallery') { window.location.hash = '#/gallery'; return; }
+                    if (window.location.hash === '#/gallery') {
+                      window.location.hash = '';
+                      setTimeout(() => document.getElementById(l.id)?.scrollIntoView({behavior:'smooth'}), 80);
+                      return;
+                    }
+                    document.getElementById(l.id)?.scrollIntoView({behavior:'smooth'});
+                  }}
                   style={{display:'block',fontFamily:'Lato',fontSize:'0.8rem',color:'rgba(255,255,255,0.35)',background:'none',border:'none',cursor:'pointer',padding:'0.3rem 0',letterSpacing:'0.06em',transition:'color 0.2s',textAlign:'left'}}
                   onMouseEnter={e=>e.currentTarget.style.color='#D4AF37'}
                   onMouseLeave={e=>e.currentTarget.style.color='rgba(255,255,255,0.35)'}>
@@ -2350,29 +2500,38 @@ function App() {
   const [nav, setNav] = useState('Home');
   const [admin, setAdmin] = useState(null);
   const [showPrivacy, setShowPrivacy] = useState(false);
+  const [page, setPage] = useState(() =>
+    window.location.hash === '#/gallery' ? 'gallery' : 'home'
+  );
   const [blocked, setBlocked] = useState(() => {
     try { return JSON.parse(localStorage.getItem('mavilo_blocked') || '[]'); } catch { return []; }
   });
 
-  /* Splash screen — fade-in 1.5s → pausa 1s → exit coperchio 1.5s */
+  /* Splash screen */
   useEffect(() => {
     const loader = document.getElementById('loader');
-    // Dopo 2.5s aggiungi classe exit (animazione 1.5s)
-    const t1 = setTimeout(() => {
-      if (loader) loader.classList.add('exit');
-    }, 3800);
-    // Dopo 4.8s totali rimuovi completamente
-    const t2 = setTimeout(() => {
-      if (loader) loader.style.display = 'none';
-    }, 4600);
+    const t1 = setTimeout(() => { if (loader) loader.classList.add('exit'); }, 3800);
+    const t2 = setTimeout(() => { if (loader) loader.style.display = 'none'; }, 4600);
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
 
-  /* Active nav via scroll position */
+  /* Hash routing: ascolta cambiamenti hash */
   useEffect(() => {
+    const onHash = () => {
+      const isGallery = window.location.hash === '#/gallery';
+      setPage(isGallery ? 'gallery' : 'home');
+      setNav(isGallery ? 'Gallery' : 'Home');
+    };
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+
+  /* Active nav via scroll — solo in home */
+  useEffect(() => {
+    if (page === 'gallery') return;
     const secs = [
       {id:'home',         label:'Home'},
-      {id:'latelier',     label:"Il Laboratorio"},
+      {id:'latelier',     label:'Il Laboratorio'},
       {id:'gallery',      label:'Gallery'},
       {id:'stampe',       label:'Stampe'},
       {id:'comefunziona', label:'Preventivo'},
@@ -2393,18 +2552,35 @@ function App() {
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  }, [page]);
 
   const scrollTo = id => setTimeout(() => document.getElementById(id)?.scrollIntoView({behavior:'smooth'}), 50);
 
+  /* PAGINA GALLERY */
+  if (page === 'gallery') {
+    return (
+      <>
+        <Nav active="Gallery" setActive={setNav} page="gallery"/>
+        <GalleryPage/>
+        <Footer onAdmin={() => setAdmin('login')} onPrivacy={() => setShowPrivacy(true)}/>
+        <FloatWA/>
+        <CookieBanner onPrivacy={() => setShowPrivacy(true)}/>
+        {showPrivacy && <PrivacyModal onClose={() => setShowPrivacy(false)}/>}
+        {admin === 'login' && <AdminLogin onOk={() => setAdmin('dash')} onClose={() => setAdmin(null)}/>}
+        {admin === 'dash' && <AdminDash onClose={() => setAdmin(null)} blocked={blocked} setBlocked={setBlocked}/>}
+      </>
+    );
+  }
+
+  /* HOME PAGE */
   return (
     <>
-      <Nav active={nav} setActive={setNav}/>
+      <Nav active={nav} setActive={setNav} page="home"/>
       <Hero onCTA={() => scrollTo('preventivo')}/>
       <Numbers/>
       <Atelier/>
-      <Gallery/>
-      <VideoSection/>
+      <GalleryPreview/>
+      <VideoPreviewHome/>
       <Testimonial/>
       <StampeAlimentari/>
       <ComeFunziona/>
