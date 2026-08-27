@@ -43,15 +43,29 @@
     "@context": "https://schema.org",
     "@type": "Bakery",
     "name": "MAVILO DOLCE",
-    "description": "Atelier artigianale di Sugar Artist & Pasticceria Artigianale. Fiori di zucchero e torte nuziali su commissione.",
+    "description": "Atelier artigianale di Sugar Artist & Pasticceria Artigianale a Fuorigrotta, Napoli. Fiori di zucchero e torte nuziali su commissione.",
     "url": "https://mavilodolce.netlify.app/",
-    "image": "https://images.unsplash.com/photo-1558636508-e0969251be4b?w=1200&q=80",
+    "image": "https://mavilodolce.netlify.app/atelier.jpg",
     "telephone": "+393278354278",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Via Campegna, 133",
+      "addressLocality": "Napoli",
+      "addressRegion": "NA",
+      "postalCode": "80124",
+      "addressCountry": "IT"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 40.8212247,
+      "longitude": 14.1987639
+    },
+    "areaServed": ["Fuorigrotta", "Vomero", "Bagnoli", "Soccavo", "Napoli"],
     "sameAs": [
       "https://www.instagram.com/anjalagomez/",
-      "https://www.facebook.com/anjalagomeznapoli/"
+      "https://www.facebook.com/anjalagomeznapoli/",
+      "https://wa.me/393278354278"
     ],
-    "servesCuisine": "Pasticceria Artistica",
     "priceRange": "€€€",
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",
@@ -775,6 +789,7 @@ function Hero({ onCTA }) {
         </div>
         <h1 className="hero-title hero-anim ha1">
           MAVILO<br/><span style={{fontStyle:'italic',color:'#D4AF37'}}>DOLCE</span>
+          <span style={{display:'block',fontFamily:'Lato',fontStyle:'normal',fontSize:'clamp(0.75rem,1.6vw,0.95rem)',letterSpacing:'0.12em',color:'#999',marginTop:'0.6rem',textTransform:'uppercase'}}>Torte Personalizzate & Cake Design — Napoli, Fuorigrotta</span>
         </h1>
         <div className="hero-anim ha2" style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'clamp(0.8rem,3vw,1.5rem)',margin:'1.8rem 0 1.4rem'}}>
           <div style={{height:1,width:'clamp(30px,5vw,55px)',background:'rgba(212,175,55,0.45)'}}/>
@@ -1220,7 +1235,7 @@ function VideoLightbox({ src, onClose }) {
 /* ── VIDEO SECTION ── */
 function VideoSection() {
   useReveal();
-  const videos = ['video1.mp4','video2.mp4','video3.mp4','video4.mp4','video5.mp4','video6.mp4'];
+  const videos = ['video1.mp4','video2.mp4'];
   const [visible, setVisible] = useState(() => Array(6).fill(true));
   const [allChecked, setAllChecked] = useState(false);
   const loadCount = useRef(0);
@@ -2134,7 +2149,7 @@ function AdminDash({ onClose, blocked, setBlocked }) {
                 <span style={{color:'rgba(255,255,255,0.25)'}}>Formato: MP4 · Max consigliato: 30MB per video</span>
               </p>
               <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(130px,1fr))',gap:'0.5rem'}}>
-                {['video1.mp4','video2.mp4','video3.mp4','video4.mp4','video5.mp4','video6.mp4'].map(v=>(
+                {['video1.mp4','video2.mp4'].map(v=>(
                   <div key={v} style={{border:'1px solid rgba(212,175,55,0.15)',padding:'0.6rem 0.8rem',display:'flex',alignItems:'center',gap:'0.5rem',background:'rgba(255,255,255,0.02)'}}>
                     <span style={{color:'#D4AF37',fontSize:'0.75rem'}}>🎬</span>
                     <span style={{fontFamily:'Lato',fontSize:'0.72rem',color:'#aaa',letterSpacing:'0.04em'}}>{v}</span>
