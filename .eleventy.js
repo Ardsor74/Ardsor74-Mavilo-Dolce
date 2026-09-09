@@ -5,6 +5,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("admin");
   eleventyConfig.addPassthroughCopy("uploads");
   eleventyConfig.addPassthroughCopy("atelier.jpg");
+  eleventyConfig.addPassthroughCopy("logo-mavilo-dolce.png");
   eleventyConfig.addPassthroughCopy("robots.txt");
 
   // Video (solo quelli effettivamente presenti)
