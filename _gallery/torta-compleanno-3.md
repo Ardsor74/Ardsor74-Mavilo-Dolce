@@ -1,7 +1,7 @@
 ---
-title: Torta compleanno
+title: Torta Red Velvet Rustica Elegante
 tipo: foto
-image: /uploads/1000105234.jpg
+image: /uploads/torta-red-velvet-rustica-elegante-mavilo-dolce-napoli.jpg
 evidenza: false
 date: 2026-06-22T22:14:00.000+02:00
 ---
