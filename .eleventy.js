@@ -8,6 +8,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("logo-mavilo-dolce.png");
   eleventyConfig.addPassthroughCopy("preview-nuovo-sito.html");
   eleventyConfig.addPassthroughCopy("robots.txt");
+  eleventyConfig.addPassthroughCopy("sitemap.xml");
 
   // Video (solo quelli effettivamente presenti)
   for (let i = 1; i <= 2; i++) {
