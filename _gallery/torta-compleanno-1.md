@@ -1,7 +1,7 @@
 ---
-title: Torta compleanno
+title: Torta di Compleanno Effetto Marmo Grigio e Oro
 tipo: foto
-image: /uploads/1000105229.jpg
+image: /uploads/torta-compleanno-marmo-grigio-oro-elegante-mavilo-dolce-napoli.jpg
 evidenza: false
 date: 2026-06-22T21:49:00.000+02:00
 ---
