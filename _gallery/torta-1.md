@@ -1,7 +1,7 @@
 ---
-title: Torta
+title: Torta di Compleanno Bambina Tema Funghetti e Farfalle
 tipo: foto
-image: /uploads/1000105233.jpg
+image: /uploads/torta-compleanno-bambina-funghetti-farfalle-rosa-mavilo-dolce-napoli.jpg
 evidenza: false
 date: 2026-06-22T22:14:00.000+02:00
 ---
