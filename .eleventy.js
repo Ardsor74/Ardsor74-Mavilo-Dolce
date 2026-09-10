@@ -11,6 +11,8 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("sitemap.xml");
   eleventyConfig.addPassthroughCopy("google35da35e9160079eb.html");
   eleventyConfig.addPassthroughCopy("grazie.html");
+  eleventyConfig.addPassthroughCopy("stampa-biglietti.html");
+  eleventyConfig.addPassthroughCopy("qr-grazie.svg");
 
   // Video (solo quelli effettivamente presenti)
   for (let i = 1; i <= 2; i++) {
