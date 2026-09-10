@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Grazie! — MAVILO DOLCE</title>
+<meta name="description" content="Grazie per aver scelto Mavilo Dolce. Lascia una recensione e seguici sui social per scoprire le nostre nuove creazioni.">
+<meta name="robots" content="noindex, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,500&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: 'Lato', sans-serif;
+    background: #FFF;
+    color: #1A1A1A;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+  h1, h2, .serif { font-family: 'Playfair Display', serif; }
+
+  .page {
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, #FAFAF8 0%, #FFFFFF 18%, #FFFFFF 100%);
+  }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    padding: 2.75rem 1.5rem 1.5rem;
+  }
+  .logo {
+    width: 92px;
+    height: 92px;
+    object-fit: contain;
+    border-radius: 14px;
+    margin: 0 auto 1.1rem;
+    display: block;
+  }
+  .brand-name {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #1A1A1A;
+  }
+  .brand-name em { font-style: italic; color: #D4AF37; }
+  .thanks-msg {
+    margin-top: 1.1rem;
+    font-family: 'Lato', sans-serif;
+    font-size: 1.02rem;
+    line-height: 1.55;
+    color: #333;
+    padding: 0 0.5rem;
+  }
+  .thanks-msg strong { color: #1A1A1A; }
+
+  /* ── STARS ── */
+  .stars {
+    font-size: 1.6rem;
+    letter-spacing: 0.15em;
+    color: #D4AF37;
+    text-align: center;
+    margin: 1.4rem 0 0.6rem;
+  }
+
+  /* ── CTA PRINCIPALE — RECENSIONE ── */
+  .review-block {
+    padding: 0 1.5rem;
+    margin-top: 0.3rem;
+  }
+  .btn-review {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    width: 100%;
+    background: #1A1A1A;
+    color: #D4AF37;
+    font-family: 'Lato', sans-serif;
+    text-decoration: none;
+    padding: 1.3rem 1rem;
+    border-radius: 4px;
+    box-shadow: 0 10px 30px rgba(212,175,55,0.28), 0 2px 8px rgba(0,0,0,0.15);
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: pulseGlow 2.6s ease-in-out infinite;
+  }
+  .btn-review:active { transform: scale(0.97); }
+  @keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 10px 30px rgba(212,175,55,0.28), 0 2px 8px rgba(0,0,0,0.15); }
+    50% { box-shadow: 0 10px 38px rgba(212,175,55,0.5), 0 2px 10px rgba(0,0,0,0.18); }
+  }
+  .btn-review .stars-inline {
+    font-size: 1.3rem;
+    letter-spacing: 0.12em;
+    line-height: 1;
+  }
+  .btn-review .label {
+    font-size: 0.95rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .btn-review .sub {
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: rgba(212,175,55,0.75);
+    text-transform: none;
+    font-weight: 400;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 2.2rem 1.5rem 1rem;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(26,26,26,0.12);
+  }
+  .divider span {
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #999;
+    white-space: nowrap;
+  }
+
+  /* ── SOCIAL SECTION ── */
+  .social-intro {
+    text-align: center;
+    padding: 0 1.5rem;
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 1.3rem;
+  }
+  .social-row {
+    display: flex;
+    justify-content: center;
+    gap: 0.9rem;
+    padding: 0 1.5rem;
+    flex-wrap: wrap;
+  }
+  .social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1px solid rgba(26,26,26,0.15);
+    background: #fff;
+    color: #1A1A1A;
+    text-decoration: none;
+    transition: all 0.25s;
+  }
+  .social-btn:active { transform: scale(0.93); }
+  .social-btn svg { width: 24px; height: 24px; }
+  .social-btn.ig:hover, .social-btn.ig:active { border-color: #E1306C; color: #E1306C; }
+  .social-btn.tiktok:hover, .social-btn.tiktok:active { border-color: #1A1A1A; }
+  .social-btn.wa { background: #25D366; border-color: #25D366; color: #fff; }
+
+  /* ── GALLERY SCROLL ── */
+  .gallery-section {
+    margin-top: 2.4rem;
+    padding-bottom: 0.5rem;
+  }
+  .gallery-title {
+    text-align: center;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 1rem;
+  }
+  .gallery-scroll {
+    display: flex;
+    gap: 0.7rem;
+    overflow-x: auto;
+    padding: 0 1.5rem 0.5rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .gallery-scroll::-webkit-scrollbar { height: 4px; }
+  .gallery-scroll::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 2px; }
+  .gallery-scroll img {
+    width: 168px;
+    height: 168px;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    margin-top: auto;
+    text-align: center;
+    padding: 2.5rem 1.5rem 2.2rem;
+  }
+  footer .site-link {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: #999;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  footer .site-link:hover { color: #D4AF37; }
+  footer .addr {
+    margin-top: 0.6rem;
+    font-size: 0.72rem;
+    color: #bbb;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <img class="logo" src="/logo-mavilo-dolce.png" alt="MAVILO DOLCE">
+    <div class="brand-name">MAVILO <em>DOLCE</em></div>
+    <p class="thanks-msg"><strong>Grazie di cuore</strong> per aver scelto il nostro laboratorio artigianale! Ogni creazione nasce con cura, per rendere speciale il tuo momento.</p>
+  </header>
+
+  <div class="review-block">
+    <a class="btn-review" href="https://search.google.com/local/writereview?placeid=ChIJzad8VEwJOxMRqPDItqHWnrQ" target="_blank" rel="noopener">
+      <span class="stars-inline">★★★★★</span>
+      <span class="label">Lascia la tua recensione</span>
+      <span class="sub">su Google — bastano 30 secondi</span>
+    </a>
+  </div>
+
+  <div class="divider"><span>Resta in contatto</span></div>
+  <p class="social-intro">Seguici sul laboratorio: scopri le nuove creazioni prima di tutti</p>
+
+  <div class="social-row">
+    <a class="social-btn ig" href="https://www.instagram.com/anjalagomez/" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a class="social-btn tiktok" href="https://www.tiktok.com/@mavilo.dolce" target="_blank" rel="noopener" aria-label="TikTok">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82c-.83-.72-1.35-1.76-1.35-2.92h-3.1v13.44c0 1.57-1.27 2.85-2.85 2.85a2.85 2.85 0 0 1 0-5.7c.3 0 .58.04.85.13V10.6a6 6 0 0 0-.85-.06 5.98 5.98 0 0 0 0 11.96 5.98 5.98 0 0 0 5.98-5.98V9.2a7.6 7.6 0 0 0 4.45 1.43V7.53a4.85 4.85 0 0 1-3.13-1.71z"/></svg>
+    </a>
+    <a class="social-btn wa" href="https://wa.me/393278354278?text=Ciao!%20Vorrei%20chiedere%20informazioni%20%F0%9F%8E%82" target="_blank" rel="noopener" aria-label="WhatsApp">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.13c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.16 8.16 0 0 1-1.25-4.36c0-4.51 3.67-8.18 8.19-8.18 2.19 0 4.24.85 5.79 2.4a8.13 8.13 0 0 1 2.39 5.79c0 4.51-3.67 8.21-8.13 8.21zm4.48-6.13c-.24-.12-1.45-.72-1.68-.8-.22-.08-.39-.12-.55.12-.16.24-.63.8-.78.97-.14.16-.28.18-.53.06-.24-.12-1.03-.38-1.96-1.21-.72-.65-1.22-1.44-1.36-1.68-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.32-.75-1.81-.2-.48-.4-.41-.55-.42h-.47c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.45-.59 1.65-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28z"/></svg>
+    </a>
+  </div>
+
+  <div class="gallery-section">
+    <div class="gallery-title">Le nostre creazioni</div>
+    <div class="gallery-scroll">
+      <img src="/uploads/torta-compleanno-marmo-grigio-oro-elegante-mavilo-dolce-napoli.jpg" alt="Torta di compleanno effetto marmo grigio e oro — Mavilo Dolce Napoli" loading="lazy">
+      <img src="/uploads/torta-drip-cake-biscoff-caramello-mavilo-dolce-napoli.jpg" alt="Drip cake al Biscoff con caramello — Mavilo Dolce Napoli" loading="lazy">
+      <img src="/uploads/torta-red-velvet-rustica-elegante-mavilo-dolce-napoli.jpg" alt="Torta red velvet rustica elegante — Mavilo Dolce Napoli" loading="lazy">
+      <img src="/uploads/composizione-fiori-zucchero-pesca-giallo-pastello-mavilo-dolce-napoli.jpg" alt="Composizione fiori di zucchero pesca e giallo pastello — Mavilo Dolce Napoli" loading="lazy">
+    </div>
+  </div>
+
+  <footer>
+    <a class="site-link" href="https://mavilodolce.netlify.app/">Scopri la galleria completa →</a>
+    <p class="addr">Via Campegna, 133 — Fuorigrotta, Napoli</p>
+  </footer>
+
+</div>
+</body>
+</html>
