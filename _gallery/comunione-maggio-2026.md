@@ -1,6 +1,6 @@
 ---
-title: Comunione Maggio 2026
+title: Torta Scenografica Artistica Effetto Acquerello
 tipo: foto
-image: /uploads/img_4918.jpg
+image: /uploads/torta-scenografica-acquerello-fiori-artistica-mavilo-dolce-napoli.jpg
 evidenza: false
 ---
