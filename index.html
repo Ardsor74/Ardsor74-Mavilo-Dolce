@@ -1607,7 +1607,7 @@ function Lightbox({
   }, /*#__PURE__*/React.createElement("img", {
     key: idx,
     src: item.src,
-    alt: `MAVILO DOLCE creazione ${item.id}`,
+    alt: `MAVILO DOLCE — ${item.titolo || item.title || 'creazione artigianale'} — Napoli`,
     style: {
       display: 'block',
       maxWidth: 'min(90vw, 900px)',
@@ -1783,7 +1783,7 @@ function Gallery() {
     onError: () => handleResult(i, false)
   }) : /*#__PURE__*/React.createElement("img", {
     src: item.src,
-    alt: `MAVILO DOLCE — ${item.titolo || 'creazione'}`,
+    alt: `MAVILO DOLCE — ${item.titolo || 'creazione artigianale'} — Napoli`,
     className: "mason-img",
     style: {
       aspectRatio: item.tall ? '3/4' : '4/3'
