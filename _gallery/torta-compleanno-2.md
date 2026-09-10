@@ -1,7 +1,7 @@
 ---
-title: Torta compleanno
+title: Torta di Compleanno al Cioccolato Personalizzata
 tipo: foto
-image: /uploads/1000105239.jpg
+image: /uploads/torta-compleanno-cioccolato-personalizzata-mavilo-dolce-napoli.jpg
 evidenza: false
 date: 2026-06-22T22:03:00.000+02:00
 ---
