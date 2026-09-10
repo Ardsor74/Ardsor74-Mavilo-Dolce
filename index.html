@@ -1982,7 +1982,7 @@ function VideoLightbox({
 /* ── VIDEO SECTION ── */
 function VideoSection() {
   useReveal();
-  const videos = ['video1.mp4', 'video2.mp4', 'video-creazione-torta-mavilo-dolce-napoli.mp4'];
+  const videos = ['video1.mp4', 'video2.mp4', 'uploads/video-creazione-torta-mavilo-dolce-napoli.mp4'];
   const [visible, setVisible] = useState(() => Array(6).fill(true));
   const [allChecked, setAllChecked] = useState(false);
   const loadCount = useRef(0);
@@ -4393,7 +4393,7 @@ function AdminDash({
       gridTemplateColumns: 'repeat(auto-fill,minmax(130px,1fr))',
       gap: '0.5rem'
     }
-  }, ['video1.mp4', 'video2.mp4', 'video-creazione-torta-mavilo-dolce-napoli.mp4'].map(v => /*#__PURE__*/React.createElement("div", {
+  }, ['video1.mp4', 'video2.mp4', 'uploads/video-creazione-torta-mavilo-dolce-napoli.mp4'].map(v => /*#__PURE__*/React.createElement("div", {
     key: v,
     style: {
       border: '1px solid rgba(212,175,55,0.15)',
