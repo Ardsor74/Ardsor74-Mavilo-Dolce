@@ -1681,13 +1681,16 @@ function Gallery() {
   const [lb, setLb] = useState(null);
   const [visible, setVisible] = useState(() => Array(20).fill(true));
   const [allChecked, setAllChecked] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const loadCount = useRef(0);
   useReveal();
 
   // Usa CMS se ha dati, altrimenti fallback alle foto statiche
   const hasCms = cmsItems !== null && cmsItems.length > 0;
-  const ITEMS = hasCms ? cmsItems : GALLERY;
-  const total = ITEMS.length;
+  const ITEMS_ALL = hasCms ? cmsItems : GALLERY;
+  const total = ITEMS_ALL.length;
+  const PREVIEW_COUNT = 8;
+  const ITEMS = expanded ? ITEMS_ALL : ITEMS_ALL.slice(0, PREVIEW_COUNT);
   const handleResult = (i, ok) => {
     if (!ok) setVisible(v => {
       const n = [...v];
@@ -1810,7 +1813,15 @@ function Gallery() {
       opacity: 0,
       transition: 'opacity 0.3s'
     }
-  }, item.titolo))))), lb !== null && lbItems.length > 0 && /*#__PURE__*/React.createElement(Lightbox, {
+  }, item.titolo))))), total > PREVIEW_COUNT && !expanded && /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: 'center',
+      marginTop: 'clamp(2rem,5vw,3rem)'
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "btn-secondary",
+    onClick: () => setExpanded(true)
+  }, `Vedi tutte le creazioni (${total})`)), lb !== null && lbItems.length > 0 && /*#__PURE__*/React.createElement(Lightbox, {
     items: lbItems,
     idx: lb,
     onClose: () => setLb(null),
@@ -1914,6 +1925,7 @@ function VideoLightbox({
     src: src,
     controls: true,
     autoPlay: true,
+    muted: true,
     playsInline: true,
     style: {
       width: '100%',
