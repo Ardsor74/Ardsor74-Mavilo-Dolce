@@ -17,7 +17,6 @@
   }
   h1, .serif { font-family: 'Playfair Display', serif; }
 
-  /* ── Barra istruzioni (solo schermo, sparisce in stampa) ── */
   .toolbar {
     max-width: 900px;
     margin: 0 auto;
@@ -40,21 +39,22 @@
   }
   .print-btn:hover { background: #D4AF37; color: #1A1A1A; }
 
-  /* ── Foglio A4 ── */
+  /* ── Foglio A4 — griglia 2 colonne x 5 righe, biglietto 85x55mm ── */
   .sheet {
     width: 210mm;
     min-height: 297mm;
     margin: 0 auto 2rem;
     background: #fff;
     box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-    padding: 10mm 5mm;
+    padding: 9mm 12.5mm;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 85mm);
+    grid-template-rows: repeat(5, 55mm);
+    justify-content: center;
     gap: 0;
   }
 
-  /* ── Singolo bigliettino: 85mm x 65mm circa (formato biglietto da visita esteso) ── */
+  /* ── Singolo bigliettino: 85mm x 55mm (formato biglietto da visita) ── */
   .card {
     border: 1px dashed #ccc;
     display: flex;
@@ -64,48 +64,48 @@
     text-align: center;
     padding: 3mm 4mm;
     position: relative;
-    gap: 1.2mm;
+    gap: 1mm;
   }
   .card .logo {
-    width: 18mm;
-    height: 18mm;
+    width: 12mm;
+    height: 12mm;
     object-fit: contain;
-    border-radius: 2.5mm;
+    border-radius: 1.8mm;
   }
   .card .brand {
     font-family: 'Playfair Display', serif;
-    font-size: 13pt;
+    font-size: 9.5pt;
     font-weight: 700;
     letter-spacing: 0.02em;
     color: #1A1A1A;
+    line-height: 1;
   }
   .card .brand em { font-style: italic; color: #D4AF37; }
   .card .msg {
     font-family: 'Lato', sans-serif;
-    font-size: 8.3pt;
-    line-height: 1.32;
+    font-size: 6.2pt;
+    line-height: 1.25;
     color: #333;
-    max-width: 46mm;
+    max-width: 60mm;
     font-weight: 400;
   }
   .card .qr-wrap {
-    width: 28mm;
-    height: 28mm;
-    margin-top: 0.5mm;
+    width: 20mm;
+    height: 20mm;
+    margin-top: 0.3mm;
   }
   .card .qr-wrap img { width: 100%; height: 100%; display: block; }
   .card .cta {
     font-family: 'Lato', sans-serif;
-    font-size: 6.6pt;
-    letter-spacing: 0.02em;
+    font-size: 5.3pt;
+    letter-spacing: 0.01em;
     text-transform: none;
     color: #8a7326;
     font-weight: 700;
-    max-width: 38mm;
-    line-height: 1.25;
+    max-width: 50mm;
+    line-height: 1.2;
   }
 
-  /* ── Print styles ── */
   @media print {
     body { background: #fff; }
     .toolbar { display: none; }
@@ -124,69 +124,23 @@
 
   <div class="toolbar">
     <h1 class="serif">Bigliettini da stampare</h1>
-    <p>Foglio A4 pronto — 8 bigliettini con linee guida per il taglio.<br>Usa il pulsante qui sotto per stampare o salvare come PDF.</p>
+    <p>Foglio A4 pronto — 10 bigliettini formato biglietto da visita (8,5×5,5 cm) con linee guida per il taglio.<br>Usa il pulsante qui sotto per stampare o salvare come PDF.</p>
     <button class="print-btn" onclick="window.print()">🖨️ Stampa foglio</button>
   </div>
 
-  <div class="sheet">
-    <!-- Ripetuto 8 volte identico -->
-    <div class="card">
-      <img class="logo" src="/logo-mavilo-dolce.png" alt="">
-      <div class="brand">MAVILO <em>DOLCE</em></div>
-      <p class="msg">Grazie di cuore per aver scelto il nostro laboratorio artigianale!</p>
-      <div class="qr-wrap"><img src="/qr-grazie.svg" alt="QR Code"></div>
-      <div class="cta">Inquadra con la fotocamera<br>per recensire</div>
-    </div>
-    <div class="card">
-      <img class="logo" src="/logo-mavilo-dolce.png" alt="">
-      <div class="brand">MAVILO <em>DOLCE</em></div>
-      <p class="msg">Grazie di cuore per aver scelto il nostro laboratorio artigianale!</p>
-      <div class="qr-wrap"><img src="/qr-grazie.svg" alt="QR Code"></div>
-      <div class="cta">Inquadra con la fotocamera<br>per recensire</div>
-    </div>
-    <div class="card">
-      <img class="logo" src="/logo-mavilo-dolce.png" alt="">
-      <div class="brand">MAVILO <em>DOLCE</em></div>
-      <p class="msg">Grazie di cuore per aver scelto il nostro laboratorio artigianale!</p>
-      <div class="qr-wrap"><img src="/qr-grazie.svg" alt="QR Code"></div>
-      <div class="cta">Inquadra con la fotocamera<br>per recensire</div>
-    </div>
-    <div class="card">
-      <img class="logo" src="/logo-mavilo-dolce.png" alt="">
-      <div class="brand">MAVILO <em>DOLCE</em></div>
-      <p class="msg">Grazie di cuore per aver scelto il nostro laboratorio artigianale!</p>
-      <div class="qr-wrap"><img src="/qr-grazie.svg" alt="QR Code"></div>
-      <div class="cta">Inquadra con la fotocamera<br>per recensire</div>
-    </div>
-    <div class="card">
-      <img class="logo" src="/logo-mavilo-dolce.png" alt="">
-      <div class="brand">MAVILO <em>DOLCE</em></div>
-      <p class="msg">Grazie di cuore per aver scelto il nostro laboratorio artigianale!</p>
-      <div class="qr-wrap"><img src="/qr-grazie.svg" alt="QR Code"></div>
-      <div class="cta">Inquadra con la fotocamera<br>per recensire</div>
-    </div>
-    <div class="card">
-      <img class="logo" src="/logo-mavilo-dolce.png" alt="">
-      <div class="brand">MAVILO <em>DOLCE</em></div>
-      <p class="msg">Grazie di cuore per aver scelto il nostro laboratorio artigianale!</p>
-      <div class="qr-wrap"><img src="/qr-grazie.svg" alt="QR Code"></div>
-      <div class="cta">Inquadra con la fotocamera<br>per recensire</div>
-    </div>
-    <div class="card">
-      <img class="logo" src="/logo-mavilo-dolce.png" alt="">
-      <div class="brand">MAVILO <em>DOLCE</em></div>
-      <p class="msg">Grazie di cuore per aver scelto il nostro laboratorio artigianale!</p>
-      <div class="qr-wrap"><img src="/qr-grazie.svg" alt="QR Code"></div>
-      <div class="cta">Inquadra con la fotocamera<br>per recensire</div>
-    </div>
-    <div class="card">
-      <img class="logo" src="/logo-mavilo-dolce.png" alt="">
-      <div class="brand">MAVILO <em>DOLCE</em></div>
-      <p class="msg">Grazie di cuore per aver scelto il nostro laboratorio artigianale!</p>
-      <div class="qr-wrap"><img src="/qr-grazie.svg" alt="QR Code"></div>
-      <div class="cta">Inquadra con la fotocamera<br>per recensire</div>
-    </div>
-  </div>
+  <div class="sheet" id="cardsGrid"></div>
+
+  <script>
+    const CARD_HTML = `
+      <div class="card">
+        <img class="logo" src="/logo-mavilo-dolce.png" alt="">
+        <div class="brand">MAVILO <em>DOLCE</em></div>
+        <p class="msg">Grazie di cuore per averci scelto!</p>
+        <div class="qr-wrap"><img src="/qr-grazie.svg" alt="QR Code"></div>
+        <div class="cta">Inquadra con la fotocamera<br>per recensire</div>
+      </div>`;
+    document.getElementById('cardsGrid').innerHTML = CARD_HTML.repeat(10);
+  </script>
 
 </body>
 </html>
