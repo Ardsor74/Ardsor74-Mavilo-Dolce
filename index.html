@@ -548,13 +548,13 @@ function getRevealObserver() {
   }
   return _revealObs;
 }
-function useReveal() {
+function useReveal(deps = []) {
   useEffect(() => {
     const obs = getRevealObserver();
     const els = document.querySelectorAll('.reveal:not(.visible)');
     els.forEach(el => obs.observe(el));
     // no cleanup — observer è globale e persistente
-  }, []);
+  }, deps);
 }
 
 /* ── Animated Counter hook ── */
@@ -1723,7 +1723,6 @@ function Gallery() {
   const [brokenIds, setBrokenIds] = useState(() => new Set());
   const [expanded, setExpanded] = useState(false);
   const [activeCategory, setActiveCategory] = useState('Tutte');
-  useReveal();
 
   // Usa CMS se ha dati; se il fetch fallisce o non ci sono ancora dati, non mostriamo la sezione
   // (niente più fallback su foto statiche inesistenti foto1.jpg...foto20.jpg)
@@ -1744,6 +1743,10 @@ function Gallery() {
       return n;
     });
   };
+
+  // useReveal deve rigirare quando il contenuto compare davvero (dopo il fetch) o cambia (filtro/espandi),
+  // altrimenti gli elementi .reveal creati dopo il primo mount restano bloccati a opacity:0 per sempre
+  useReveal([total, activeCategory, expanded]);
 
   // Se il CMS non ha ancora risposto, aspetta (evita flash vuoto)
   if (cmsItems === null) return null;
