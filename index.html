@@ -428,7 +428,7 @@ const GALLERY = Array.from({
 
 /* ── CMS GALLERY (caricata da gallery-data.json) ── */
 function useCmsGallery() {
-  const [items, setItems] = useState(null); // null = loading
+  const [items, setItems] = useState(null); // null = loading, [] = errore/vuoto, array = dati ok
   useEffect(() => {
     const parseData = data => {
       if (Array.isArray(data) && data.length > 0) {
@@ -450,9 +450,9 @@ function useCmsGallery() {
         setItems([]);
       }
     };
-    fetch('/gallery-data.json').then(r => r.ok ? r.json() : Promise.reject()).then(data => parseData(data)).catch(() => {
-      fetch('https://raw.githubusercontent.com/Ardsor74/Ardsor74-Mavilo-Dolce/main/gallery-data.json').then(r => r.ok ? r.json() : []).then(data => parseData(data)).catch(() => setItems([]));
-    });
+    // Nota: niente fallback su raw.githubusercontent — quel file esiste solo nell'output di build
+    // (_site/), non nel repo sorgente, quindi quel fetch darebbe sempre 404.
+    fetch('/gallery-data.json').then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))).then(data => parseData(data)).catch(() => setItems([]));
   }, []);
   return items;
 }
@@ -1725,9 +1725,10 @@ function Gallery() {
   const [activeCategory, setActiveCategory] = useState('Tutte');
   useReveal();
 
-  // Usa CMS se ha dati, altrimenti fallback alle foto statiche
+  // Usa CMS se ha dati; se il fetch fallisce o non ci sono ancora dati, non mostriamo la sezione
+  // (niente più fallback su foto statiche inesistenti foto1.jpg...foto20.jpg)
   const hasCms = cmsItems !== null && cmsItems.length > 0;
-  const ITEMS_UNFILTERED = hasCms ? cmsItems : GALLERY;
+  const ITEMS_UNFILTERED = hasCms ? cmsItems : [];
 
   // Categorie derivate dai dati stessi: se ne aggiungi una nuova nei .md, compare qui in automatico
   const categories = ['Tutte', ...Array.from(new Set(ITEMS_UNFILTERED.map(it => it.categoria).filter(Boolean)))];
@@ -1744,10 +1745,9 @@ function Gallery() {
     });
   };
 
-  // Mentre CMS carica, aspetta
+  // Se il CMS non ha ancora risposto, aspetta (evita flash vuoto)
   if (cmsItems === null) return null;
   const lbItems = ITEMS;
-  if (ITEMS_UNFILTERED.length > 0 && total === 0 && brokenIds.size === 0) return null;
   return /*#__PURE__*/React.createElement("section", {
     id: "gallery",
     className: "section-pad",
@@ -1783,7 +1783,14 @@ function Gallery() {
       letterSpacing: '0.1em',
       marginTop: '1.2rem'
     }
-  }, "Tocca per aprire · Scorri per navigare")), categories.length > 2 && /*#__PURE__*/React.createElement("div", {
+  }, "Tocca per aprire · Scorri per navigare")), total === 0 ? /*#__PURE__*/React.createElement("p", {
+    style: {
+      textAlign: 'center',
+      fontFamily: 'Lato',
+      color: '#999',
+      padding: '2rem 1rem'
+    }
+  }, "Stiamo aggiornando la galleria, torna a trovarci tra poco.") : /*#__PURE__*/React.createElement(React.Fragment, null, categories.length > 2 && /*#__PURE__*/React.createElement("div", {
     className: "reveal",
     role: "tablist",
     "aria-label": "Filtra per categoria",
@@ -1891,7 +1898,7 @@ function Gallery() {
   }, /*#__PURE__*/React.createElement("button", {
     className: "btn-secondary",
     onClick: () => setExpanded(true)
-  }, `Vedi tutte le creazioni (${total})`)), lb !== null && lbItems.length > 0 && /*#__PURE__*/React.createElement(Lightbox, {
+  }, `Vedi tutte le creazioni (${total})`))), lb !== null && lbItems.length > 0 && /*#__PURE__*/React.createElement(Lightbox, {
     items: lbItems,
     idx: lb,
     onClose: () => setLb(null),
