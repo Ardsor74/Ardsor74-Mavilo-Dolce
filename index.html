@@ -1796,6 +1796,7 @@ function Gallery() {
     }
   }, categories.map(cat => /*#__PURE__*/React.createElement("button", {
     key: cat,
+    type: "button",
     role: "tab",
     "aria-selected": activeCategory === cat,
     onClick: () => {
@@ -1804,15 +1805,20 @@ function Gallery() {
     },
     style: {
       fontFamily: 'Lato',
-      fontSize: '0.72rem',
-      letterSpacing: '0.08em',
+      fontSize: '0.78rem',
+      fontWeight: 600,
+      letterSpacing: '0.06em',
       textTransform: 'uppercase',
-      padding: '0.55rem 1.2rem',
-      border: activeCategory === cat ? '1px solid #D4AF37' : '1px solid rgba(0,0,0,0.15)',
-      background: activeCategory === cat ? '#D4AF37' : 'transparent',
-      color: activeCategory === cat ? '#fff' : '#1A1A1A',
+      padding: '0.7rem 1.4rem',
+      borderRadius: '999px',
+      border: activeCategory === cat ? '2px solid #D4AF37' : '2px solid #1A1A1A',
+      background: activeCategory === cat ? '#D4AF37' : '#1A1A1A',
+      color: '#fff',
       cursor: 'pointer',
-      transition: 'all 0.25s'
+      transition: 'all 0.25s',
+      WebkitAppearance: 'none',
+      appearance: 'none',
+      boxShadow: activeCategory === cat ? '0 2px 8px rgba(212,175,55,0.4)' : 'none'
     }
   }, cat))), /*#__PURE__*/React.createElement("div", {
     className: "masonry"
