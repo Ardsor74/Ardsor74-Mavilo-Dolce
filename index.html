@@ -793,6 +793,9 @@ function Nav({
 }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [gallerySubOpen, setGallerySubOpen] = useState(false);
+  const cmsItems = useCmsGallery();
+  const galleryCategories = Array.from(new Set((cmsItems || []).map(it => it.categoria).filter(Boolean)));
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 25);
     window.addEventListener('scroll', h, {
@@ -811,12 +814,29 @@ function Nav({
     'contatti': 'contatti'
   };
   const go = l => {
+    if (l === 'Gallery' && galleryCategories.length > 0) {
+      setGallerySubOpen(o => !o);
+      return;
+    }
     setActive(l);
     setOpen(false);
     const id = ID_MAP[l.toLowerCase()] || l.toLowerCase().replace(/'/g, '').replace(/\s/g, '');
     document.getElementById(id)?.scrollIntoView({
       behavior: 'smooth'
     });
+  };
+  // Cliccando una sottocategoria: chiude il menu, scrolla alla sezione Gallery e segnala
+  // (via evento globale) a Gallery di aprire direttamente quella tendina.
+  const goToCategory = cat => {
+    setOpen(false);
+    setGallerySubOpen(false);
+    setActive('Gallery');
+    document.getElementById('gallery')?.scrollIntoView({
+      behavior: 'smooth'
+    });
+    window.dispatchEvent(new CustomEvent('mavilo:open-category', {
+      detail: cat
+    }));
   };
   return /*#__PURE__*/React.createElement("header", {
     className: `nav-glass${scrolled ? ' scrolled' : ''}`,
@@ -875,14 +895,45 @@ function Nav({
     className: `mobile-menu${open ? ' open' : ''}`,
     role: "navigation",
     "aria-label": "Menu mobile"
-  }, links.map(l => /*#__PURE__*/React.createElement("button", {
-    key: l,
-    className: "mobile-link",
-    style: {
-      color: active === l ? '#D4AF37' : '#1A1A1A'
-    },
-    onClick: () => go(l)
-  }, l))));
+  }, links.map(l => {
+    const isGalleryLink = l === 'Gallery' && galleryCategories.length > 0;
+    const mainButton = /*#__PURE__*/React.createElement("button", {
+      key: 'main',
+      className: "mobile-link",
+      style: {
+        color: active === l ? '#D4AF37' : '#1A1A1A',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: isGalleryLink ? 'space-between' : 'flex-start',
+        width: '100%'
+      },
+      "aria-expanded": l === 'Gallery' ? gallerySubOpen : undefined,
+      onClick: () => go(l)
+    }, l, isGalleryLink && /*#__PURE__*/React.createElement("span", {
+      key: 'arrow',
+      "aria-hidden": "true",
+      style: {
+        display: 'inline-block',
+        transition: 'transform 0.25s',
+        transform: gallerySubOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+        fontSize: '0.8em',
+        marginLeft: '0.5rem'
+      }
+    }, "⌄"));
+    const subButtons = l === 'Gallery' && gallerySubOpen ? galleryCategories.map(cat => /*#__PURE__*/React.createElement("button", {
+      key: cat,
+      className: "mobile-link",
+      style: {
+        color: '#666',
+        fontSize: '0.85em',
+        paddingLeft: '1.5rem'
+      },
+      onClick: () => goToCategory(cat)
+    }, cat)) : [];
+    return /*#__PURE__*/React.createElement(React.Fragment, {
+      key: l
+    }, mainButton, subButtons);
+  })));
 }
 
 /* ── HERO ── */
@@ -1717,25 +1768,180 @@ function Lightbox({
 }
 
 /* ── GALLERY ── */
+/* ── FOTO + VIDEO DEL GIORNO (in cima alla sezione Gallery) ── */
+// Selezione deterministica in base alla data: stesso risultato per tutti i visitatori
+// nello stesso giorno solare, cambia automaticamente a mezzanotte. Nessuna scelta
+// manuale richiesta: ruota da sola tra tutti gli elementi disponibili.
+function dayIndex(len) {
+  if (!len) return 0;
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 0);
+  const diff = now - start;
+  const dayOfYear = Math.floor(diff / 86400000);
+  return dayOfYear % len;
+}
+function DailyHighlight({
+  onSeeAll
+}) {
+  const cmsItems = useCmsGallery();
+  const videos = ['video1.mp4', 'video2.mp4', 'uploads/video-creazione-torta-mavilo-dolce-napoli.mp4'];
+  useReveal([cmsItems]);
+  const [lbOpen, setLbOpen] = useState(false);
+  const [playing, setPlaying] = useState(null);
+
+  const photos = cmsItems && cmsItems.length > 0 ? cmsItems : null;
+  const photo = photos ? photos[dayIndex(photos.length)] : null;
+  const video = videos[dayIndex(videos.length)];
+
+  if (cmsItems === null) return null; // aspetta il caricamento, evita flash vuoto
+
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      maxWidth: 800,
+      margin: '0 auto clamp(3rem,7vw,4.5rem)',
+      textAlign: 'center'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "reveal",
+    style: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+      gap: 'clamp(1rem,3vw,2rem)',
+      marginBottom: '2rem'
+    }
+  }, photo && /*#__PURE__*/React.createElement("div", {
+    onClick: () => setLbOpen(true),
+    role: "button",
+    tabIndex: 0,
+    "aria-label": "Apri foto del giorno",
+    onKeyDown: e => e.key === 'Enter' && setLbOpen(true),
+    style: {
+      position: 'relative',
+      overflow: 'hidden',
+      cursor: 'pointer',
+      aspectRatio: '4/5',
+      background: '#f4f4f4'
+    }
+  }, /*#__PURE__*/React.createElement("img", {
+    src: photo.src,
+    alt: `MAVILO DOLCE — ${photo.titolo || 'creazione del giorno'} — Napoli`,
+    style: {
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+      display: 'block'
+    },
+    loading: "lazy"
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      position: 'absolute',
+      top: 12,
+      left: 12,
+      background: '#D4AF37',
+      color: '#fff',
+      fontFamily: 'Lato',
+      fontSize: '0.68rem',
+      letterSpacing: '0.08em',
+      textTransform: 'uppercase',
+      padding: '0.3rem 0.7rem'
+    }
+  }, "Foto del giorno")), /*#__PURE__*/React.createElement("div", {
+    onClick: () => setPlaying(video),
+    role: "button",
+    tabIndex: 0,
+    "aria-label": "Riproduci video del giorno",
+    onKeyDown: e => e.key === 'Enter' && setPlaying(video),
+    style: {
+      position: 'relative',
+      overflow: 'hidden',
+      cursor: 'pointer',
+      aspectRatio: '4/5',
+      background: '#111'
+    }
+  }, /*#__PURE__*/React.createElement("video", {
+    src: video,
+    muted: true,
+    playsInline: true,
+    style: {
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+      display: 'block'
+    }
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      position: 'absolute',
+      top: 12,
+      left: 12,
+      background: '#1A1A1A',
+      color: '#fff',
+      fontFamily: 'Lato',
+      fontSize: '0.68rem',
+      letterSpacing: '0.08em',
+      textTransform: 'uppercase',
+      padding: '0.3rem 0.7rem'
+    }
+  }, "Video del giorno"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      position: 'absolute',
+      inset: 0,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      width: 56,
+      height: 56,
+      borderRadius: '50%',
+      background: 'rgba(212,175,55,0.9)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      width: 0,
+      height: 0,
+      borderTop: '10px solid transparent',
+      borderBottom: '10px solid transparent',
+      borderLeft: '16px solid #fff',
+      marginLeft: 4
+    }
+  }))))), /*#__PURE__*/React.createElement("button", {
+    className: "btn-secondary",
+    onClick: onSeeAll
+  }, "Vedi tutte le creazioni"), lbOpen && photo && /*#__PURE__*/React.createElement(Lightbox, {
+    items: [photo],
+    idx: 0,
+    onClose: () => setLbOpen(false),
+    onPrev: () => {},
+    onNext: () => {}
+  }), playing && /*#__PURE__*/React.createElement(VideoLightbox, {
+    src: playing,
+    onClose: () => setPlaying(null)
+  }));
+}
+
 function Gallery() {
   const cmsItems = useCmsGallery();
   const [lb, setLb] = useState(null);
+  const [lbItems, setLbItems] = useState([]);
   const [brokenIds, setBrokenIds] = useState(() => new Set());
-  const [expanded, setExpanded] = useState(false);
-  const [activeCategory, setActiveCategory] = useState('Tutte');
+  const [openCategory, setOpenCategory] = useState(null);
+  const [expandedCats, setExpandedCats] = useState(() => new Set());
+  const [showAll, setShowAll] = useState(false);
 
-  // Usa CMS se ha dati; se il fetch fallisce o non ci sono ancora dati, non mostriamo la sezione
-  // (niente più fallback su foto statiche inesistenti foto1.jpg...foto20.jpg)
   const hasCms = cmsItems !== null && cmsItems.length > 0;
   const ITEMS_UNFILTERED = hasCms ? cmsItems : [];
 
   // Categorie derivate dai dati stessi: se ne aggiungi una nuova nei .md, compare qui in automatico
-  const categories = ['Tutte', ...Array.from(new Set(ITEMS_UNFILTERED.map(it => it.categoria).filter(Boolean)))];
+  const categories = Array.from(new Set(ITEMS_UNFILTERED.map(it => it.categoria).filter(Boolean)));
 
-  const ITEMS_ALL = (activeCategory === 'Tutte' ? ITEMS_UNFILTERED : ITEMS_UNFILTERED.filter(it => it.categoria === activeCategory)).filter(it => !brokenIds.has(it.id));
-  const total = ITEMS_ALL.length;
-  const PREVIEW_COUNT = 8;
-  const ITEMS = expanded ? ITEMS_ALL : ITEMS_ALL.slice(0, PREVIEW_COUNT);
+  const validItems = ITEMS_UNFILTERED.filter(it => !brokenIds.has(it.id));
+  const total = validItems.length;
+  const PREVIEW_COUNT = 6;
+
   const handleResult = (id, ok) => {
     if (!ok) setBrokenIds(prev => {
       const n = new Set(prev);
@@ -1744,13 +1950,29 @@ function Gallery() {
     });
   };
 
-  // useReveal deve rigirare quando il contenuto compare davvero (dopo il fetch) o cambia (filtro/espandi),
+  // useReveal deve rigirare quando il contenuto compare davvero (dopo il fetch) o cambia (apertura tendina),
   // altrimenti gli elementi .reveal creati dopo il primo mount restano bloccati a opacity:0 per sempre
-  useReveal([total, activeCategory, expanded]);
+  useReveal([total, openCategory, expandedCats.size]);
+
+  const openLightbox = (items, idx) => {
+    setLbItems(items);
+    setLb(idx);
+  };
+
+  // Se l'utente clicca una sottocategoria dal menu hamburger, mostriamo subito l'elenco
+  // completo (non il blocco "del giorno") con quella categoria già aperta
+  useEffect(() => {
+    const handler = e => {
+      setShowAll(true);
+      setOpenCategory(e.detail);
+    };
+    window.addEventListener('mavilo:open-category', handler);
+    return () => window.removeEventListener('mavilo:open-category', handler);
+  }, []);
 
   // Se il CMS non ha ancora risposto, aspetta (evita flash vuoto)
   if (cmsItems === null) return null;
-  const lbItems = ITEMS;
+
   return /*#__PURE__*/React.createElement("section", {
     id: "gallery",
     className: "section-pad",
@@ -1760,7 +1982,7 @@ function Gallery() {
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      maxWidth: 1200,
+      maxWidth: 900,
       margin: '0 auto'
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -1786,122 +2008,147 @@ function Gallery() {
       letterSpacing: '0.1em',
       marginTop: '1.2rem'
     }
-  }, "Tocca per aprire · Scorri per navigare")), total === 0 ? /*#__PURE__*/React.createElement("p", {
+  }, "Tocca una categoria per sfogliare")), total === 0 ? /*#__PURE__*/React.createElement("p", {
     style: {
       textAlign: 'center',
       fontFamily: 'Lato',
       color: '#999',
       padding: '2rem 1rem'
     }
-  }, "Stiamo aggiornando la galleria, torna a trovarci tra poco.") : /*#__PURE__*/React.createElement(React.Fragment, null, categories.length > 2 && /*#__PURE__*/React.createElement("div", {
+  }, "Stiamo aggiornando la galleria, torna a trovarci tra poco.") : !showAll ? /*#__PURE__*/React.createElement(DailyHighlight, {
+    onSeeAll: () => setShowAll(true)
+  }) : /*#__PURE__*/React.createElement("div", {
     className: "reveal",
-    role: "tablist",
-    "aria-label": "Filtra per categoria",
+    role: "list",
+    "aria-label": "Categorie della galleria",
     style: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      justifyContent: 'center',
-      gap: '0.6rem',
-      marginBottom: 'clamp(2rem,4vw,2.8rem)'
+      borderTop: '1px solid rgba(26,26,26,0.12)'
     }
-  }, categories.map(cat => /*#__PURE__*/React.createElement("button", {
-    key: cat,
-    type: "button",
-    role: "tab",
-    "aria-selected": activeCategory === cat,
-    onClick: () => {
-      setActiveCategory(cat);
-      setExpanded(false);
-    },
-    style: {
-      fontFamily: 'Lato',
-      fontSize: '0.78rem',
-      fontWeight: 600,
-      letterSpacing: '0.06em',
-      textTransform: 'uppercase',
-      padding: '0.7rem 1.4rem',
-      borderRadius: '999px',
-      border: activeCategory === cat ? '2px solid #D4AF37' : '2px solid #1A1A1A',
-      background: activeCategory === cat ? '#D4AF37' : '#1A1A1A',
-      color: '#fff',
-      cursor: 'pointer',
-      transition: 'all 0.25s',
-      WebkitAppearance: 'none',
-      appearance: 'none',
-      boxShadow: activeCategory === cat ? '0 2px 8px rgba(212,175,55,0.4)' : 'none'
-    }
-  }, cat))), /*#__PURE__*/React.createElement("div", {
-    className: "masonry"
-  }, ITEMS.map((item, i) => /*#__PURE__*/React.createElement("div", {
-    key: item.id,
-    className: "mason-item",
-    onClick: () => setLb(i),
-    role: "button",
-    tabIndex: 0,
-    "aria-label": `Apri creazione ${item.titolo || item.id}`,
-    onKeyDown: e => e.key === 'Enter' && setLb(i)
-  }, item.tipo === 'video' && item.src ? /*#__PURE__*/React.createElement("video", {
-    src: item.src,
-    muted: true,
-    loop: true,
-    playsInline: true,
-    className: "mason-img",
-    style: {
-      aspectRatio: item.tall ? '3/4' : '4/3',
-      width: '100%',
-      objectFit: 'cover'
-    },
-    onLoadedData: () => handleResult(item.id, true),
-    onError: () => handleResult(item.id, false)
-  }) : item.tipo === 'link' && item.link ? /*#__PURE__*/React.createElement("iframe", {
-    src: item.link.replace('watch?v=', 'embed/'),
-    className: "mason-img",
-    style: {
-      aspectRatio: '16/9',
-      width: '100%',
-      border: 'none'
-    },
-    allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
-    onLoad: () => handleResult(item.id, true),
-    onError: () => handleResult(item.id, false)
-  }) : /*#__PURE__*/React.createElement("img", {
-    src: item.src,
-    alt: `MAVILO DOLCE — ${item.titolo || 'creazione artigianale'} — Napoli`,
-    className: "mason-img",
-    style: {
-      aspectRatio: item.tall ? '3/4' : '4/3'
-    },
-    loading: "lazy",
-    onLoad: () => handleResult(item.id, true),
-    onError: () => handleResult(item.id, false)
-  }), /*#__PURE__*/React.createElement("div", {
-    className: "mason-overlay",
-    "aria-hidden": "true"
-  }), item.titolo && /*#__PURE__*/React.createElement("div", {
-    className: "mason-label",
-    style: {
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
-      padding: '0.6rem',
-      background: 'rgba(0,0,0,0.55)',
-      color: '#fff',
-      fontFamily: 'Lato',
-      fontSize: '0.72rem',
-      letterSpacing: '0.05em',
-      opacity: 0,
-      transition: 'opacity 0.3s'
-    }
-  }, item.titolo))))), total > PREVIEW_COUNT && !expanded && /*#__PURE__*/React.createElement("div", {
-    style: {
-      textAlign: 'center',
-      marginTop: 'clamp(2rem,5vw,3rem)'
-    }
-  }, /*#__PURE__*/React.createElement("button", {
-    className: "btn-secondary",
-    onClick: () => setExpanded(true)
-  }, `Vedi tutte le creazioni (${total})`))), lb !== null && lbItems.length > 0 && /*#__PURE__*/React.createElement(Lightbox, {
+  }, categories.map(cat => {
+    const catItems = validItems.filter(it => it.categoria === cat);
+    const isOpen = openCategory === cat;
+    const isExpanded = expandedCats.has(cat);
+    const shownItems = isExpanded ? catItems : catItems.slice(0, PREVIEW_COUNT);
+    return /*#__PURE__*/React.createElement("div", {
+      key: cat,
+      role: "listitem",
+      style: {
+        borderBottom: '1px solid rgba(26,26,26,0.12)'
+      }
+    }, /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      onClick: () => setOpenCategory(isOpen ? null : cat),
+      "aria-expanded": isOpen,
+      style: {
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        background: 'none',
+        border: 'none',
+        padding: '1.3rem 0.5rem',
+        cursor: 'pointer',
+        fontFamily: 'Lato',
+        fontSize: 'clamp(0.95rem,2.2vw,1.15rem)',
+        letterSpacing: '0.04em',
+        textTransform: 'uppercase',
+        color: isOpen ? '#D4AF37' : '#1A1A1A',
+        WebkitAppearance: 'none',
+        appearance: 'none',
+        transition: 'color 0.2s'
+      }
+    }, /*#__PURE__*/React.createElement("span", null, cat, " ", /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: '#bbb',
+        fontSize: '0.75em',
+        textTransform: 'none',
+        letterSpacing: 0
+      }
+    }, "(", catItems.length, ")")), /*#__PURE__*/React.createElement("span", {
+      "aria-hidden": "true",
+      style: {
+        display: 'inline-block',
+        transition: 'transform 0.25s',
+        transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+        fontSize: '0.9em'
+      }
+    }, "⌄")), isOpen && /*#__PURE__*/React.createElement("div", {
+      style: {
+        paddingBottom: 'clamp(1.5rem,4vw,2.5rem)'
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "masonry"
+    }, shownItems.map((item, i) => /*#__PURE__*/React.createElement("div", {
+      key: item.id,
+      className: "mason-item",
+      onClick: () => openLightbox(shownItems, i),
+      role: "button",
+      tabIndex: 0,
+      "aria-label": `Apri creazione ${item.titolo || item.id}`,
+      onKeyDown: e => e.key === 'Enter' && openLightbox(shownItems, i)
+    }, item.tipo === 'video' && item.src ? /*#__PURE__*/React.createElement("video", {
+      src: item.src,
+      muted: true,
+      loop: true,
+      playsInline: true,
+      className: "mason-img",
+      style: {
+        aspectRatio: item.tall ? '3/4' : '4/3',
+        width: '100%',
+        objectFit: 'cover'
+      },
+      onLoadedData: () => handleResult(item.id, true),
+      onError: () => handleResult(item.id, false)
+    }) : item.tipo === 'link' && item.link ? /*#__PURE__*/React.createElement("iframe", {
+      src: item.link.replace('watch?v=', 'embed/'),
+      className: "mason-img",
+      style: {
+        aspectRatio: '16/9',
+        width: '100%',
+        border: 'none'
+      },
+      allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
+      onLoad: () => handleResult(item.id, true),
+      onError: () => handleResult(item.id, false)
+    }) : /*#__PURE__*/React.createElement("img", {
+      src: item.src,
+      alt: `MAVILO DOLCE — ${item.titolo || 'creazione artigianale'} — Napoli`,
+      className: "mason-img",
+      style: {
+        aspectRatio: item.tall ? '3/4' : '4/3'
+      },
+      loading: "lazy",
+      onLoad: () => handleResult(item.id, true),
+      onError: () => handleResult(item.id, false)
+    }), /*#__PURE__*/React.createElement("div", {
+      className: "mason-overlay",
+      "aria-hidden": "true"
+    }), item.titolo && /*#__PURE__*/React.createElement("div", {
+      className: "mason-label",
+      style: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        padding: '0.6rem',
+        background: 'rgba(0,0,0,0.55)',
+        color: '#fff',
+        fontFamily: 'Lato',
+        fontSize: '0.72rem',
+        letterSpacing: '0.05em',
+        opacity: 0,
+        transition: 'opacity 0.3s'
+      }
+    }, item.titolo)))), catItems.length > PREVIEW_COUNT && !isExpanded && /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: 'center',
+        marginTop: 'clamp(1.5rem,4vw,2rem)'
+      }
+    }, /*#__PURE__*/React.createElement("button", {
+      className: "btn-secondary",
+      onClick: () => setExpandedCats(prev => new Set(prev).add(cat))
+    }, `Vedi tutte (${catItems.length})`))));
+  }))), lb !== null && lbItems.length > 0 && /*#__PURE__*/React.createElement(Lightbox, {
     items: lbItems,
     idx: lb,
     onClose: () => setLb(null),
