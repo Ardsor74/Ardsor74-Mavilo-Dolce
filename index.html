@@ -1952,7 +1952,7 @@ function Gallery() {
 
   // useReveal deve rigirare quando il contenuto compare davvero (dopo il fetch) o cambia (apertura tendina),
   // altrimenti gli elementi .reveal creati dopo il primo mount restano bloccati a opacity:0 per sempre
-  useReveal([total, openCategory, expandedCats.size]);
+  useReveal([total, openCategory, expandedCats.size, showAll]);
 
   const openLightbox = (items, idx) => {
     setLbItems(items);
