@@ -2292,26 +2292,33 @@ function VideoLightbox({
 
 /* ── VIDEO SECTION ── */
 function VideoSection() {
-  useReveal();
-  const videos = ['video1.mp4', 'video2.mp4', 'uploads/video-creazione-torta-mavilo-dolce-napoli.mp4'];
-  const [visible, setVisible] = useState(() => Array(6).fill(true));
-  const [allChecked, setAllChecked] = useState(false);
-  const loadCount = useRef(0);
-  const handleResult = (i, ok) => {
-    if (!ok) setVisible(v => {
-      const n = [...v];
-      n[i] = false;
+  const videos = ['video1.mp4', 'video2.mp4', 'uploads/video-creazione-torta-mavilo-dolce-napoli.mp4', 'uploads/torta-acquerello-rosa-viola-piani-video-mavilo-dolce-napoli.mp4', 'uploads/torta-bianca-rosette-fiore-blu-zucchero-video-mavilo-dolce-napoli.mp4', 'uploads/torta-brigida-fiori-farfalle-video-mavilo-dolce-napoli.mp4'];
+  const [brokenIds, setBrokenIds] = useState(() => new Set());
+  const [expanded, setExpanded] = useState(false);
+  const [playing, setPlaying] = useState(null);
+  const PREVIEW_COUNT = 4;
+
+  const validVideos = videos.map((src, i) => ({
+    id: i,
+    src
+  })).filter(v => !brokenIds.has(v.id));
+  const total = validVideos.length;
+  const shown = expanded ? validVideos : validVideos.slice(0, PREVIEW_COUNT);
+
+  const handleResult = (id, ok) => {
+    if (!ok) setBrokenIds(prev => {
+      const n = new Set(prev);
+      n.add(id);
       return n;
     });
-    loadCount.current += 1;
-    if (loadCount.current >= 6) setAllChecked(true);
   };
-  const [playing, setPlaying] = useState(null);
-  const anyVisible = visible.some(Boolean);
+
+  // useReveal deve rigirare quando cambia il numero di video mostrati (es. dopo "Vedi tutti"),
+  // altrimenti gli elementi .reveal comparsi in quel momento restano bloccati a opacity:0
+  useReveal([total, expanded]);
 
   // Non mostrare nulla finché non sappiamo se ci sono video
-  if (allChecked && !anyVisible) return null;
-  if (!allChecked && !anyVisible) return null;
+  if (total === 0) return null;
   return /*#__PURE__*/React.createElement("section", {
     id: "video",
     className: "section-pad",
@@ -2370,75 +2377,93 @@ function VideoSection() {
       maxWidth: 900,
       margin: '0 auto'
     }
-  }, videos.map((v, i) => /*#__PURE__*/React.createElement("div", {
-    key: i,
+  }, shown.map(v => {
+    const playIcon = /*#__PURE__*/React.createElement("svg", {
+      width: "22",
+      height: "22",
+      viewBox: "0 0 24 24",
+      fill: "#1A1A1A"
+    }, /*#__PURE__*/React.createElement("polygon", {
+      points: "5 3 19 12 5 21 5 3"
+    }));
+    const playButton = /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 56,
+        height: 56,
+        borderRadius: '50%',
+        background: 'rgba(212,175,55,0.85)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.4)'
+      }
+    }, playIcon);
+    const hoverOverlay = /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: 'absolute',
+        inset: 0,
+        background: 'rgba(0,0,0,0)',
+        transition: 'background 0.3s',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      },
+      onMouseEnter: e => e.currentTarget.style.background = 'rgba(0,0,0,0.35)',
+      onMouseLeave: e => e.currentTarget.style.background = 'rgba(0,0,0,0)'
+    }, playButton);
+    const borderOverlay = /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: 'absolute',
+        inset: 0,
+        border: '1px solid rgba(212,175,55,0.15)',
+        pointerEvents: 'none'
+      },
+      "aria-hidden": "true"
+    });
+    const videoEl = /*#__PURE__*/React.createElement("video", {
+      src: v.src,
+      autoPlay: true,
+      muted: true,
+      loop: true,
+      playsInline: true,
+      style: {
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+        display: 'block',
+        pointerEvents: 'none'
+      },
+      onLoadedData: () => handleResult(v.id, true),
+      onError: () => handleResult(v.id, false)
+    });
+    return /*#__PURE__*/React.createElement("div", {
+      key: v.id,
+      style: {
+        position: 'relative',
+        overflow: 'hidden',
+        background: '#111',
+        aspectRatio: '9/16',
+        cursor: 'pointer'
+      },
+      onClick: () => setPlaying(v.src),
+      role: "button",
+      tabIndex: 0,
+      "aria-label": `Riproduci video ${v.id + 1}`,
+      onKeyDown: e => e.key === 'Enter' && setPlaying(v.src)
+    }, videoEl, hoverOverlay, borderOverlay);
+  })), total > PREVIEW_COUNT && !expanded && /*#__PURE__*/React.createElement("div", {
     style: {
-      display: visible[i] ? 'block' : 'none',
-      position: 'relative',
-      overflow: 'hidden',
-      background: '#111',
-      aspectRatio: '9/16',
-      cursor: 'pointer'
-    },
-    onClick: () => setPlaying(v),
-    role: "button",
-    tabIndex: 0,
-    "aria-label": `Riproduci video ${i + 1}`,
-    onKeyDown: e => e.key === 'Enter' && setPlaying(v)
-  }, /*#__PURE__*/React.createElement("video", {
-    src: v,
-    autoPlay: true,
-    muted: true,
-    loop: true,
-    playsInline: true,
-    style: {
-      width: '100%',
-      height: '100%',
-      objectFit: 'cover',
-      display: 'block',
-      pointerEvents: 'none'
-    },
-    onLoadedData: () => handleResult(i, true),
-    onError: () => handleResult(i, false)
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      position: 'absolute',
-      inset: 0,
-      background: 'rgba(0,0,0,0)',
-      transition: 'background 0.3s',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center'
-    },
-    onMouseEnter: e => e.currentTarget.style.background = 'rgba(0,0,0,0.35)',
-    onMouseLeave: e => e.currentTarget.style.background = 'rgba(0,0,0,0)'
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      width: 56,
-      height: 56,
-      borderRadius: '50%',
-      background: 'rgba(212,175,55,0.85)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      boxShadow: '0 4px 20px rgba(0,0,0,0.4)'
+      textAlign: 'center',
+      marginTop: 'clamp(2rem,5vw,3rem)'
     }
-  }, /*#__PURE__*/React.createElement("svg", {
-    width: "22",
-    height: "22",
-    viewBox: "0 0 24 24",
-    fill: "#1A1A1A"
-  }, /*#__PURE__*/React.createElement("polygon", {
-    points: "5 3 19 12 5 21 5 3"
-  })))), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "btn-secondary",
     style: {
-      position: 'absolute',
-      inset: 0,
-      border: '1px solid rgba(212,175,55,0.15)',
-      pointerEvents: 'none'
+      borderColor: 'rgba(212,175,55,0.5)',
+      color: '#D4AF37'
     },
-    "aria-hidden": "true"
-  }))))), playing && /*#__PURE__*/React.createElement(VideoLightbox, {
+    onClick: () => setExpanded(true)
+  }, `Vedi tutti i video (${total})`))), playing && /*#__PURE__*/React.createElement(VideoLightbox, {
     src: playing,
     onClose: () => setPlaying(null)
   }));
