@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-  <title>MAVILO DOLCE — Sugar Artist & Pasticceria Artigianale</title>
+  <title>Gallery — MAVILO DOLCE | Torte Scenografiche, Fiori di Zucchero, Buffet</title>
 
-  <meta name="description" content="MAVILO DOLCE — Atelier artigianale di Sugar Artist & Pasticceria Artigianale a Fuorigrotta, Napoli. Fiori di zucchero, torte nuziali su commissione e stampe alimentari personalizzate."/>
+  <meta name="description" content="Sfoglia la gallery di MAVILO DOLCE: torte scenografiche, torte classiche e moderne, fiori di zucchero, buffet dolci e sweettable. Creazioni artigianali a Fuorigrotta, Napoli."/>
   <meta name="keywords" content="sugar art, couture cakes, torte nuziali, fiori di zucchero, wedding cake, torte su commissione, stampe alimentari, ostia, pasta di zucchero, Napoli, Fuorigrotta"/>
   <meta name="author" content="MAVILO DOLCE"/>
   <meta name="robots" content="index, follow"/>
-  <link rel="canonical" href="https://mavilodolce.netlify.app/"/>
+  <link rel="canonical" href="https://mavilodolce.netlify.app/gallery.html"/>
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="business.business"/>
-  <meta property="og:url" content="https://mavilodolce.netlify.app/"/>
-  <meta property="og:title" content="MAVILO DOLCE — Sugar Artist & Pasticceria Artigianale · Napoli"/>
+  <meta property="og:url" content="https://mavilodolce.netlify.app/gallery.html"/>
+  <meta property="og:title" content="Gallery — MAVILO DOLCE · Napoli"/>
   <meta property="og:description" content="Torte artigianali su commissione e stampe alimentari personalizzate a Fuorigrotta, Napoli. Ogni creazione è un'opera d'arte irripetibile, plasmata con le mani e il cuore."/>
   <meta property="og:image" content="https://mavilodolce.netlify.app/atelier.jpg"/>
   <meta property="og:image:width" content="1200"/>
@@ -30,7 +30,7 @@
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="MAVILO DOLCE — Sugar Artist & Pasticceria Artigianale · Napoli"/>
+  <meta name="twitter:title" content="Gallery — MAVILO DOLCE · Napoli"/>
   <meta name="twitter:description" content="Torte artigianali su commissione e stampe alimentari personalizzate a Fuorigrotta, Napoli."/>
   <meta name="twitter:image" content="https://mavilodolce.netlify.app/atelier.jpg"/>
 
@@ -385,11 +385,7 @@
 <a class="skip-link" href="#main-content">Vai al contenuto principale</a>
 
 <!-- Loading screen -->
-<div id="loader" role="status" aria-label="Caricamento">
-  <img id="loader-logo" src="/logo-mavilo-dolce.png" alt="MAVILO DOLCE"/>
-  <div id="loader-name" style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:400;letter-spacing:0.25em;color:#1A1A1A">
-    MAVILO<span style="color:#D4AF37">.</span>
-  </div>
+<div id="loader" style="display:none"></div>
   <div id="loader-line" class="loader-bar"></div>
     <div id="loader-sub" style="font-family:'Lato';font-size:1.4rem;letter-spacing:0.25em;text-transform:uppercase;color:#D4AF37;text-align:center;margin-top:1rem;font-weight:300">
     Sugar Artist &amp; Pasticceria Artigianale
@@ -398,6 +394,7 @@
 
 <div id="root"></div>
 
+<script>window.PAGE_MODE = 'gallery';</script>
 <script src="/app.js"></script>
 <script>
   if (window.netlifyIdentity) {
