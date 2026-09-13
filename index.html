@@ -796,6 +796,7 @@ function Nav({
   const [gallerySubOpen, setGallerySubOpen] = useState(false);
   const cmsItems = useCmsGallery();
   const galleryCategories = Array.from(new Set((cmsItems || []).map(it => it.categoria).filter(Boolean)));
+  const navRef = useRef(null);
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 25);
     window.addEventListener('scroll', h, {
@@ -803,6 +804,18 @@ function Nav({
     });
     return () => window.removeEventListener('scroll', h);
   }, []);
+  // Chiude il menu mobile cliccando/toccando fuori dall'header (non solo con la X)
+  useEffect(() => {
+    if (!open) return;
+    const handleOutside = e => {
+      if (navRef.current && !navRef.current.contains(e.target)) {
+        setOpen(false);
+        setGallerySubOpen(false);
+      }
+    };
+    document.addEventListener('pointerdown', handleOutside);
+    return () => document.removeEventListener('pointerdown', handleOutside);
+  }, [open]);
   const links = ['Home', 'Servizi', "Il Laboratorio", 'Gallery', 'Stampe', 'Preventivo', 'Contatti'];
   const ID_MAP = {
     'home': 'home',
@@ -839,6 +852,7 @@ function Nav({
     }));
   };
   return /*#__PURE__*/React.createElement("header", {
+    ref: navRef,
     className: `nav-glass${scrolled ? ' scrolled' : ''}`,
     role: "banner"
   }, /*#__PURE__*/React.createElement("div", {
@@ -2016,7 +2030,18 @@ function Gallery() {
       padding: '2rem 1rem'
     }
   }, "Stiamo aggiornando la galleria, torna a trovarci tra poco.") : !showAll ? /*#__PURE__*/React.createElement(DailyHighlight, {
-    onSeeAll: () => setShowAll(true)
+    onSeeAll: () => {
+      setShowAll(true);
+      // Lo scroll va fatto dopo il render (le tendine hanno un'altezza diversa dal blocco
+      // "del giorno" che sostituiscono): senza aspettare, si scrolla su un layout non ancora
+      // aggiornato e l'utente finisce visivamente sulla sezione successiva (i video).
+      requestAnimationFrame(() => {
+        document.getElementById('gallery')?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      });
+    }
   }) : /*#__PURE__*/React.createElement("div", {
     className: "reveal",
     role: "list",
