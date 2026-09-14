@@ -1,0 +1,1 @@
+ADDR:\{"regionCode":"IT","languageCode":"it","postalCode":"80124","administrativeArea":"NA","locality":"Napoli","addressLines":["Via Campegna, 133"]}
