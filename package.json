@@ -2,13 +2,10 @@
   "name": "mavilo-dolce",
   "version": "1.0.0",
   "scripts": {
-    "build": "eleventy && node scripts/minify.js",
+    "build": "eleventy",
     "start": "eleventy --serve"
   },
   "dependencies": {
     "@11ty/eleventy": "^2.0.1"
-  },
-  "devDependencies": {
-    "html-minifier-terser": "^7.2.0"
   }
 }
