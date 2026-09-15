@@ -1134,16 +1134,22 @@ function Nav({
     'contatti': 'contatti'
   };
   const go = l => {
-    if (l === 'Gallery' && galleryCategories.length > 0) {
-      setGallerySubOpen(o => !o);
-      return;
-    }
     setActive(l);
     setOpen(false);
     const id = ID_MAP[l.toLowerCase()] || l.toLowerCase().replace(/'/g, '').replace(/\s/g, '');
     document.getElementById(id)?.scrollIntoView({
       behavior: 'smooth'
     });
+  };
+  // Solo per il link "Gallery" nel menu MOBILE: invece di scrollare, apre/chiude il sottomenu
+  // con le categorie visibili sotto la voce stessa. Su desktop (.nav-links) non esiste questo
+  // sottomenu ad albero, quindi lì "Gallery" deve sempre scrollare come qualsiasi altra voce.
+  const goMobile = l => {
+    if (l === 'Gallery' && galleryCategories.length > 0) {
+      setGallerySubOpen(o => !o);
+      return;
+    }
+    go(l);
   };
   // Cliccando una sottocategoria: chiude il menu, scrolla alla sezione Gallery e segnala
   // (via evento globale) a Gallery di aprire direttamente quella tendina.
@@ -1229,7 +1235,7 @@ function Nav({
         width: '100%'
       },
       "aria-expanded": l === 'Gallery' ? gallerySubOpen : undefined,
-      onClick: () => go(l)
+      onClick: () => goMobile(l)
     }, l, isGalleryLink && /*#__PURE__*/React.createElement("span", {
       key: 'arrow',
       "aria-hidden": "true",
