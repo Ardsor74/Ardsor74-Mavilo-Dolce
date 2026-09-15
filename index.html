@@ -1101,6 +1101,7 @@ function Nav({
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [gallerySubOpen, setGallerySubOpen] = useState(false);
+  const [desktopGalleryOpen, setDesktopGalleryOpen] = useState(false);
   const cmsItems = useCmsGallery();
   const galleryCategories = Array.from(new Set((cmsItems || []).map(it => it.categoria).filter(Boolean)));
   const navRef = useRef(null);
@@ -1156,6 +1157,7 @@ function Nav({
   const goToCategory = cat => {
     setOpen(false);
     setGallerySubOpen(false);
+    setDesktopGalleryOpen(false);
     setActive('Gallery');
     document.getElementById('gallery')?.scrollIntoView({
       behavior: 'smooth'
@@ -1164,6 +1166,26 @@ function Nav({
       detail: cat
     }));
   };
+  // Solo per il link "Gallery" nel menu DESKTOP: invece di scrollare, apre/chiude la tendina
+  // con le categorie sotto la voce stessa, esattamente come su mobile.
+  const goDesktop = l => {
+    if (l === 'Gallery' && galleryCategories.length > 0) {
+      setDesktopGalleryOpen(o => !o);
+      return;
+    }
+    go(l);
+  };
+  // Chiude la tendina desktop cliccando fuori dal menu
+  useEffect(() => {
+    if (!desktopGalleryOpen) return;
+    const handleOutside = e => {
+      if (navRef.current && !navRef.current.contains(e.target)) {
+        setDesktopGalleryOpen(false);
+      }
+    };
+    document.addEventListener('pointerdown', handleOutside);
+    return () => document.removeEventListener('pointerdown', handleOutside);
+  }, [desktopGalleryOpen]);
   return /*#__PURE__*/React.createElement("header", {
     ref: navRef,
     className: `nav-glass${scrolled ? ' scrolled' : ''}`,
@@ -1193,12 +1215,75 @@ function Nav({
   })), /*#__PURE__*/React.createElement("nav", {
     className: "nav-links",
     "aria-label": "Navigazione principale"
-  }, links.map(l => /*#__PURE__*/React.createElement("button", {
-    key: l,
-    className: `nav-link${active === l ? ' active' : ''}`,
-    onClick: () => go(l),
-    "aria-current": active === l ? 'page' : undefined
-  }, l))), /*#__PURE__*/React.createElement("button", {
+  }, links.map(l => {
+    const isGalleryLink = l === 'Gallery' && galleryCategories.length > 0;
+    return /*#__PURE__*/React.createElement("div", {
+      key: l,
+      style: {
+        position: 'relative'
+      }
+    }, /*#__PURE__*/React.createElement("button", {
+      className: `nav-link${active === l ? ' active' : ''}`,
+      onClick: () => goDesktop(l),
+      "aria-current": active === l ? 'page' : undefined,
+      "aria-expanded": isGalleryLink ? desktopGalleryOpen : undefined,
+      style: {
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '0.35rem'
+      }
+    }, l, isGalleryLink && /*#__PURE__*/React.createElement("span", {
+      "aria-hidden": "true",
+      style: {
+        display: 'inline-block',
+        transition: 'transform 0.25s',
+        transform: desktopGalleryOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+        fontSize: '0.8em'
+      }
+    }, "⌄")), isGalleryLink && desktopGalleryOpen && /*#__PURE__*/React.createElement("div", {
+      role: "menu",
+      "aria-label": "Categorie della galleria",
+      style: {
+        position: 'absolute',
+        top: 'calc(100% + 0.75rem)',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        background: '#fff',
+        boxShadow: '0 12px 32px rgba(0,0,0,0.14)',
+        borderRadius: '4px',
+        padding: '0.5rem 0',
+        minWidth: '230px',
+        zIndex: 60
+      }
+    }, galleryCategories.map(cat => /*#__PURE__*/React.createElement("button", {
+      key: cat,
+      role: "menuitem",
+      onClick: () => goToCategory(cat),
+      style: {
+        display: 'block',
+        width: '100%',
+        textAlign: 'left',
+        background: 'none',
+        border: 'none',
+        cursor: 'pointer',
+        fontFamily: 'Lato',
+        fontSize: '0.8rem',
+        letterSpacing: '0.04em',
+        textTransform: 'uppercase',
+        color: '#1A1A1A',
+        padding: '0.65rem 1.25rem',
+        transition: 'color 0.2s, background 0.2s'
+      },
+      onMouseEnter: e => {
+        e.currentTarget.style.color = '#D4AF37';
+        e.currentTarget.style.background = 'rgba(212,175,55,0.06)';
+      },
+      onMouseLeave: e => {
+        e.currentTarget.style.color = '#1A1A1A';
+        e.currentTarget.style.background = 'none';
+      }
+    }, cat))));
+  })), /*#__PURE__*/React.createElement("button", {
     className: "hamburger",
     onClick: () => setOpen(!open),
     "aria-label": open ? "Chiudi menu" : "Apri menu",
