@@ -2,7 +2,6 @@ module.exports = function(eleventyConfig) {
 
   // ── File statici copiati invariati in _site/ ──
   eleventyConfig.addPassthroughCopy("index.html");  // <-- FONDAMENTALE
-  eleventyConfig.addPassthroughCopy("vendor");
   eleventyConfig.addPassthroughCopy("admin");
   eleventyConfig.addPassthroughCopy("uploads");
   eleventyConfig.addPassthroughCopy("atelier.jpg");
