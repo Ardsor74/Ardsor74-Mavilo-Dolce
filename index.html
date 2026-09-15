@@ -715,9 +715,13 @@ const GALLERY = Array.from({
   tall: [1, 3, 5, 8, 11, 14, 17, 20].includes(i + 1)
 }));
 
-/* ── CMS GALLERY (caricata da gallery-data.json) ── */
+/* ── CMS GALLERY (caricata da gallery-data.json) ──
+   Cache condivisa a livello di modulo: più componenti (Nav, DailyHighlight, Gallery)
+   usano questo hook, ma il file va scaricato una sola volta e riusato da tutti,
+   non richiesto di nuovo a ogni mount. */
+let cmsGalleryCache = null; // Promise condivisa, o array già risolto
 function useCmsGallery() {
-  const [items, setItems] = useState(null); // null = loading, [] = errore/vuoto, array = dati ok
+  const [items, setItems] = useState(() => Array.isArray(cmsGalleryCache) ? cmsGalleryCache : null); // null = loading, [] = errore/vuoto, array = dati ok
   useEffect(() => {
     const parseData = data => {
       if (Array.isArray(data) && data.length > 0) {
@@ -734,14 +738,28 @@ function useCmsGallery() {
             tall: i % 3 === 0
           };
         }).filter(item => item.src);
-        setItems(mapped);
-      } else {
-        setItems([]);
+        return mapped;
       }
+      return [];
     };
-    // Nota: niente fallback su raw.githubusercontent — quel file esiste solo nell'output di build
-    // (_site/), non nel repo sorgente, quindi quel fetch darebbe sempre 404.
-    fetch('/gallery-data.json').then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))).then(data => parseData(data)).catch(() => setItems([]));
+    if (Array.isArray(cmsGalleryCache)) {
+      // Dati già scaricati e pronti da una chiamata precedente dell'hook
+      setItems(cmsGalleryCache);
+      return;
+    }
+    if (!cmsGalleryCache) {
+      // Nota: niente fallback su raw.githubusercontent — quel file esiste solo nell'output di build
+      // (_site/), non nel repo sorgente, quindi quel fetch darebbe sempre 404.
+      cmsGalleryCache = fetch('/gallery-data.json').then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))).then(data => {
+        const mapped = parseData(data);
+        cmsGalleryCache = mapped; // sostituisce la Promise con il risultato, per i mount futuri
+        return mapped;
+      }).catch(() => {
+        cmsGalleryCache = [];
+        return [];
+      });
+    }
+    cmsGalleryCache.then(mapped => setItems(mapped));
   }, []);
   return items;
 }
