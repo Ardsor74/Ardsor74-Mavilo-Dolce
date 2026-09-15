@@ -2731,9 +2731,7 @@ function VideoSection() {
     });
     const videoEl = /*#__PURE__*/React.createElement("video", {
       src: v.src,
-      autoPlay: true,
       muted: true,
-      loop: true,
       playsInline: true,
       preload: "metadata",
       style: {
@@ -2743,7 +2741,7 @@ function VideoSection() {
         display: 'block',
         pointerEvents: 'none'
       },
-      onLoadedData: () => handleResult(v.id, true),
+      onLoadedMetadata: () => handleResult(v.id, true),
       onError: () => handleResult(v.id, false)
     });
     return /*#__PURE__*/React.createElement("div", {
