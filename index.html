@@ -1777,6 +1777,10 @@ function Atelier() {
     }
   }, imgOk ? /*#__PURE__*/React.createElement("img", {
     src: "atelier.jpg",
+    srcSet: "atelier-720.webp 720w, atelier-900.webp 900w",
+    sizes: "(max-width: 760px) calc(100vw - 40px), 520px",
+    loading: "lazy",
+    decoding: "async",
     alt: "MAVILO DOLCE — il nostro laboratorio a Fuorigrotta, Napoli",
     style: {
       width: '100%',

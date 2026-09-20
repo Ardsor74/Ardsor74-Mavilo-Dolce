@@ -5,6 +5,8 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("admin");
   eleventyConfig.addPassthroughCopy("uploads");
   eleventyConfig.addPassthroughCopy("atelier.jpg");
+  eleventyConfig.addPassthroughCopy("atelier-720.webp");
+  eleventyConfig.addPassthroughCopy("atelier-900.webp");
   eleventyConfig.addPassthroughCopy("logo-mavilo-dolce.png");
   eleventyConfig.addPassthroughCopy("logo-mavilo-dolce.webp");
   eleventyConfig.addPassthroughCopy("preview-nuovo-sito.html");
