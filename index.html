@@ -571,9 +571,10 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 
     /* — Testimonials carousel — */
     .testimonial-bg { background:linear-gradient(135deg, #1A1A1A 0%, #2a2018 100%); }
-    .testi-dots { display:flex; gap:8px; justify-content:center; margin-top:2rem; }
-    .testi-dot { width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,0.2); border:none; cursor:pointer; transition:all 0.3s; padding:0; }
-    .testi-dot.active { background:#D4AF37; width:24px; border-radius:3px; }
+    .testi-dots { display:flex; gap:0; justify-content:center; margin-top:2rem; }
+    .testi-dot { width:24px; height:24px; min-width:24px; background:transparent; border:none; cursor:pointer; padding:0; position:relative; }
+    .testi-dot::before { content:''; position:absolute; top:50%; left:50%; width:6px; height:6px; margin:-3px 0 0 -3px; border-radius:50%; background:rgba(255,255,255,0.2); transition:all 0.3s; }
+    .testi-dot.active::before { background:#D4AF37; width:20px; margin-left:-10px; border-radius:3px; }
     @keyframes fadeSlide { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
     .testi-anim { animation:fadeSlide 0.5s ease; }
 
@@ -600,7 +601,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     .cookie-btns { display:flex; gap:0.6rem; flex-wrap:wrap; flex-shrink:0; }
     .cookie-accept { font-family:'Lato'; font-size:0.68rem; letter-spacing:0.16em; text-transform:uppercase; background:#D4AF37; color:#1A1A1A; border:none; padding:0.7rem 1.4rem; cursor:pointer; min-height:40px; font-weight:700; transition:background 0.2s; }
     .cookie-accept:hover { background:#c9a52e; }
-    .cookie-reject { font-family:'Lato'; font-size:0.68rem; letter-spacing:0.16em; text-transform:uppercase; background:transparent; color:rgba(255,255,255,0.35); border:1px solid rgba(255,255,255,0.12); padding:0.7rem 1.2rem; cursor:pointer; min-height:40px; transition:all 0.2s; }
+    .cookie-reject { font-family:'Lato'; font-size:0.68rem; letter-spacing:0.16em; text-transform:uppercase; background:transparent; color:rgba(255,255,255,0.65); border:1px solid rgba(255,255,255,0.12); padding:0.7rem 1.2rem; cursor:pointer; min-height:40px; transition:all 0.2s; }
     .cookie-reject:hover { color:rgba(255,255,255,0.7); border-color:rgba(255,255,255,0.3); }
 
     /* — Privacy Modal — */
@@ -3432,7 +3433,8 @@ function StampeAlimentari() {
       justifyContent: 'center',
       marginTop: '0.5rem',
       width: '100%'
-    }
+    },
+    "aria-label": `Ordina ora la tua stampa ${p.nome} su WhatsApp`
   }, "Ordina ora la tua stampa")))), /*#__PURE__*/React.createElement("div", {
     className: "reveal",
     style: {
@@ -3620,7 +3622,8 @@ function StampeAlimentari() {
       fontSize: '0.95rem',
       color: '#fff',
       textDecoration: 'none'
-    }
+    },
+    "aria-label": "Ordina ora la tua stampa su WhatsApp"
   }, "Ordina ora la tua stampa →"))))));
 }
 
@@ -3847,6 +3850,7 @@ function Preventivo({
       padding: '0 1rem'
     },
     role: "progressbar",
+    "aria-label": "Avanzamento richiesta preventivo",
     "aria-valuenow": step,
     "aria-valuemin": 1,
     "aria-valuemax": 3
@@ -5600,7 +5604,7 @@ function Footer({
     style: {
       fontFamily: 'Playfair Display',
       fontStyle: 'italic',
-      color: 'rgba(255,255,255,0.28)',
+      color: 'rgba(255,255,255,0.6)',
       fontSize: '0.88rem',
       marginBottom: '1.5rem',
       letterSpacing: '0.05em'
@@ -5609,30 +5613,30 @@ function Footer({
     style: {
       fontFamily: 'Lato',
       fontSize: '0.78rem',
-      color: 'rgba(255,255,255,0.35)',
+      color: 'rgba(255,255,255,0.6)',
       lineHeight: 1.9,
       letterSpacing: '0.02em'
     }
   }, "Fuorigrotta, Napoli", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
     href: `mailto:${EMAIL}`,
     style: {
-      color: 'rgba(255,255,255,0.35)',
+      color: 'rgba(255,255,255,0.6)',
       textDecoration: 'none',
       transition: 'color 0.2s'
     },
     onMouseEnter: e => e.currentTarget.style.color = '#D4AF37',
-    onMouseLeave: e => e.currentTarget.style.color = 'rgba(255,255,255,0.35)'
+    onMouseLeave: e => e.currentTarget.style.color = 'rgba(255,255,255,0.6)'
   }, EMAIL), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
     href: `https://wa.me/${WA}`,
     target: "_blank",
     rel: "noopener noreferrer",
     style: {
-      color: 'rgba(255,255,255,0.35)',
+      color: 'rgba(255,255,255,0.6)',
       textDecoration: 'none',
       transition: 'color 0.2s'
     },
     onMouseEnter: e => e.currentTarget.style.color = '#D4AF37',
-    onMouseLeave: e => e.currentTarget.style.color = 'rgba(255,255,255,0.35)'
+    onMouseLeave: e => e.currentTarget.style.color = 'rgba(255,255,255,0.6)'
   }, "+39 327 835 4278"))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
       fontFamily: 'Lato',
@@ -5653,7 +5657,7 @@ function Footer({
       display: 'block',
       fontFamily: 'Lato',
       fontSize: '0.8rem',
-      color: 'rgba(255,255,255,0.35)',
+      color: 'rgba(255,255,255,0.6)',
       background: 'none',
       border: 'none',
       cursor: 'pointer',
@@ -5663,7 +5667,7 @@ function Footer({
       textAlign: 'left'
     },
     onMouseEnter: e => e.currentTarget.style.color = '#D4AF37',
-    onMouseLeave: e => e.currentTarget.style.color = 'rgba(255,255,255,0.35)'
+    onMouseLeave: e => e.currentTarget.style.color = 'rgba(255,255,255,0.6)'
   }, l.label)))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
       fontFamily: 'Lato',
@@ -5693,7 +5697,7 @@ function Footer({
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      color: 'rgba(255,255,255,0.32)',
+      color: 'rgba(255,255,255,0.6)',
       textDecoration: 'none',
       transition: 'all 0.3s'
     },
@@ -5703,13 +5707,13 @@ function Footer({
     },
     onMouseLeave: e => {
       e.currentTarget.style.borderColor = 'rgba(212,175,55,0.22)';
-      e.currentTarget.style.color = 'rgba(255,255,255,0.32)';
+      e.currentTarget.style.color = 'rgba(255,255,255,0.6)';
     }
   }, icon))), /*#__PURE__*/React.createElement("div", {
     style: {
       fontFamily: 'Lato',
       fontSize: '0.72rem',
-      color: 'rgba(255,255,255,0.2)',
+      color: 'rgba(255,255,255,0.55)',
       lineHeight: 1.8,
       letterSpacing: '0.02em'
     }
@@ -5725,14 +5729,14 @@ function Footer({
     style: {
       fontFamily: 'Lato',
       fontSize: '0.66rem',
-      color: 'rgba(255,255,255,0.15)',
+      color: 'rgba(255,255,255,0.5)',
       letterSpacing: '0.1em'
     }
   }, "© ", yr, " MAVILO DOLCE — Tutti i diritti riservati"), /*#__PURE__*/React.createElement("p", {
     style: {
       fontFamily: 'Lato',
       fontSize: '0.66rem',
-      color: 'rgba(255,255,255,0.15)',
+      color: 'rgba(255,255,255,0.5)',
       letterSpacing: '0.06em'
     }
   }, /*#__PURE__*/React.createElement("button", {
@@ -5740,7 +5744,7 @@ function Footer({
     style: {
       background: 'none',
       border: 'none',
-      color: 'rgba(255,255,255,0.15)',
+      color: 'rgba(255,255,255,0.5)',
       cursor: 'pointer',
       fontFamily: 'Lato',
       fontSize: '0.66rem',
@@ -5749,7 +5753,7 @@ function Footer({
       transition: 'color 0.2s'
     },
     onMouseEnter: e => e.currentTarget.style.color = '#D4AF37',
-    onMouseLeave: e => e.currentTarget.style.color = 'rgba(255,255,255,0.15)'
+    onMouseLeave: e => e.currentTarget.style.color = 'rgba(255,255,255,0.5)'
   }, "Privacy Policy")))));
 }
 
