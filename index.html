@@ -2201,7 +2201,9 @@ function DailyHighlight({
   onSeeAll
 }) {
   const cmsItems = useCmsGallery();
-  const videos = ['video1.mp4', 'video2.mp4', 'uploads/video-creazione-torta-mavilo-dolce-napoli.mp4'];
+  // Video diversi da quelli già mostrati in anteprima da VideoSection (primi 4 di quella lista),
+  // per evitare che lo stesso file venga scaricato due volte nella stessa pagina.
+  const videos = ['uploads/torta-bianca-rosette-fiore-blu-zucchero-video-mavilo-dolce-napoli.mp4', 'uploads/torta-brigida-fiori-farfalle-video-mavilo-dolce-napoli.mp4', 'uploads/torta-limone-mirror-glaze-video-mavilo-dolce-napoli.mp4'];
   useReveal([cmsItems]);
   const [lbOpen, setLbOpen] = useState(false);
   const [playing, setPlaying] = useState(null);
@@ -2520,7 +2522,7 @@ function Gallery() {
       muted: true,
       loop: true,
       playsInline: true,
-      preload: "metadata",
+      preload: "none",
       className: "mason-img",
       style: {
         aspectRatio: item.tall ? '3/4' : '4/3',
