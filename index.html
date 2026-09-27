@@ -902,6 +902,28 @@ function useCountUp(target, duration = 1600) {
   return [count, ref];
 }
 
+/* ── In-view hook: true solo quando l'elemento è entrato (o sta per entrare) nel viewport.
+   Usato per rimandare il montaggio di risorse pesanti (es. <video>) finché non servono,
+   evitando che vengano scaricate al caricamento iniziale della pagina. ── */
+function useInView(rootMargin = '200px') {
+  const ref = useRef(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    if (!ref.current || inView) return;
+    const obs = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setInView(true);
+        obs.disconnect();
+      }
+    }, {
+      rootMargin
+    });
+    obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, [inView, rootMargin]);
+  return [inView, ref];
+}
+
 /* ── Toast ── */
 function Toast({
   msg,
@@ -2704,6 +2726,9 @@ function VideoSection() {
   const [expanded, setExpanded] = useState(false);
   const [playing, setPlaying] = useState(null);
   const PREVIEW_COUNT = 4;
+  // I tag <video> vengono montati solo quando la sezione si avvicina al viewport,
+  // così i file non vengono scaricati al caricamento iniziale della pagina.
+  const [sectionInView, sectionRef] = useInView('300px');
 
   const validVideos = videos.map((src, i) => ({
     id: i,
@@ -2728,6 +2753,7 @@ function VideoSection() {
   if (total === 0) return null;
   return /*#__PURE__*/React.createElement("section", {
     id: "video",
+    ref: sectionRef,
     className: "section-pad",
     "aria-label": "Video delil laboratorio",
     style: {
@@ -2827,7 +2853,9 @@ function VideoSection() {
       },
       "aria-hidden": "true"
     });
-    const videoEl = /*#__PURE__*/React.createElement("video", {
+    // Il tag <video> viene creato solo quando la sezione è vicina al viewport,
+    // per evitare che tutti i video vengano scaricati al caricamento della pagina.
+    const videoEl = sectionInView ? /*#__PURE__*/React.createElement("video", {
       src: v.src,
       muted: true,
       playsInline: true,
@@ -2841,7 +2869,7 @@ function VideoSection() {
       },
       onLoadedMetadata: () => handleResult(v.id, true),
       onError: () => handleResult(v.id, false)
-    });
+    }) : null;
     return /*#__PURE__*/React.createElement("div", {
       key: v.id,
       style: {
