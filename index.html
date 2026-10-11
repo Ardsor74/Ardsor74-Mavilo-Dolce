@@ -2050,6 +2050,8 @@ function Lightbox({
   const touchX = useRef(null);
   const touchY = useRef(null);
   const scrollY = useRef(0);
+  const [controlsVisible, setControlsVisible] = useState(true);
+  const toggleControls = () => setControlsVisible(v => !v);
   useEffect(() => {
     scrollY.current = window.scrollY;
     document.body.style.overflow = 'hidden';
@@ -2120,7 +2122,7 @@ function Lightbox({
     role: "dialog",
     "aria-modal": "true",
     "aria-label": "Galleria immagini"
-  }, /*#__PURE__*/React.createElement("button", {
+  }, controlsVisible && /*#__PURE__*/React.createElement("button", {
     style: btnStyle({
       top: 12,
       right: 12,
@@ -2148,7 +2150,7 @@ function Lightbox({
     y1: "6",
     x2: "18",
     y2: "18"
-  }))), /*#__PURE__*/React.createElement("button", {
+  }))), controlsVisible && /*#__PURE__*/React.createElement("button", {
     style: btnStyle({
       top: '50%',
       left: 10,
@@ -2169,16 +2171,20 @@ function Lightbox({
   }, /*#__PURE__*/React.createElement("polyline", {
     points: "15 18 9 12 15 6"
   }))), /*#__PURE__*/React.createElement("div", {
-    onClick: e => e.stopPropagation(),
+    onClick: e => {
+      e.stopPropagation();
+      toggleControls();
+    },
     style: {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       gap: '0.8rem',
-      padding: '70px 70px 20px',
+      padding: controlsVisible ? '70px 70px 20px' : '20px',
       maxWidth: '100vw',
       maxHeight: '100dvh',
-      boxSizing: 'border-box'
+      boxSizing: 'border-box',
+      transition: 'padding 0.25s ease'
     }
   }, /*#__PURE__*/React.createElement("img", {
     key: idx,
@@ -2186,14 +2192,15 @@ function Lightbox({
     alt: `MAVILO DOLCE — ${item.titolo || item.title || 'creazione artigianale'} — Napoli`,
     style: {
       display: 'block',
-      maxWidth: 'min(90vw, 900px)',
-      maxHeight: 'calc(100dvh - 130px)',
+      maxWidth: controlsVisible ? 'min(90vw, 900px)' : '98vw',
+      maxHeight: controlsVisible ? 'calc(100dvh - 130px)' : '98dvh',
       width: 'auto',
       height: 'auto',
       objectFit: 'contain',
-      animation: 'lbFadeIn 0.22s ease'
+      animation: 'lbFadeIn 0.22s ease',
+      transition: 'max-width 0.25s ease, max-height 0.25s ease'
     }
-  }), /*#__PURE__*/React.createElement("div", {
+  }), controlsVisible && /*#__PURE__*/React.createElement("div", {
     style: {
       fontFamily: 'Lato,sans-serif',
       fontSize: '0.65rem',
@@ -2201,7 +2208,7 @@ function Lightbox({
       color: 'rgba(255,255,255,0.3)',
       flexShrink: 0
     }
-  }, idx + 1, " / ", items.length), /*#__PURE__*/React.createElement("div", {
+  }, idx + 1, " / ", items.length), controlsVisible && /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       gap: 5,
@@ -2225,7 +2232,7 @@ function Lightbox({
       minHeight: 8,
       borderRadius: 1
     }
-  })))), /*#__PURE__*/React.createElement("button", {
+  })))), controlsVisible && /*#__PURE__*/React.createElement("button", {
     style: btnStyle({
       top: '50%',
       right: 10,
