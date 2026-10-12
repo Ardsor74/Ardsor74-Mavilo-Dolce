@@ -3931,6 +3931,39 @@ function Preventivo({
       block: 'start'
     }), 80);
   };
+  // Tasto "indietro" del telefono: durante il form a step (Evento → Creazione → Dettagli),
+  // torna allo step precedente invece di far uscire subito dal sito. Ogni avanzamento di
+  // step aggiunge una voce fittizia alla cronologia; "indietro" la consuma e ci riporta
+  // noi allo step precedente, finché non si è di nuovo al primo step.
+  const stepDepth = useRef(0);
+  const stepFromPop = useRef(false);
+  useEffect(() => {
+    const desiredDepth = step - 1;
+    if (stepFromPop.current) {
+      stepFromPop.current = false;
+      stepDepth.current = desiredDepth;
+      return;
+    }
+    if (desiredDepth > stepDepth.current) {
+      window.history.pushState({ mavilòStep: true }, '');
+      stepDepth.current = desiredDepth;
+    } else if (desiredDepth < stepDepth.current) {
+      stepFromPop.current = true;
+      stepDepth.current = desiredDepth;
+      window.history.back();
+    }
+  }, [step]);
+  useEffect(() => {
+    const onPopState = () => {
+      if (stepFromPop.current) return;
+      if (step > 1) {
+        stepFromPop.current = true;
+        setStep(s => s - 1);
+      }
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, [step]);
   const handleFile = e => {
     const f = e.target.files[0];
     if (!f) return;
