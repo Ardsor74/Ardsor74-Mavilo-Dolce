@@ -865,6 +865,30 @@ function useReveal(deps = []) {
   }, deps);
 }
 
+/* ── Tasto "indietro" del telefono chiude il pannello invece di uscire dal sito ──
+   Finché il pannello (lightbox foto/video) è aperto, aggiungiamo una voce fittizia
+   alla cronologia del browser: così il primo "indietro" la consuma e richiama onClose,
+   e solo un secondo "indietro" lascia davvero il sito. Se l'utente chiude con la X,
+   togliamo noi quella voce (history.back()) per non lasciarla lì inutilizzata. */
+function useBackToClose(onClose) {
+  const closedByBack = useRef(false);
+  useEffect(() => {
+    closedByBack.current = false;
+    window.history.pushState({ mavilòLightbox: true }, '');
+    const onPopState = () => {
+      closedByBack.current = true;
+      onClose();
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => {
+      window.removeEventListener('popstate', onPopState);
+      if (!closedByBack.current) {
+        window.history.back();
+      }
+    };
+  }, []);
+}
+
 /* ── Animated Counter hook ── */
 function useCountUp(target, duration = 1600) {
   const [count, setCount] = useState(0);
@@ -2052,6 +2076,7 @@ function Lightbox({
   const scrollY = useRef(0);
   const [controlsVisible, setControlsVisible] = useState(true);
   const toggleControls = () => setControlsVisible(v => !v);
+  useBackToClose(onClose);
   useEffect(() => {
     scrollY.current = window.scrollY;
     document.body.style.overflow = 'hidden';
@@ -2669,6 +2694,7 @@ function VideoLightbox({
   onClose
 }) {
   const scrollY = useRef(0);
+  useBackToClose(onClose);
   useEffect(() => {
     scrollY.current = window.scrollY;
     document.body.style.overflow = 'hidden';
