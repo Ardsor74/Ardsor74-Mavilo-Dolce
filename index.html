@@ -2473,6 +2473,47 @@ function Gallery() {
   // altrimenti gli elementi .reveal creati dopo il primo mount restano bloccati a opacity:0 per sempre
   useReveal([total, openCategory, expandedCats.size, showAll]);
 
+  // Tasto "indietro" del telefono: chiude prima la categoria aperta, poi torna alla vista
+  // "del giorno", invece di far uscire subito dal sito. Ogni livello aggiunge una voce
+  // fittizia alla cronologia quando si apre, e un "indietro" la consuma chiudendo quel
+  // livello; solo quando non c'è più nulla di aperto, "indietro" lascia davvero il sito.
+  const galleryDepth = useRef(0); // quante voci fittizie abbiamo noi stessi in cima alla history
+  const fromPopState = useRef(false);
+  useEffect(() => {
+    const desiredDepth = (showAll ? 1 : 0) + (openCategory ? 1 : 0);
+    if (fromPopState.current) {
+      // Il cambiamento è già arrivato da un "indietro" fisico: la history è già corretta,
+      // ci limitiamo ad allineare il contatore senza toccarla di nuovo.
+      fromPopState.current = false;
+      galleryDepth.current = desiredDepth;
+      return;
+    }
+    if (desiredDepth > galleryDepth.current) {
+      window.history.pushState({ mavilòGallery: true }, '');
+      galleryDepth.current = desiredDepth;
+    } else if (desiredDepth < galleryDepth.current) {
+      // Chiusura via click (non "indietro"): rimuoviamo noi la voce di troppo,
+      // altrimenti un futuro "indietro" riaprirebbe un livello già chiuso a mano.
+      fromPopState.current = true; // ignora il popstate che questo back() genererà
+      galleryDepth.current = desiredDepth;
+      window.history.back();
+    }
+  }, [showAll, openCategory]);
+
+  useEffect(() => {
+    const onPopState = () => {
+      if (fromPopState.current) return; // generato da noi per sincronizzare una chiusura via click
+      fromPopState.current = true;
+      if (openCategory) {
+        setOpenCategory(null);
+      } else if (showAll) {
+        setShowAll(false);
+      }
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, [openCategory, showAll]);
+
   const openLightbox = (items, idx) => {
     setLbItems(items);
     setLb(idx);
