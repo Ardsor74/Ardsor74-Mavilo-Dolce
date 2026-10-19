@@ -1741,23 +1741,113 @@ function StatCounter({
 /* ── NUMBERS / PHILOSOPHY ── */
 function Numbers() {
   useReveal();
+  const [open, setOpen] = useState(false);
+  const [openTraining, setOpenTraining] = useState(false);
   const stats = [{
     n: '500+',
     label: 'Torte create',
     sub: 'dal primo petalo'
   }, {
-    n: '8+',
-    label: 'Anni di arte',
-    sub: 'in continua crescita'
-  }, {
     n: '100%',
     label: 'Su commissione',
     sub: 'nessuna replica'
   }, {
-    n: '∞',
-    label: 'Ispirazione',
-    sub: 'ogni storia è unica'
+    n: '6',
+    label: 'Premi in gara',
+    sub: 'in Italia e in crociera'
+  }, {
+    n: '10+',
+    label: 'Corsi e masterclass',
+    sub: 'formazione continua'
   }];
+  const prizes = [{
+    t: 'Oro · Floral Art Display',
+    d: 'Puglia Cake Festival 2026, Trani'
+  }, {
+    t: '1° premio · Wedding Cookies',
+    d: 'Wedding Cake Competition, MSC World Europa, aprile 2026'
+  }, {
+    t: '3° premio · Wedding Cake',
+    d: 'Wedding Cake Competition, MSC World Europa, aprile 2026'
+  }, {
+    t: '3° premio · Flowers Bouquet',
+    d: 'Wedding Cake Competition, MSC World Europa, aprile 2026'
+  }, {
+    t: 'Argento · Floral Art Display',
+    d: 'Puglia Cake Festival 2025'
+  }, {
+    t: '2° premio · Christmas Flowers',
+    d: 'Sweet Christmas Contest 2025'
+  }];
+  const training = [{
+    t: 'Master Diploma in Cake Baking and Decorating',
+    d: 'Buddhi Cake Academy, maggio 2026'
+  }, {
+    t: 'Master Wilton Buttercream Flowers',
+    d: 'Buddhi Cake Academy, maggio 2026'
+  }, {
+    t: 'Royal Icing',
+    d: 'Buddhi Cake Academy, maggio 2026'
+  }, {
+    t: 'Fondant Topper',
+    d: 'Buddhi Cake Academy, maggio 2026'
+  }, {
+    t: 'Wedding Structure & Party Table',
+    d: 'Buddhi Cake Academy, maggio 2026'
+  }, {
+    t: 'Cookies Expert',
+    d: 'Buddhi Cake Academy, novembre 2025'
+  }, {
+    t: 'Airbrush in Cake Decoration, con Mario Romani',
+    d: 'Shaki Cake International Academy, Roma, luglio 2026'
+  }, {
+    t: 'Masterclass Artistic Cookie Decoration e Modelling',
+    d: 'Puglia Cake Festival 2026'
+  }, {
+    t: 'Torte Spettacolari',
+    d: 'Dolci fai da te, Napoli'
+  }, {
+    t: 'Biscotti decorati con ghiaccia',
+    d: 'Dolci fai da te, Napoli'
+  }];
+  const listRow = (it, i) => /*#__PURE__*/React.createElement("li", {
+    key: i,
+    style: {
+      padding: '0.7rem 0',
+      borderTop: '1px solid rgba(212,175,55,0.15)'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: 'Playfair Display,serif',
+      color: 'rgba(255,255,255,0.9)',
+      fontSize: '1rem'
+    }
+  }, it.t), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: 'Lato',
+      fontSize: '0.78rem',
+      letterSpacing: '0.04em',
+      color: 'rgba(255,255,255,0.45)',
+      marginTop: '0.15rem'
+    }
+  }, it.d));
+  const listStyle = {
+    listStyle: 'none',
+    margin: 0,
+    padding: 0
+  };
+  const linkBtn = {
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    fontFamily: 'Lato',
+    fontSize: '0.78rem',
+    letterSpacing: '0.12em',
+    textTransform: 'uppercase',
+    color: 'rgba(212,175,55,0.9)',
+    padding: '0.9rem 0 0',
+    textAlign: 'left'
+  };
   return /*#__PURE__*/React.createElement("section", {
     "aria-label": "Numeri e filosofia",
     style: {
@@ -1788,7 +1878,18 @@ function Numbers() {
     style: {
       color: '#D4AF37'
     }
-  }, "parlano d'arte"))), /*#__PURE__*/React.createElement("div", {
+  }, "parlano d'arte")), /*#__PURE__*/React.createElement("p", {
+    className: "reveal reveal-delay-2",
+    style: {
+      fontFamily: 'Playfair Display,serif',
+      fontStyle: 'italic',
+      color: 'rgba(255,255,255,0.6)',
+      fontSize: 'clamp(0.95rem,2vw,1.1rem)',
+      maxWidth: 520,
+      margin: '1.25rem auto 0',
+      lineHeight: 1.7
+    }
+  }, "Dal Puglia Cake Festival alle crociere MSC, il cake design premiato in gara.")), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'grid',
       gridTemplateColumns: 'repeat(2,1fr)',
@@ -1797,7 +1898,51 @@ function Numbers() {
   }, stats.map((s, i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     className: `reveal reveal-delay-${i % 4}`
-  }, /*#__PURE__*/React.createElement(StatCounter, s))))));
+  }, /*#__PURE__*/React.createElement(StatCounter, s)))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: 'center',
+      marginTop: 'clamp(2rem,5vw,3rem)'
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    className: "btn-secondary",
+    "aria-expanded": open,
+    "aria-controls": "premi-formazione",
+    onClick: () => setOpen(o => !o),
+    style: {
+      color: '#D4AF37',
+      borderColor: 'rgba(212,175,55,0.6)'
+    }
+  }, open ? 'Chiudi premi e formazione' : 'Scopri premi e formazione')), open && /*#__PURE__*/React.createElement("div", {
+    id: "premi-formazione",
+    style: {
+      maxWidth: 640,
+      margin: 'clamp(1.5rem,4vw,2.5rem) auto 0',
+      textAlign: 'left'
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontFamily: 'Playfair Display,serif',
+      fontStyle: 'italic',
+      color: 'rgba(255,255,255,0.7)',
+      fontSize: '1.05rem',
+      margin: '0 0 1rem'
+    }
+  }, "Niranjala Gomez, premiata in gara di cake design in Italia"), /*#__PURE__*/React.createElement("ul", {
+    style: listStyle
+  }, prizes.map(listRow)), /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    "aria-expanded": openTraining,
+    "aria-controls": "formazione-elenco",
+    onClick: () => setOpenTraining(o => !o),
+    style: linkBtn
+  }, openTraining ? '− Formazione' : '+ Formazione'), openTraining && /*#__PURE__*/React.createElement("ul", {
+    id: "formazione-elenco",
+    style: {
+      ...listStyle,
+      marginTop: '0.6rem'
+    }
+  }, training.map(listRow)))));
 }
 
 /* ── ATELIER ── */
