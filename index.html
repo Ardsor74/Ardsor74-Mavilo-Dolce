@@ -1068,7 +1068,7 @@ function PrivacyModal({
     style: {
       color: '#D4AF37'
     }
-  }, "Privacy Policy di Google"), "."), /*#__PURE__*/React.createElement("h3", null, "7. Cookie e Tecnologie di Tracciamento"), /*#__PURE__*/React.createElement("p", null, "Questo sito utilizza unicamente cookie tecnici essenziali (localStorage del browser) necessari al funzionamento. Non vengono installati cookie di profilazione o analitici senza il consenso dell'utente. L'utente può in qualsiasi momento cancellare i dati locali dalle impostazioni del proprio browser."), /*#__PURE__*/React.createElement("h3", null, "8. Aggiornamenti"), /*#__PURE__*/React.createElement("p", null, "Questa informativa può essere aggiornata periodicamente. La versione più recente è sempre disponibile su questo sito. Ultimo aggiornamento: ", /*#__PURE__*/React.createElement("strong", null, "2026"), "."), /*#__PURE__*/React.createElement("div", {
+  }, "Privacy Policy di Google"), "."), /*#__PURE__*/React.createElement("h3", null, "7. Cookie e Tecnologie di Tracciamento"), /*#__PURE__*/React.createElement("p", null, "Questo sito utilizza cookie tecnici essenziali (localStorage del browser) necessari al funzionamento. Solo previo consenso dell'utente, tramite il banner cookie, viene attivato Google Analytics 4 (Google Ireland Limited), che raccoglie statistiche aggregate sulle visite (pagine viste, provenienza, dispositivo) con anonimizzazione dell'indirizzo IP. Non vengono utilizzati cookie di profilazione pubblicitaria. Chi sceglie \"Solo essenziali\" non viene tracciato. L'utente può in qualsiasi momento cancellare i dati locali dalle impostazioni del proprio browser e così ripresentare la scelta."), /*#__PURE__*/React.createElement("h3", null, "8. Aggiornamenti"), /*#__PURE__*/React.createElement("p", null, "Questa informativa può essere aggiornata periodicamente. La versione più recente è sempre disponibile su questo sito. Ultimo aggiornamento: ", /*#__PURE__*/React.createElement("strong", null, "2026"), "."), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: '1.5rem',
       padding: '1rem',
@@ -1088,17 +1088,43 @@ function PrivacyModal({
   }, "anjalagomez@gmail.com"))))));
 }
 
+/* ── GOOGLE ANALYTICS (parte solo dopo il consenso) ── */
+const GA_ID = 'G-DV8NG29EL5';
+function loadAnalytics() {
+  if (window.__gaLoaded) return;
+  window.__gaLoaded = true;
+  const s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+  document.head.appendChild(s);
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () {
+    window.dataLayer.push(arguments);
+  };
+  window.gtag('js', new Date());
+  window.gtag('config', GA_ID, {
+    anonymize_ip: true
+  });
+}
+
 /* ── COOKIE BANNER ── */
 function CookieBanner({
   onPrivacy
 }) {
   const [visible, setVisible] = useState(false);
   useEffect(() => {
-    const consent = localStorage.getItem('mavilo_cookie');
+    let consent = null;
+    try {
+      consent = localStorage.getItem('mavilo_cookie');
+    } catch (e) {}
     if (!consent) setVisible(true);
+    if (consent === 'accepted') loadAnalytics();
   }, []);
   const accept = () => {
-    localStorage.setItem('mavilo_cookie', 'accepted');
+    try {
+      localStorage.setItem('mavilo_cookie', 'accepted');
+    } catch (e) {}
+    loadAnalytics();
     setVisible(false);
   };
   const reject = () => {
@@ -1112,7 +1138,7 @@ function CookieBanner({
     "aria-label": "Informativa cookies"
   }, /*#__PURE__*/React.createElement("p", {
     className: "cookie-text"
-  }, "🍪 Utilizziamo cookie tecnici essenziali per il funzionamento del sito. Nessun cookie di profilazione senza il tuo consenso.", ' ', /*#__PURE__*/React.createElement("a", {
+  }, "🍪 Utilizziamo cookie tecnici essenziali per il funzionamento del sito. Con il tuo consenso usiamo anche Google Analytics per statistiche anonime sulle visite. Nessun cookie di profilazione pubblicitaria.", ' ', /*#__PURE__*/React.createElement("a", {
     href: "#",
     onClick: e => {
       e.preventDefault();
