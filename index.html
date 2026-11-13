@@ -423,6 +423,13 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       object-fit: contain;
       border-radius: 20px;
     }
+    /* Solo PC: il logo non deve riempire tutta l'altezza dello schermo */
+    @media (min-width: 1024px) {
+      #loader-logo {
+        width: min(46vh, 420px);
+        height: min(46vh, 420px);
+      }
+    }
 
     /* Sottotitolo: appare sotto il logo */
     @keyframes subFadeIn {
