@@ -14,6 +14,8 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("sitemap.xml");
   eleventyConfig.addPassthroughCopy("google35da35e9160079eb.html");
   eleventyConfig.addPassthroughCopy("grazie.html");
+  eleventyConfig.addPassthroughCopy("torte-nuziali-napoli");
+  eleventyConfig.addPassthroughCopy("torte-pasta-di-zucchero-napoli");
   eleventyConfig.addPassthroughCopy("stampa-biglietti.html");
   eleventyConfig.addPassthroughCopy("qr-grazie.svg");
 
