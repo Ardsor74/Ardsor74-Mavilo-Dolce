@@ -506,6 +506,8 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 
     /* — Hero — */
     .hero-title { font-family:'Playfair Display',serif; font-size:clamp(3.8rem,14vw,9.5rem); font-weight:400; letter-spacing:0.03em; line-height:0.9; color:#1A1A1A; }
+    /* Solo PC: il testo in alto non deve finire sotto il menu fisso */
+    @media (min-width:1024px){ #home{ padding-top:210px !important; padding-bottom:3rem; } .hero-title{ font-size:clamp(3.8rem,min(14vw,16vh),9.5rem); } }
     @keyframes heroUp { from{opacity:0;transform:translateY(36px)} to{opacity:1;transform:translateY(0)} }
     .hero-anim { opacity:0; animation:heroUp 1s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
     .ha0{animation-delay:0.1s} .ha1{animation-delay:0.28s} .ha2{animation-delay:0.46s} .ha3{animation-delay:0.64s} .ha4{animation-delay:0.82s}
