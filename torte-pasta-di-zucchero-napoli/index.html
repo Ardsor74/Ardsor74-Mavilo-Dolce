@@ -66,7 +66,9 @@ footer a{color:#D4AF37}
 <footer>© MAVILO DOLCE, Pasticceria &amp; Cake Design, Fuorigrotta, Napoli</footer>
 <div id="cb" role="dialog" aria-label="Informativa cookies">Usiamo cookie tecnici e, con il tuo consenso, Google Analytics per statistiche anonime sulle visite. Nessuna profilazione pubblicitaria.<br><button id="ca">Accetta</button><button id="cr" class="r">Rifiuta</button></div>
 <script>var GA_ID='G-DV8NG29EL5';
-function loadGA(){if(window.__gaLoaded)return;window.__gaLoaded=true;var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+GA_ID;document.head.appendChild(s);window.dataLayer=window.dataLayer||[];window.gtag=function(){window.dataLayer.push(arguments)};window.gtag('js',new Date());window.gtag('config',GA_ID,{anonymize_ip:true})}
+function isInternal(){try{var q=new URLSearchParams(location.search).get('interno');if(q==='1')localStorage.setItem('mavilo_interno','1');if(q==='0')localStorage.removeItem('mavilo_interno');return localStorage.getItem('mavilo_interno')==='1'}catch(e){return false}}
+function trackWA(src){try{if(window.gtag&&!isInternal())window.gtag('event','whatsapp_click',{click_source:src||'link',page_path:location.pathname})}catch(e){}}
+function loadGA(){if(window.__gaLoaded)return;if(isInternal())return;window.__gaLoaded=true;var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+GA_ID;document.head.appendChild(s);window.dataLayer=window.dataLayer||[];window.gtag=function(){window.dataLayer.push(arguments)};window.gtag('js',new Date());window.gtag('config',GA_ID,{anonymize_ip:true});document.addEventListener('click',function(e){var a=e.target&&e.target.closest?e.target.closest('a[href*="wa.me"]'):null;if(a)trackWA('link')},true)}
 (function(){var c=null;try{c=localStorage.getItem('mavilo_cookie')}catch(e){}
 var b=document.getElementById('cb');
 if(c==='accepted')loadGA();else if(!c)b.style.display='block';

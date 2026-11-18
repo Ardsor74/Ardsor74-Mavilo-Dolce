@@ -1099,8 +1099,31 @@ function PrivacyModal({
 
 /* ── GOOGLE ANALYTICS (parte solo dopo il consenso) ── */
 const GA_ID = 'G-DV8NG29EL5';
+/* Dispositivi interni (proprietario): aprendo il sito con ?interno=1 il dispositivo viene escluso dalle statistiche; con ?interno=0 torna incluso */
+function isInternalDevice() {
+  try {
+    const q = new URLSearchParams(window.location.search).get('interno');
+    if (q === '1') localStorage.setItem('mavilo_interno', '1');
+    if (q === '0') localStorage.removeItem('mavilo_interno');
+    return localStorage.getItem('mavilo_interno') === '1';
+  } catch (e) {
+    return false;
+  }
+}
+/* Evento "whatsapp_click" (solo con consenso e solo visitatori esterni) */
+function trackWhatsApp(source) {
+  try {
+    if (window.gtag && !isInternalDevice()) {
+      window.gtag('event', 'whatsapp_click', {
+        click_source: source || 'link',
+        page_path: window.location.pathname
+      });
+    }
+  } catch (e) {}
+}
 function loadAnalytics() {
   if (window.__gaLoaded) return;
+  if (isInternalDevice()) return;
   window.__gaLoaded = true;
   const s = document.createElement('script');
   s.async = true;
@@ -1114,6 +1137,10 @@ function loadAnalytics() {
   window.gtag('config', GA_ID, {
     anonymize_ip: true
   });
+  document.addEventListener('click', function (e) {
+    const a = e.target && e.target.closest ? e.target.closest('a[href*="wa.me"]') : null;
+    if (a) trackWhatsApp('link');
+  }, true);
 }
 
 /* ── COOKIE BANNER ── */
@@ -4173,6 +4200,7 @@ function Preventivo({
       });
       localStorage.setItem('mavilo_req', JSON.stringify(reqs.slice(0, 20)));
     } catch (e) {}
+    trackWhatsApp('form_preventivo');
     window.open(`https://wa.me/${WA}?text=${buildMsg()}`, '_blank');
     setToast('Richiesta inviata con eleganza ✦');
   };
